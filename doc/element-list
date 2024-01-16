@@ -1,0 +1,9 @@
+fr.polytech.vgl.centralapp.controller
+fr.polytech.vgl.centralapp.view
+fr.polytech.vgl.main
+fr.polytech.vgl.model
+fr.polytech.vgl.network
+fr.polytech.vgl.serialisation
+fr.polytech.vgl.timerecord.controller
+fr.polytech.vgl.timerecord.view
+fr.polytech.vgl.unittest
