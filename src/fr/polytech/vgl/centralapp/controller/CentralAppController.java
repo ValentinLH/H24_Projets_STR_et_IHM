@@ -34,7 +34,7 @@ public class CentralAppController {
 		String patternString = "(Localhost)|(^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$)";
 		Pattern pattern = Pattern.compile(patternString);
 		Matcher m = pattern.matcher(ip);
-		// si le motif est trouvé
+		// si le motif est trouvï¿½
 		if (m.find()) {
 			int port = client.getPort();
 			
@@ -58,9 +58,9 @@ public class CentralAppController {
 		String patternString = "^([0-9]|[0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9])$";
 		Pattern pattern = Pattern.compile(patternString);
 		Matcher m = pattern.matcher(port);
-		// si le motif est trouvé
+		// si le motif est trouvï¿½
 		if (m.find()) {
-			// System.out.println("motif trouvé");
+			// System.out.println("motif trouvï¿½");
 			String ip = client.getIp();
 
 			if (TCPInfo.available(ip, Integer.parseInt(port)) == true) {
@@ -93,9 +93,9 @@ public class CentralAppController {
 		String patternString = "^([0-9]|[0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9])$";
 		Pattern pattern = Pattern.compile(patternString);
 		Matcher m = pattern.matcher(port);
-		// si le motif est trouvé
+		// si le motif est trouvï¿½
 		if (m.find()) {
-			// System.out.println("motif trouvé");
+			// System.out.println("motif trouvï¿½");
 			String ip = server.getIp();
 
 			if (TCPInfo.available(ip, Integer.parseInt(port)) == true) {
@@ -275,7 +275,7 @@ public class CentralAppController {
 					listC.add(Comp);
 				}
 			}
-			Serialisation.SerializeObject(listC, "centralAppCompanies.sav");
+			Serialisation.serialize(listC, "centralAppCompanies.sav");
 		}
 		server.closeServer();
 		client.closeClient();

@@ -25,13 +25,6 @@ public class Employee implements java.io.Serializable {
 		private Company company;
 		private Department departement;
 		private List<Record> records;
-		/*private PocketWatch schedule[][]= { {new PocketWatch(day_start[0],day_start[1],DayOfWeek.MONDAY),new PocketWatch(day_end[0],day_end[1],DayOfWeek.MONDAY)},
-											{new PocketWatch(day_start[0],day_start[1],DayOfWeek.TUESDAY),new PocketWatch(day_end[0],day_end[1],DayOfWeek.TUESDAY)},
-											{new PocketWatch(day_start[0],day_start[1],DayOfWeek.WEDNESDAY),new PocketWatch(day_end[0],day_end[1],DayOfWeek.WEDNESDAY)},
-											{new PocketWatch(day_start[0],day_start[1],DayOfWeek.THURSDAY),new PocketWatch(day_end[0],day_end[1],DayOfWeek.THURSDAY)},
-											{new PocketWatch(day_start[0],day_start[1],DayOfWeek.FRIDAY),new PocketWatch(day_end[0],day_end[1],DayOfWeek.FRIDAY)},
-											{null,null},
-											{null,null}									};*/
 		private Schedule schedule;
 		private Integer overtimePortfolio;
 

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.time.format.DateTimeFormatter;
 
+
 /**
  *  Record represent a record of an employee
  * @author Touret Lino - L'Hermite Valentin

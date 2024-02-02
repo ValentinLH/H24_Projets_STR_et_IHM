@@ -275,7 +275,7 @@ public class Company implements java.io.Serializable {
 		//for (Employee emp : listEmp) {
 			for (Record rec : listRec)
 			{
-					allrecord.add(rec);
+				allrecord.add(rec);
 			}
 		//}
 		
