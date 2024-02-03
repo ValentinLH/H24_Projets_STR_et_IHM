@@ -25,22 +25,6 @@ public class Serialisation {
     }
 
     /**
-     * Deserialize an object
-     * @param fileName
-     * @param <T>
-     * @return T
-     */
-    @SuppressWarnings("unchecked")
-	public static <T> T deserializeObject(String fileName) {
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileName))) {
-            return (T) inputStream.readObject();
-        } catch (IOException | ClassNotFoundException exc) {
-            exc.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
      * Serialize a list of objects
      * @param list
      * @param fileName
@@ -56,21 +40,23 @@ public class Serialisation {
     }
 
     /**
-     * Deserialize a list of objects
+     * Deserialize an object
      * @param fileName
      * @param <T>
-     * @return List<T>
+     * @return T
      */
-    public static <T> List<T> deserializeList(String fileName) {
+    @SuppressWarnings("unchecked")
+	public static <T> T deserialize(String fileName) {
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileName))) {
-            return (List<T>) inputStream.readObject();
+            return (T) inputStream.readObject();
         } catch (IOException | ClassNotFoundException exc) {
             exc.printStackTrace();
             return null;
         }
     }
-    
-    public static Object DeSerialize(String fileName) {
+
+    /*
+    public static Object deserialize(String fileName) {
 		ObjectInputStream inputStream = null;
 		Object obj = null;
 		try {
@@ -93,5 +79,5 @@ public class Serialisation {
 			}
 		}
 		return obj;
-	}
+	}*/
 }

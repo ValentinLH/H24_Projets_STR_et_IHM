@@ -52,8 +52,7 @@ public class TimeRecordControler {
 		antiSpam = new HashMap<>();
 
 		try {
-			@SuppressWarnings("unchecked")
-			List<Company> deSerialize = (List<Company>) Serialisation.DeSerialize("timerecord.sav");
+			List<Company> deSerialize = Serialisation.deserialize("timerecord.sav");
 			// listCompany = deSerialize;
 
 			for (Company newcomp : deSerialize) {
@@ -65,8 +64,7 @@ public class TimeRecordControler {
 
 		recordsBuffer = new ArrayList<>();
 		try {
-			@SuppressWarnings("unchecked")
-			List<Record> deSerializeRec = (List<Record>) Serialisation.DeSerialize("records.sav");
+			List<Record> deSerializeRec = Serialisation.deserialize("records.sav");
 			// listCompany = deSerialize;
 			for (Record rec : deSerializeRec) {
 				recordsBuffer.add(rec);
@@ -357,7 +355,7 @@ public class TimeRecordControler {
 	@SuppressWarnings("unchecked")
 	public String deserialiseCompany() {
 		if (file != null) {
-			Object obj = Serialisation.DeSerialize(file.getAbsolutePath());
+			Object obj = Serialisation.deserialize(file.getAbsolutePath());
 			if (obj != null) {
 				// System.out.println(obj.getClass().getName());
 				if (obj.getClass().getName().equals("fr.polytech.vgl.model.Company") == true) {

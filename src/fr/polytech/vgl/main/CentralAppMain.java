@@ -73,7 +73,7 @@ public class CentralAppMain {
 		
 		System.out.println("Le portefeuile  est de " + sec.getListEmp().get(0).getOvertimePortfolio() + " Minutes");
 		System.out.println("Serialisation :");
-		Record rec = (Record) Serialisation.DeSerialize("company.sav");
+		Record rec =  Serialisation.deserialize("company.sav");
 		System.out.println(rec);
 		System.out.println(rec.getEmployee());
 		
@@ -103,7 +103,7 @@ public class CentralAppMain {
 		Serialisation.serialize(rep,"company.sav");
 		
 		
-		Company c = (Company) Serialisation.DeSerialize("company.sav");
+		Company c = Serialisation.deserialize("company.sav");
 		
 		System.out.println(c);
 
