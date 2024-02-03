@@ -8,5 +8,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="lib/hamcrest-core-1.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/junit-4.13.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Val/Documents/GitHub/H24_Projets_STR_et_IHM/H24_Projets_STR_et_IHM/lib/javolution-5.2.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
