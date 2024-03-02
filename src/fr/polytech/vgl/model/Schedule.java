@@ -23,7 +23,7 @@ public class Schedule implements java.io.Serializable {
 	Map<DayOfWeek, LocalTime[]> schedule;
 
 
-	Schedule (){
+	public Schedule (){
 		this.schedule = new HashMap<DayOfWeek, LocalTime[]>();
 		schedule.put(DayOfWeek.MONDAY, new LocalTime[]{LocalTime.of(generic_day_start[0], generic_day_start[1]),LocalTime.of(generic_day_end[0], generic_day_end[1])});
 		schedule.put(DayOfWeek.TUESDAY, new LocalTime[]{LocalTime.of(generic_day_start[0], generic_day_start[1]),LocalTime.of(generic_day_end[0], generic_day_end[1])});

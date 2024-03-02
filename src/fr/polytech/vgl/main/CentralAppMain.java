@@ -137,9 +137,9 @@ public class CentralAppMain {
 		Collections.shuffle(listD);
 		listE.add(new Employee("Lara", "Clette", c, listD.get(0)));
 		Collections.shuffle(listD);
-		listE.add(new Employee("Sylvain", "H�bon", c, listD.get(0)));
+		listE.add(new Employee("Sylvain", "Hebon", c, listD.get(0)));
 		Collections.shuffle(listD);
-		listE.add(new Employee("�ve", "Idamant", c, listD.get(0)));
+		listE.add(new Employee("Eve", "Idamant", c, listD.get(0)));
 		Collections.shuffle(listD);
 		listE.add(new Employee("Aubin", "Sahalor", c, listD.get(0)));
 

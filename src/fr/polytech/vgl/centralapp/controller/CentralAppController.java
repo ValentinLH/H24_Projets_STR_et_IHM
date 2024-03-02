@@ -13,6 +13,7 @@ import fr.polytech.vgl.network.TCPInfo;
 import fr.polytech.vgl.network.TCPServer;
 import fr.polytech.vgl.serialisation.Serialisation;
 
+
 public class CentralAppController {
 
 	public static TCPServer server = new TCPServer(8081);
