@@ -62,7 +62,9 @@ public class EmployeeTest {
         company.addEmployee(employee);
 
         company.delEmployee(employee);
-
+        	
+        System.out.println(employee.getCompany());
+        
         assertFalse(company.getListEmp().contains(employee));
         assertNull(employee.getCompany());
     }
