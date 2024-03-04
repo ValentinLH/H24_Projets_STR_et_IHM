@@ -127,9 +127,10 @@ public class TCPServer extends TCPInfo
         }
         catch (Exception exc) 
         {
-        	//System.out.println("[-] Error Sending");
-        	//exc.printStackTrace();
+        	System.out.println("[-] Error Sending");
         	return false;
+        	//exc.printStackTrace();
+        	//return false;
         }
     	return true;
     }

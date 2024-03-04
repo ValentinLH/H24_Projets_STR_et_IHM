@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Employee;
 import fr.polytech.vgl.model.Record;
+import fr.polytech.vgl.network.NetworkManager;
+import fr.polytech.vgl.network.NetworkObserver;
 import fr.polytech.vgl.network.TCPClient;
 import fr.polytech.vgl.network.TCPServer;
 import fr.polytech.vgl.network.TCPInfo;
@@ -26,16 +28,13 @@ import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
  *
  */
 
-public class TimeRecordControler {
+public class TimeRecordControler implements NetworkObserver {
 
 	private TimeRecordMainFrame view;
 	private List<Company> listCompany;
 	private List<Record> recordsBuffer;
 
-	public static TCPServer server = new TCPServer(8080);
-	public static TCPClient client = new TCPClient("localhost", 8081);
-	public static Thread tClient, tServer;
-
+	private NetworkManager networkManager;
 	private File file;
 
 	private Map<Employee, LocalDateTime> antiSpam;
@@ -46,6 +45,9 @@ public class TimeRecordControler {
 	 * @param void
 	 */
 	public TimeRecordControler() {
+		networkManager = new NetworkManager(this);
+		
+		
 		listCompany = new ArrayList<>();
 		view = new TimeRecordMainFrame(this);
 		file = null;
@@ -76,9 +78,9 @@ public class TimeRecordControler {
 
 		// addCompany()
 		// view.
-		tServer = TCPOpeningServer();
-		tClient = TCPOpeningClient();
 
+		
+		
 		sendRecordBuffer();
 
 	}
@@ -211,22 +213,15 @@ public class TimeRecordControler {
 		Pattern pattern = Pattern.compile(patternString);
 		Matcher m = pattern.matcher(ip);
 		// si le motif est trouv�
-		if (m.find()) {
-			int port = client.getPort();
+		if (m.find()) {	
 
 			try {
-				client.closeClient();
-				client = new TCPClient(ip, port);
-				TCPOpeningClient();
+				networkManager.setClientIp(ip);
 			} catch (Exception exc) {
 				// nothing
-				return client.getIp();
 			}
-			return ip;
-		} else {
-			return client.getIp();
 		}
-
+		return  networkManager.getClientIp();
 	}
 	
 /**
@@ -242,31 +237,16 @@ public class TimeRecordControler {
 		// si le motif est trouv�
 		if (m.find()) {
 			// System.out.println("motif trouv�");
-			String ip = client.getIp();
+			String ip = networkManager.getClientIp();
 
 			if (TCPInfo.available(ip, Integer.parseInt(port)) == true) {
 
-				try {
-
-					client.closeClient();
-
-				} catch (Exception exc) {
-					// nothing
-					// return "" + server.getPort();
-
-				}
-				client = new TCPClient(ip, Integer.parseInt(port));
-
-				System.out.println(client.getAddress().toString());
-				TCPOpeningClient();
-			} else {
-				return "" + client.getPort();
-			}
-
-			return port;
-		} else {
-			return "" + client.getPort();
+				networkManager.setClientPort( Integer.parseInt(port));
+				
+			} 
 		}
+		return "" +networkManager.getClientPort();
+		
 	}
 	/**
 	 * setMyPort
@@ -282,28 +262,15 @@ public class TimeRecordControler {
 		// si le motif est trouv�
 		if (m.find()) {
 			// System.out.println("motif trouv�");
-			String ip = server.getIp();
+			String ip = networkManager.getServerIp();
 
 			if (TCPInfo.available(ip, Integer.parseInt(port)) == true) {
-				try {
-					server.closeServer();
-
-				} catch (Exception exc) {
-					// nothing
-					// return "" + server.getPort();
-
-				}
-				server = new TCPServer(Integer.parseInt(port));
-				TCPOpeningServer();
-			} else {
-
-				return "" + server.getPort();
+				networkManager.setServerPort(Integer.parseInt(port));
+				
 			}
-
-			return port;
-		} else {
-			return "" + server.getPort();
 		}
+		return "" + networkManager.getServerPort();
+		
 	}
 
 	/**
@@ -383,113 +350,35 @@ public class TimeRecordControler {
 		return "File not found";
 	}
 
-	/**
-	 * TCPOpeningServer open the server
-	 * @return thread
-	 */
-	public Thread TCPOpeningServer() {
-		Thread t = new Thread(new Runnable() {
-			public void run() {
 
-				try {
-					server.setServerConnection();
-				} catch (Exception exc) {
-					//
-				}
-
-			}
-		});
-		t.start();
-		return t;
-	}
-
-	/**
-	 * TCPOpeningClient open the client
-	 * @return thread
-	 */
-	public Thread TCPOpeningClient() {
-		Thread t = new Thread(new Runnable() {
-			@SuppressWarnings("unchecked")
-			public void run() {
-				while (!Thread.currentThread().isInterrupted()) {
-					try {
-
-						while (true) {
-
-							// while ()
-							client.setSocketConnection();
-
-							Object obj = client.getInputStream().readObject();
-
-							System.out.println("Client TimeRecord> Object Receive ");
-							if (obj != null) {
-								// System.out.println(obj.getClass().getName());
-								if (obj.getClass().getName().equals("fr.polytech.vgl.model.Company") == true) {
-									Company c = (Company) obj;
-									addCompany(c);
-
-									System.out.println("Client TimeRecord> Company added ");
-									// return "Company : " + c.getCompanyName() + " added";
-								} else if (obj.getClass().getName().equals("java.util.ArrayList") == true) {
-									try {
-										ArrayList<Company> obj2 = (ArrayList<Company>) obj;
-										List<Company> listc = obj2;
-										for (Company comp : listc) {
-											addCompany(comp);
-										}
-										// return "Companies has been insered";
-
-										System.out.println("Companies has been insered");
-									} catch (Exception exc) {
-										// return "No company found in the file";
-									}
-								}
-
-							}
-
-							client.closeClient();
-
-						}
-
-					}
-
-					catch (Exception exc) {
-						// System.out.println("Client> Closed");
-					}
-				}
-			}
-
-		});
-		t.start();
-		return t;
-	}
 
 	public String getMyIp() {
-		return server.getIp();
+		return networkManager.getServerIp();
 	}
 
 	public int getMyPort() {
-		return server.getPort();
+		return networkManager.getServerPort();
 	}
 
 	public int getPort() {
-		return client.getPort();
+		return networkManager.getClientPort();
 	}
 
 	public String getIp() {
-		return client.getIp();
+		return networkManager.getClientIp();
 	}
 
+	
 	/**
 	 * sendRecordBuffer send the Records of the buffer 
 	 */
 	public void sendRecordBuffer() {
 
-		if (server.sendObject(recordsBuffer) == false) {
-			System.out.println("Record Not Sended : " + recordsBuffer);
-		} else {
+		if (networkManager.sendObject(recordsBuffer)) {
 			System.out.println("Record  Sended : " + recordsBuffer);
 			recordsBuffer.clear();
+		} else {
+			System.out.println("Record Not Sended : " + recordsBuffer);
 		}
 	}
 
@@ -505,10 +394,40 @@ public class TimeRecordControler {
 		}
 
 		Serialisation.serialize(listCompany, "timerecord.sav");
-		server.closeServer();
-		client.closeClient();
-		tServer.interrupt();
-		tClient.interrupt();
+	}
+
+	@Override
+	public void onObjectReceived(Object receivedObject) {
+		// TODO Auto-generated method stub
+		System.out.println("Client TimeRecord> Object Receive ");
+		if (receivedObject != null) {
+			// System.out.println(obj.getClass().getName());
+			if (receivedObject.getClass().getName().equals("fr.polytech.vgl.model.Company") == true) {
+				Company c = (Company) receivedObject;
+				addCompany(c);
+
+				System.out.println("Client TimeRecord> Company added ");
+				// return "Company : " + c.getCompanyName() + " added";
+			} else if (receivedObject.getClass().getName().equals("java.util.ArrayList") == true) {
+				try {
+					ArrayList<Company> obj2 = (ArrayList<Company>) receivedObject;
+					List<Company> listc = obj2;
+					for (Company comp : listc) {
+						addCompany(comp);
+					}
+					// return "Companies has been insered";
+
+					System.out.println("Companies has been insered");
+				} catch (Exception exc) {
+					// return "No company found in the file";
+				}
+			}
+
+		}
+
+
 
 	}
+
+
 }

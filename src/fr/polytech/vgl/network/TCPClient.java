@@ -7,11 +7,14 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TCPClient extends TCPInfo
 {
 	
-        
+	private List<NetworkObserver> observers = new ArrayList<>();    
+	
     //builders
     public TCPClient() 
     {
@@ -37,21 +40,6 @@ public class TCPClient extends TCPInfo
         
     }
         
-    /*
-    public ObjectOutputStream getOutputStream() {
-		return outputStream;
-	}
-	public void setOutputStream(ObjectOutputStream outputStream) {
-		this.outputStream = outputStream;
-	}
-	public ObjectInputStream getInputStream() {
-		return inputStream;
-	}
-	public void setInputStream(ObjectInputStream inputStream) {
-		this.inputStream = inputStream;
-	}
-	*/
-    
 	
     public void setSocketConnection() 
     {
@@ -97,4 +85,26 @@ public class TCPClient extends TCPInfo
     		
     	}
     }
+
+
+    public void addObserver(NetworkObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(NetworkObserver observer) {
+        observers.remove(observer);
+    }
+
+    public void notifyObjectReceived(Object receivedObject) {
+        for (NetworkObserver observer : observers) {
+            observer.onObjectReceived(receivedObject);
+        }
+    }
+
+    public void notifyNetworkError(Exception e) {
+        for (NetworkObserver observer : observers) {
+        	 observer.onNetworkError(e);
+        }
+    }
 }
+

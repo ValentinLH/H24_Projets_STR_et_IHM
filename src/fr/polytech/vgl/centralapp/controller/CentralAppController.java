@@ -8,26 +8,28 @@ import java.util.regex.Pattern;
 import fr.polytech.vgl.centralapp.view.GiveCompanyView;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Record;
+import fr.polytech.vgl.network.NetworkManager;
+import fr.polytech.vgl.network.NetworkObserver;
 import fr.polytech.vgl.network.TCPClient;
 import fr.polytech.vgl.network.TCPInfo;
 import fr.polytech.vgl.network.TCPServer;
 import fr.polytech.vgl.serialisation.Serialisation;
 
 
-public class CentralAppController {
+public class CentralAppController implements NetworkObserver {
 
-	public static TCPServer server = new TCPServer(8081);
-	public static TCPClient client = new TCPClient("localhost", 8080);
+
 	Company company;
-	public static Thread tClient,tServer;
+	private NetworkManager networkManager;
 	
 	
 	public CentralAppController()
 	{
+		networkManager = new NetworkManager(this);
+		
 		company = GiveCompanyView.c;
 		
-		tServer = TCPOpeningServer();
-		tClient = TCPOpeningClient();
+
 	}
 	
 	public String setIp(String ip) {
@@ -283,6 +285,12 @@ public class CentralAppController {
 		
 		tServer.interrupt();
 		tClient.interrupt();
+	}
+
+	@Override
+	public void onObjectReceived(Object receivedObject) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
