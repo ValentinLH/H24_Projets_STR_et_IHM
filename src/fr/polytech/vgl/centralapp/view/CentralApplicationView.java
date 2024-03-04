@@ -45,48 +45,48 @@ public class CentralApplicationView extends JFrame {
 	JTabbedPane onglets = new JTabbedPane();
 
 	/**
-	 * Création de la fenêtre ainsi que du panel des employés Cela correspond au
-	 * tableau de tous les employés avec leurs informations respectives
+	 * Crï¿½ation de la fenï¿½tre ainsi que du panel des employï¿½s Cela correspond au
+	 * tableau de tous les employï¿½s avec leurs informations respectives
 	 */
 	private ModelOfEmployeeTable frame = new ModelOfEmployeeTable();
 	private JTable tableau = new JTable(frame);
 	public TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tableau.getModel());
 
 	/**
-	 * Création de la fenêtre ainsi que du panel de tous les pointages Cela
-	 * correspond au tableau aux pointages de tous les emloyés
+	 * Crï¿½ation de la fenï¿½tre ainsi que du panel de tous les pointages Cela
+	 * correspond au tableau aux pointages de tous les emloyï¿½s
 	 */
 	private ModelOfCheckPanel frame2 = new ModelOfCheckPanel(GiveCompanyView.c.getListEmp());
 	private JTable tableau2 = new JTable(frame2);
 	public TableRowSorter<TableModel> sorter2 = new TableRowSorter<TableModel>(tableau2.getModel());
 
 	/**
-	 * Création de la fenêtre ainsi que du panel de tous les pointages du jour Cela
+	 * Crï¿½ation de la fenï¿½tre ainsi que du panel de tous les pointages du jour Cela
 	 * correspond au tableau de tous les pointages du jour
 	 */
 	private ModelOfDayCheckPanel frame3 = new ModelOfDayCheckPanel(GiveCompanyView.c.getListEmp());
 	private JTable tableau3 = new JTable(frame3);
 
 	/**
-	 * Crétion du controler de centralapp
+	 * Crï¿½tion du controler de centralapp
 	 */
 	private CentralAppController controler;
 
 	/*
-	 * Création des boutons du premier onglets
+	 * Crï¿½ation des boutons du premier onglets
 	 */
 	private JButton CheckEmployee;
 	private JButton AddAction;
 	private JButton RemoveAction;
 	private JButton FilterAction;
 	/*
-	 * Entêtes des colonnes du premier onglet
+	 * Entï¿½tes des colonnes du premier onglet
 	 */
 	String[] entetes = { "Surname", "Name", "ID", "Company", "Department", "Presence" };
 
 	/**
 	 * Application principale Elle comporte tous les onglets ainsi que l'affichage
-	 * des panels Elle affiche également la fenêtre principale
+	 * des panels Elle affiche ï¿½galement la fenï¿½tre principale
 	 */
 	public CentralApplicationView() { // on lui passe le modele qui nous interesse
 
@@ -106,7 +106,7 @@ public class CentralApplicationView extends JFrame {
 			}
 		});
 
-		// Définir la position de conteneur d'onglets
+		// Dï¿½finir la position de conteneur d'onglets
 		onglets.setBounds(10, 10, 960, 640);
 
 		// Ajouter les onglets au frame
@@ -132,14 +132,14 @@ public class CentralApplicationView extends JFrame {
 	}
 
 	/**
-	 * Permet d'afficher dans un panel, un tableau de tous les employés ainsi que
-	 * leurs informations Il y a également 4 boutons : Le premier pour ajouter un
-	 * employé, le second pour supprimer un employé, le troisième pour filtrer les
-	 * employés, et le denier pour afficher les pointages d'un employé en
-	 * particulier Tous ces boutons amènent à leurs controlers respectis Il y a
-	 * également quelques lignes qui permettent de trier le tableau
+	 * Permet d'afficher dans un panel, un tableau de tous les employï¿½s ainsi que
+	 * leurs informations Il y a ï¿½galement 4 boutons : Le premier pour ajouter un
+	 * employï¿½, le second pour supprimer un employï¿½, le troisiï¿½me pour filtrer les
+	 * employï¿½s, et le denier pour afficher les pointages d'un employï¿½ en
+	 * particulier Tous ces boutons amï¿½nent ï¿½ leurs controlers respectis Il y a
+	 * ï¿½galement quelques lignes qui permettent de trier le tableau
 	 * 
-	 * @return le panel avec toutes les informations des employés ainsi que les 4
+	 * @return le panel avec toutes les informations des employï¿½s ainsi que les 4
 	 *         boutons
 	 */
 	public JPanel EmployeeTablePanel() {
@@ -183,8 +183,8 @@ public class CentralApplicationView extends JFrame {
 	}
 
 	/**
-	 * Permet d'afficher un panel avec tous les pointages enregistrés depuis le
-	 * départ Il appelle juste la vue concerné et renvoit le panel
+	 * Permet d'afficher un panel avec tous les pointages enregistrï¿½s depuis le
+	 * dï¿½part Il appelle juste la vue concernï¿½ et renvoit le panel
 	 * 
 	 * @return Le panel de tous les pointages
 	 */
@@ -213,7 +213,7 @@ public class CentralApplicationView extends JFrame {
 
 	/**
 	 * Permet d'afficher un panel avec tous les pointages du jour Il appelle juste
-	 * la vue concerné et renvoit le panel
+	 * la vue concernï¿½ et renvoit le panel
 	 * 
 	 * @return Le panel des pointages du jour
 	 */
@@ -241,7 +241,7 @@ public class CentralApplicationView extends JFrame {
 	}
 
 	/**
-	 * Permet de récupérer la taille de la colonne
+	 * Permet de rï¿½cupï¿½rer la taille de la colonne
 	 * 
 	 * @return la taille de la colonne
 	 */
@@ -250,7 +250,7 @@ public class CentralApplicationView extends JFrame {
 	}
 
 	/**
-	 * permet de récupérer le nom des colonnes
+	 * permet de rï¿½cupï¿½rer le nom des colonnes
 	 * 
 	 * @param columnIndex
 	 * @return le nom de chaque colonne
@@ -260,9 +260,9 @@ public class CentralApplicationView extends JFrame {
 	}
 
 	/**
-	 * Permet de récupérer le tableau des inforamtions des employés
+	 * Permet de rï¿½cupï¿½rer le tableau des inforamtions des employï¿½s
 	 * 
-	 * @return le tableau des employés
+	 * @return le tableau des employï¿½s
 	 */
 	public JTable getEmployeeTable() {
 		return tableau;

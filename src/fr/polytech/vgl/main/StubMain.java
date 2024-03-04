@@ -16,7 +16,7 @@ import fr.polytech.vgl.serialisation.Serialisation;
 *
 */
 
-public class CentralAppMain {
+public class StubMain {
 
 	public static void main(String[] args) {
 
