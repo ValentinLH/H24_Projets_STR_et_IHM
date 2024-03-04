@@ -14,12 +14,19 @@ public class NetworkManager {
     private Thread tClient;
 
     public NetworkManager() {
-        server = new TCPServer(8080);
-        client = new TCPClient("localhost", 8081);
+    	  server = new TCPServer(8080);
+          client = new TCPClient("localhost", 8081);
+          start(); 
+    }
+
+    
+    public NetworkManager(int serverPort , String clientIp, int clientPort,NetworkObserver observer ) {
+        server = new TCPServer(serverPort);
+        client = new TCPClient(clientIp, clientPort);
+        
+        addObserver(observer);
        
-            
-        tServer = TCPOpeningServer();
-        tClient = TCPOpeningClient();
+        start();  
     }
 
     public NetworkManager(NetworkObserver observer) {
@@ -28,8 +35,12 @@ public class NetworkManager {
        
         addObserver(observer);
         
-        tServer = TCPOpeningServer();
-        tClient = TCPOpeningClient();
+        start();
+       }
+    
+    public void start() {
+    	 tServer = TCPOpeningServer();
+         tClient = TCPOpeningClient();	
     }
     
     public void addObserver(NetworkObserver observer) {

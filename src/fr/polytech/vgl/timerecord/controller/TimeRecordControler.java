@@ -28,6 +28,7 @@ import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
  *
  */
 
+
 public class TimeRecordControler implements NetworkObserver {
 
 	private TimeRecordMainFrame view;
