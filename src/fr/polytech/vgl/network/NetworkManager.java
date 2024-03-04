@@ -1,17 +1,14 @@
 package fr.polytech.vgl.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import fr.polytech.vgl.model.Company;
+import javax.realtime.*;
 
 public class NetworkManager {
 
 
     private TCPServer server;
     private TCPClient client;
-    private Thread tServer;
-    private Thread tClient;
+    private RealtimeThread tServer;
+    private RealtimeThread tClient;
 
     public NetworkManager() {
     	  server = new TCPServer(8080);
@@ -39,8 +36,13 @@ public class NetworkManager {
        }
     
     public void start() {
-    	 tServer = TCPOpeningServer();
-         tClient = TCPOpeningClient();	
+    	 tServer = new ServerTask();
+         tClient = new ClientTask();
+         tServer.start();
+         tClient.start();
+         
+    	 //tServer = TCPOpeningServer();
+         //tClient = TCPOpeningClient();	
     }
     
     public void addObserver(NetworkObserver observer) {
@@ -60,6 +62,40 @@ public class NetworkManager {
 		tServer.interrupt();
 		tClient.interrupt();
       }
+    
+    
+    private class ServerTask extends RealtimeThread{
+        public void run() {
+            try {
+                server.setServerConnection();
+            } catch (Exception exc) {
+                exc.printStackTrace();
+            }
+        }
+    }
+
+    private class ClientTask extends RealtimeThread {
+        @SuppressWarnings("unchecked")
+        public void run() {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    while (true) {
+                        client.setSocketConnection();
+                        Object obj = client.getInputStream().readObject();
+
+                        if (obj != null) {
+                            client.notifyObjectReceived(obj);
+                        }
+
+                        client.closeClient();
+                    }
+                } catch (Exception exc) {
+                    // Handle the exception
+                }
+            }
+        }
+    }
+
     
 	/**
 	 * TCPOpeningServer open the server
