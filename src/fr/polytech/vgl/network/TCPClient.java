@@ -53,6 +53,7 @@ public class TCPClient extends TCPInfo
         catch (IOException exc) 
         {
         	//exc.printStackTrace();
+        	notifyNetworkError(exc);
         }
     }
     
@@ -79,10 +80,11 @@ public class TCPClient extends TCPInfo
         {
         	System.out.println("[-] Error Closing Client");
         	//exc.printStackTrace();
+        	notifyNetworkError(exc);
         }
     	catch (Exception exc)
     	{
-    		
+    		notifyNetworkError(exc);
     	}
     }
 

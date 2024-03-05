@@ -9,11 +9,10 @@ public class NetworkManager {
 
 	private static final String patternIP = "(Localhost)|(^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$)";
 	private static final String patternPort = "^([0-9]|[0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9])$";
-	
+
 	private Pattern pattern;
 	private Matcher matcher;
-	
-	
+
 	private TCPServer server;
 	private TCPClient client;
 	private RealtimeThread tServer;
@@ -61,21 +60,14 @@ public class NetworkManager {
 		client.removeObserver(observer);
 	}
 
-	@Override
-	protected void finalize() {
-		System.out.print("Destroyed ");
-		server.closeServer();
-		client.closeClient();
-		tServer.interrupt();
-		tClient.interrupt();
-	}
-
 	private class ServerTask extends RealtimeThread {
 		public void run() {
-			try {
-				server.setServerConnection();
-			} catch (Exception exc) {
-				exc.printStackTrace();
+			while (!Thread.currentThread().isInterrupted()) {
+				try {
+					server.setServerConnection();
+				} catch (Exception exc) {
+					exc.printStackTrace();
+				}
 			}
 		}
 	}
@@ -147,9 +139,9 @@ public class NetworkManager {
 			// System.out.println("motif trouv�");
 			if (TCPInfo.available(getClientIp(), Integer.parseInt(serverPort)) == true) {
 				server.setPort(Integer.parseInt(serverPort));
-			} 
+			}
 		}
-		restartServer(); 
+		restartServer();
 	}
 
 	/**
@@ -159,7 +151,6 @@ public class NetworkManager {
 	 */
 	public void setClientIp(String clientIp) {
 
-		
 		pattern = Pattern.compile(patternIP);
 		matcher = pattern.matcher(clientIp);
 
@@ -184,7 +175,7 @@ public class NetworkManager {
 	 * @param clientPort The port to set.
 	 */
 	public void setClientPort(String clientPort) {
-		
+
 		pattern = Pattern.compile(patternPort);
 		matcher = pattern.matcher(clientPort);
 		// si le motif est trouv�
@@ -192,14 +183,14 @@ public class NetworkManager {
 			// System.out.println("motif trouv�");
 			if (TCPInfo.available(getClientIp(), Integer.parseInt(clientPort)) == true) {
 				client.setPort(Integer.parseInt(clientPort));
-			} 
+			}
 		}
-		restartClient(); 
+		restartClient();
 	}
 
 	private void restartClient() {
 		RealtimeThread tTemp = new ClientTask();
-		
+
 		tTemp.start();
 
 		client.closeClient();
@@ -207,10 +198,10 @@ public class NetworkManager {
 
 		tClient = tTemp;
 	}
-	
+
 	private void restartServer() {
 		RealtimeThread tTemp = new ServerTask();
-		
+
 		tTemp.start();
 
 		server.closeServer();
