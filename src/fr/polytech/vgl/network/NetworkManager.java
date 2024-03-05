@@ -1,168 +1,113 @@
 package fr.polytech.vgl.network;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.realtime.*;
 
 public class NetworkManager {
 
+	private static final String patternIP = "(Localhost)|(^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$)";
+	private static final String patternPort = "^([0-9]|[0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9])$";
+	
+	private Pattern pattern;
+	private Matcher matcher;
+	
+	
+	private TCPServer server;
+	private TCPClient client;
+	private RealtimeThread tServer;
+	private RealtimeThread tClient;
 
-    private TCPServer server;
-    private TCPClient client;
-    private RealtimeThread tServer;
-    private RealtimeThread tClient;
+	public NetworkManager() {
+		server = new TCPServer(8080);
+		client = new TCPClient("localhost", 8081);
+		start();
+	}
 
-    public NetworkManager() {
-    	  server = new TCPServer(8080);
-          client = new TCPClient("localhost", 8081);
-          start(); 
-    }
+	public NetworkManager(int serverPort, String clientIp, int clientPort, NetworkObserver observer) {
+		server = new TCPServer(serverPort);
+		client = new TCPClient(clientIp, clientPort);
 
-    
-    public NetworkManager(int serverPort , String clientIp, int clientPort,NetworkObserver observer ) {
-        server = new TCPServer(serverPort);
-        client = new TCPClient(clientIp, clientPort);
-        
-        addObserver(observer);
-       
-        start();  
-    }
+		addObserver(observer);
 
-    public NetworkManager(NetworkObserver observer) {
-        server = new TCPServer(8080);
-        client = new TCPClient("localhost", 8081);
-       
-        addObserver(observer);
-        
-        start();
-       }
-    
-    public void start() {
-    	 tServer = new ServerTask();
-         tClient = new ClientTask();
-         tServer.start();
-         tClient.start();
-         
-    	 //tServer = TCPOpeningServer();
-         //tClient = TCPOpeningClient();	
-    }
-    
-    public void addObserver(NetworkObserver observer) {
-    	client.addObserver(observer);
-    }
+		start();
+	}
 
-    public void removeObserver(NetworkObserver observer) {
-    	client.removeObserver(observer);
-    }
-    
-    
-    @Override
-    protected void finalize() {
-        System.out.print("Destroyed ");
+	public NetworkManager(NetworkObserver observer) {
+		server = new TCPServer(8080);
+		client = new TCPClient("localhost", 8081);
+
+		addObserver(observer);
+
+		start();
+	}
+
+	public void start() {
+		tServer = new ServerTask();
+		tClient = new ClientTask();
+		tServer.start();
+		tClient.start();
+
+		// tServer = TCPOpeningServer();
+		// tClient = TCPOpeningClient();
+	}
+
+	public void addObserver(NetworkObserver observer) {
+		client.addObserver(observer);
+	}
+
+	public void removeObserver(NetworkObserver observer) {
+		client.removeObserver(observer);
+	}
+
+	@Override
+	protected void finalize() {
+		System.out.print("Destroyed ");
 		server.closeServer();
 		client.closeClient();
 		tServer.interrupt();
 		tClient.interrupt();
-      }
-    
-    
-    private class ServerTask extends RealtimeThread{
-        public void run() {
-            try {
-                server.setServerConnection();
-            } catch (Exception exc) {
-                exc.printStackTrace();
-            }
-        }
-    }
-
-    private class ClientTask extends RealtimeThread {
-        @SuppressWarnings("unchecked")
-        public void run() {
-            while (!Thread.currentThread().isInterrupted()) {
-                try {
-                    while (true) {
-                        client.setSocketConnection();
-                        Object obj = client.getInputStream().readObject();
-
-                        if (obj != null) {
-                            client.notifyObjectReceived(obj);
-                        }
-
-                        client.closeClient();
-                    }
-                } catch (Exception exc) {
-                    // Handle the exception
-                }
-            }
-        }
-    }
-
-    
-	/**
-	 * TCPOpeningServer open the server
-	 * @return thread
-	 */
-	public Thread TCPOpeningServer() {
-		Thread t = new Thread(new Runnable() {
-			public void run() {
-
-				try {
-					server.setServerConnection();
-				} catch (Exception exc) {
-					//
-					exc.printStackTrace();
-				}
-
-			}
-		});
-		t.start();
-		return t;
 	}
 
+	private class ServerTask extends RealtimeThread {
+		public void run() {
+			try {
+				server.setServerConnection();
+			} catch (Exception exc) {
+				exc.printStackTrace();
+			}
+		}
+	}
 
+	private class ClientTask extends RealtimeThread {
+		@SuppressWarnings("unchecked")
+		public void run() {
+			while (!Thread.currentThread().isInterrupted()) {
+				try {
+					while (true) {
+						client.setSocketConnection();
 
-	/**
-	 * TCPOpeningClient open the client
-	 * @return thread
-	 */
-	public Thread TCPOpeningClient() {
-		Thread t = new Thread(new Runnable() {
-			@SuppressWarnings("unchecked")
-			public void run() {
-				while (!Thread.currentThread().isInterrupted()) {
-					try {
+						Object obj = client.getInputStream().readObject();
+						System.out.println(client.getIp() + ":" + client.getPort());
 
-						while (true) {
-
-							// while ()
-							client.setSocketConnection();
-
-							Object obj = client.getInputStream().readObject();
-
-						   if (obj != null) {
-	                            client.notifyObjectReceived(obj);
-	                        }
-							
-							client.closeClient();
-
+						if (obj != null) {
+							client.notifyObjectReceived(obj);
 						}
 
+						client.closeClient();
 					}
-
-					catch (Exception exc) {
-						// System.out.println("Client> Closed");
-					}
+				} catch (Exception exc) {
+					// Handle the exception
 				}
 			}
-
-		});
-		t.start();
-		return t;
+		}
 	}
-	
-    public boolean sendObject(Object obj)
-    {
-    	return server.sendObject(obj);
-    }
+
+	public boolean sendObject(Object obj) {
+		System.out.println(client.getIp() + ":" + client.getPort());
+		return server.sendObject(obj);
+	}
 
 	public String getServerIp() {
 		return server.getIp();
@@ -179,41 +124,99 @@ public class NetworkManager {
 	public String getClientIp() {
 		return client.getIp();
 	}
+
+	/**
+	 * Set the IP address for the server.
+	 *
+	 * @param serverIp The IP address to set.
+	 */
+	public void setServerIp(String serverIp) {
+		server.setIp(serverIp);
+	}
+
+	/**
+	 * Set the port for the server.
+	 *
+	 * @param serverPort The port to set.
+	 */
+	public void setServerPort(String serverPort) {
+		pattern = Pattern.compile(patternPort);
+		matcher = pattern.matcher(serverPort);
+		// si le motif est trouv�
+		if (matcher.find()) {
+			// System.out.println("motif trouv�");
+			if (TCPInfo.available(getClientIp(), Integer.parseInt(serverPort)) == true) {
+				server.setPort(Integer.parseInt(serverPort));
+			} 
+		}
+		restartServer(); 
+	}
+
+	/**
+	 * Set the IP address for the client.
+	 *
+	 * @param clientIp The IP address to set.
+	 */
+	public void setClientIp(String clientIp) {
+
+		
+		pattern = Pattern.compile(patternIP);
+		matcher = pattern.matcher(clientIp);
+
+		// si le motif est trouv�
+		if (matcher.find()) {
+
+			try {
+				client.setIp(clientIp);
+				restartClient();
+
+			} catch (Exception exc) {
+				// nothing
+				exc.printStackTrace();
+			}
+		}
+
+	}
+
+	/**
+	 * Set the port for the client.
+	 *
+	 * @param clientPort The port to set.
+	 */
+	public void setClientPort(String clientPort) {
+		
+		pattern = Pattern.compile(patternPort);
+		matcher = pattern.matcher(clientPort);
+		// si le motif est trouv�
+		if (matcher.find()) {
+			// System.out.println("motif trouv�");
+			if (TCPInfo.available(getClientIp(), Integer.parseInt(clientPort)) == true) {
+				client.setPort(Integer.parseInt(clientPort));
+			} 
+		}
+		restartClient(); 
+	}
+
+	private void restartClient() {
+		RealtimeThread tTemp = new ClientTask();
+		
+		tTemp.start();
+
+		client.closeClient();
+		tClient.interrupt();
+
+		tClient = tTemp;
+	}
 	
-    /**
-     * Set the IP address for the server.
-     *
-     * @param serverIp The IP address to set.
-     */
-    public void setServerIp(String serverIp) {
-        server.setIp(serverIp);
-    }
+	private void restartServer() {
+		RealtimeThread tTemp = new ServerTask();
+		
+		tTemp.start();
 
-    /**
-     * Set the port for the server.
-     *
-     * @param serverPort The port to set.
-     */
-    public void setServerPort(int serverPort) {
-        server.setPort(serverPort);
-    }
+		server.closeServer();
+		tClient.interrupt();
 
-    /**
-     * Set the IP address for the client.
-     *
-     * @param clientIp The IP address to set.
-     */
-    public void setClientIp(String clientIp) {
-        client.setIp(clientIp);
-    }
+		tClient = tTemp;
+	}
 
-    /**
-     * Set the port for the client.
-     *
-     * @param clientPort The port to set.
-     */
-    public void setClientPort(int clientPort) {
-        client.setPort(clientPort);
-    }
-	
 }

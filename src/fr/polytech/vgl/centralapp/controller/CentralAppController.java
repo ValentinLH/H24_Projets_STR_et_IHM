@@ -33,62 +33,20 @@ public class CentralAppController implements NetworkObserver {
 	}
 	
 	public String setIp(String ip) {
-		
-		String patternString = "(Localhost)|(^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$)";
-		Pattern pattern = Pattern.compile(patternString);
-		Matcher m = pattern.matcher(ip);
-		// si le motif est trouv�
-		if (m.find()) {
-			int port = networkManager.getClientPort();
-			
-			try {
-				networkManager.setClientIp(ip);
-			
-			} catch (Exception exc) {
-				// nothing
-				
-			}
-		} 
+		networkManager.setClientIp(ip);
 		return networkManager.getClientIp();
 		
 
 	}
 	
 	public String setPort(String port) {
-		// System.out.println("HEY port:" + port);
-		String patternString = "^([0-9]|[0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9])$";
-		Pattern pattern = Pattern.compile(patternString);
-		Matcher m = pattern.matcher(port);
-		// si le motif est trouv�
-		if (m.find()) {
-			// System.out.println("motif trouv�");
-			String ip = networkManager.getClientIp();
-
-			if (TCPInfo.available(ip, Integer.parseInt(port)) == true) {
-
-				networkManager.setClientPort( Integer.parseInt(port));
-				
-			} 
-		}
+		networkManager.setClientPort( port);
 		return "" +networkManager.getClientPort();
 		
 	}
 
 	public String setMyPort(String port) {
-		// System.out.println("HEY port:" + port);
-		String patternString = "^([0-9]|[0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9])$";
-		Pattern pattern = Pattern.compile(patternString);
-		Matcher m = pattern.matcher(port);
-		// si le motif est trouv�
-		if (m.find()) {
-			// System.out.println("motif trouv�");
-			String ip = networkManager.getServerIp();
-
-			if (TCPInfo.available(ip, Integer.parseInt(port)) == true) {
-				networkManager.setServerPort(Integer.parseInt(port));
-				
-			}
-		}
+		networkManager.setServerPort(port);
 		return "" + networkManager.getServerPort();
 		
 	}
@@ -148,7 +106,6 @@ public class CentralAppController implements NetworkObserver {
 					@SuppressWarnings("unchecked")
 					ArrayList<Record> obj2 = (ArrayList<Record>) receivedObject;
 				
-					
 					for (Record rec : obj2)
 					{
 						if (rec.getEmployee().getCompany().equals(company) == true )

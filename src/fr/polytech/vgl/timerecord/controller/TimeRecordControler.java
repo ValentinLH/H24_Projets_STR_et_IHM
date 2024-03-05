@@ -48,7 +48,6 @@ public class TimeRecordControler implements NetworkObserver {
 	public TimeRecordControler() {
 		networkManager = new NetworkManager(this);
 		
-		
 		listCompany = new ArrayList<>();
 		view = new TimeRecordMainFrame(this);
 		file = null;
@@ -181,16 +180,6 @@ public class TimeRecordControler implements NetworkObserver {
 			return 0;
 		}
 		
-		/*
-		if (server.sendObject(newRecord) == true) {
-
-			
-			return 1;
-		} else {
-			return 0;
-		}
-		*/
-		// System.out.println(newRecord);
 
 	}
 
@@ -210,18 +199,7 @@ public class TimeRecordControler implements NetworkObserver {
 		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +
 		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$";
 		 */
-		String patternString = "(Localhost)|(^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$)";
-		Pattern pattern = Pattern.compile(patternString);
-		Matcher m = pattern.matcher(ip);
-		// si le motif est trouv�
-		if (m.find()) {	
-
-			try {
-				networkManager.setClientIp(ip);
-			} catch (Exception exc) {
-				// nothing
-			}
-		}
+		networkManager.setClientIp(ip);
 		return  networkManager.getClientIp();
 	}
 	
@@ -231,21 +209,7 @@ public class TimeRecordControler implements NetworkObserver {
  * @return state of the port
  */
 	public String setPort(String port) {
-		// System.out.println("HEY port:" + port);
-		String patternString = "^([0-9]|[0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9])$";
-		Pattern pattern = Pattern.compile(patternString);
-		Matcher m = pattern.matcher(port);
-		// si le motif est trouv�
-		if (m.find()) {
-			// System.out.println("motif trouv�");
-			String ip = networkManager.getClientIp();
-
-			if (TCPInfo.available(ip, Integer.parseInt(port)) == true) {
-
-				networkManager.setClientPort( Integer.parseInt(port));
-				
-			} 
-		}
+		networkManager.setClientPort( port);
 		return "" +networkManager.getClientPort();
 		
 	}
@@ -256,20 +220,7 @@ public class TimeRecordControler implements NetworkObserver {
 	 */
 
 	public String setMyPort(String port) {
-		// System.out.println("HEY port:" + port);
-		String patternString = "^([0-9]|[0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9])$";
-		Pattern pattern = Pattern.compile(patternString);
-		Matcher m = pattern.matcher(port);
-		// si le motif est trouv�
-		if (m.find()) {
-			// System.out.println("motif trouv�");
-			String ip = networkManager.getServerIp();
-
-			if (TCPInfo.available(ip, Integer.parseInt(port)) == true) {
-				networkManager.setServerPort(Integer.parseInt(port));
-				
-			}
-		}
+		networkManager.setServerPort(port);
 		return "" + networkManager.getServerPort();
 		
 	}

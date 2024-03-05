@@ -36,6 +36,8 @@ public class TCPInfo {
 		return ip;
 	}
 	public void setIp(String ip) {
+		
+		
 		this.ip = ip;
 	}
 	

@@ -25,9 +25,8 @@ public class TCPServer extends TCPInfo
         	System.out.println("[-] Error Creating Server Socket");
         }
     	
-    	InetAddress localAddress;
 		try {
-			localAddress = InetAddress.getLocalHost();
+			InetAddress localAddress = InetAddress.getLocalHost();
 			this.ip = localAddress.getHostAddress();
 		} catch (UnknownHostException exc) {
 			// TODO Auto-generated catch block
