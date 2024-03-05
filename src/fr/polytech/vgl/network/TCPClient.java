@@ -31,6 +31,7 @@ public class TCPClient extends TCPInfo
     		this.address = new InetSocketAddress(address, port);
     		this.port = port;
     		this.ip = address;
+    		
     	}
     	catch (Exception exc)
     	{

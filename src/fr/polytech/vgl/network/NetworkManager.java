@@ -81,7 +81,7 @@ public class NetworkManager {
 						client.setSocketConnection();
 
 						Object obj = client.getInputStream().readObject();
-						System.out.println(client.getIp() + ":" + client.getPort());
+						System.out.println(client.getIp() + ":" + client.getPort()+ "   "+ client.getAddress().toString());
 
 						if (obj != null) {
 							client.notifyObjectReceived(obj);
