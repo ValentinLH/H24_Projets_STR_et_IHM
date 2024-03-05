@@ -5,6 +5,12 @@ import java.util.regex.Pattern;
 
 import javax.realtime.*;
 
+
+/**
+ *  NetworkManager is a Class for the encapsulation of network request
+ *  @since 03/03/24
+ *  VLH
+ */
 public class NetworkManager {
 
 	private static final String patternIP = "(Localhost)|(^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$)";
@@ -97,7 +103,7 @@ public class NetworkManager {
 	}
 
 	public boolean sendObject(Object obj) {
-		System.out.println(client.getIp() + ":" + client.getPort());
+		System.out.println(server.getIp() + ":" + server.getPort()+ "  "+server.getServer());
 		return server.sendObject(obj);
 	}
 
@@ -139,9 +145,10 @@ public class NetworkManager {
 			// System.out.println("motif trouv�");
 			if (TCPInfo.available(getClientIp(), Integer.parseInt(serverPort)) == true) {
 				server.setPort(Integer.parseInt(serverPort));
+				//restartServer();
 			}
 		}
-		restartServer();
+	
 	}
 
 	/**
@@ -205,9 +212,9 @@ public class NetworkManager {
 		tTemp.start();
 
 		server.closeServer();
-		tClient.interrupt();
+		tServer.interrupt();
 
-		tClient = tTemp;
+		tServer = tTemp;
 	}
 
 }

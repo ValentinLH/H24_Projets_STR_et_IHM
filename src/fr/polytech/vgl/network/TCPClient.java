@@ -27,6 +27,11 @@ public class TCPClient extends TCPInfo
     
     public TCPClient(String address,Integer port)
     {
+    	updateAddress( address,port); 
+    }
+        
+    public void updateAddress(String address,Integer port)
+    {
     	try {
     		this.address = new InetSocketAddress(address, port);
     		this.port = port;
@@ -38,9 +43,17 @@ public class TCPClient extends TCPInfo
     		this.address = new InetSocketAddress(this.ip, this.port);
     	}
         
-        
     }
-        
+    
+	@Override
+	public void setIp(String ip) {
+		 updateAddress(ip,this.port);
+	}
+	
+	@Override
+	public void setPort(Integer port) {
+		 updateAddress(this.ip,port);
+	}
 	
     public void setSocketConnection() 
     {

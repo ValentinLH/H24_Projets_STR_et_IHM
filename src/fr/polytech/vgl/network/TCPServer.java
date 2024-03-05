@@ -14,8 +14,15 @@ public class TCPServer extends TCPInfo
     // TCPBuilder
     public TCPServer(Integer port)
     {
+    	updatePort(port);
+    }
+    
+    
+    private void updatePort(Integer port) 
+    {
     	try
         {
+    		
     		server = new ServerSocket(port);
     		
         }
@@ -36,6 +43,12 @@ public class TCPServer extends TCPInfo
     	
         this.port = port;
     }
+    
+    @Override
+	public void setPort(Integer port) {
+    	updatePort(port);
+	}
+    
         
     //connection
     
