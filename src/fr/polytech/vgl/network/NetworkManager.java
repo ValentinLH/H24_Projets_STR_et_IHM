@@ -87,7 +87,7 @@ public class NetworkManager {
 						client.setSocketConnection();
 
 						Object obj = client.getInputStream().readObject();
-						System.out.println(client.getIp() + ":" + client.getPort()+ "   "+ client.getAddress().toString());
+						System.out.println("[+] " + client.getAddress().toString()+ " receive" );
 
 						if (obj != null) {
 							client.notifyObjectReceived(obj);
@@ -103,7 +103,7 @@ public class NetworkManager {
 	}
 
 	public boolean sendObject(Object obj) {
-		System.out.println(server.getIp() + ":" + server.getPort()+ "  "+server.getServer());
+		System.out.println("[+] "+server.getServer()+" is sending to "+client.getAddress());
 		return server.sendObject(obj);
 	}
 
@@ -143,7 +143,7 @@ public class NetworkManager {
 		// si le motif est trouv�
 		if (matcher.find()) {
 			// System.out.println("motif trouv�");
-			if (TCPInfo.available(getClientIp(), Integer.parseInt(serverPort)) == true) {
+			if (TCPInfo.available(getServerIp(), Integer.parseInt(serverPort)) == true) {
 				server.setPort(Integer.parseInt(serverPort));
 				//restartServer();
 			}
@@ -166,7 +166,7 @@ public class NetworkManager {
 
 			try {
 				client.setIp(clientIp);
-				restartClient();
+				//restartClient();
 
 			} catch (Exception exc) {
 				// nothing
@@ -188,11 +188,9 @@ public class NetworkManager {
 		// si le motif est trouv�
 		if (matcher.find()) {
 			// System.out.println("motif trouv�");
-			if (TCPInfo.available(getClientIp(), Integer.parseInt(clientPort)) == true) {
-				client.setPort(Integer.parseInt(clientPort));
-			}
+			client.setPort(Integer.parseInt(clientPort));
 		}
-		restartClient();
+		//restartClient();
 	}
 
 	private void restartClient() {
