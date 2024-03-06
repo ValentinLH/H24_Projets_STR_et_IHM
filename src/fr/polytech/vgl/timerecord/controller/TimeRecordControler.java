@@ -22,12 +22,12 @@ import fr.polytech.vgl.serialisation.Serialisation;
 import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
 
 /**
- *  Main Controller Class of the TimeRecorder
+ * Main Controller Class of the TimeRecorder
+ * 
  * @author Touret Lino - L'Hermite Valentin
- *
+ * @version VLH 06/03/24
  *
  */
-
 
 public class TimeRecordControler implements NetworkObserver {
 
@@ -42,12 +42,13 @@ public class TimeRecordControler implements NetworkObserver {
 
 	/**
 	 * TimeRecordControler()
+	 * 
 	 * @return A proper generated TimeRecordControler
 	 * @param void
 	 */
 	public TimeRecordControler() {
 		networkManager = new NetworkManager(this);
-		
+
 		listCompany = new ArrayList<>();
 		view = new TimeRecordMainFrame(this);
 		file = null;
@@ -79,22 +80,22 @@ public class TimeRecordControler implements NetworkObserver {
 		// addCompany()
 		// view.
 
-		
-		
 		sendRecordBuffer();
 
 	}
 
 	/**
 	 * getListCompany
+	 * 
 	 * @return listCompany
 	 */
 	public List<Company> getListCompany() {
 		return listCompany;
 	}
-	
+
 	/**
 	 * setListCompany
+	 * 
 	 * @param listCompany
 	 */
 	public void setListCompany(List<Company> listCompany) {
@@ -103,6 +104,7 @@ public class TimeRecordControler implements NetworkObserver {
 
 	/**
 	 * addCompany
+	 * 
 	 * @param company
 	 */
 	public void addCompany(Company company) {
@@ -129,8 +131,9 @@ public class TimeRecordControler implements NetworkObserver {
 
 	/**
 	 * delCompany
+	 * 
 	 * @param company
-	 * @return false if it was not deleted else true 
+	 * @return false if it was not deleted else true
 	 */
 	public boolean delCompany(Company company) {
 		if (listCompany.contains(company) == true) {
@@ -148,6 +151,7 @@ public class TimeRecordControler implements NetworkObserver {
 
 	/**
 	 * sendRecord send the record to the central application
+	 * 
 	 * @param employee
 	 * @return state of the sending
 	 */
@@ -167,24 +171,23 @@ public class TimeRecordControler implements NetworkObserver {
 		Record newRecord = new Record(LocalDateTime.now(), employee);
 
 		antiSpam.put(employee, LocalDateTime.now().plusMinutes(Record.getRounded()));
-		
-		if(recordsBuffer.contains(newRecord) ==false)
-		{
+
+		if (recordsBuffer.contains(newRecord) == false) {
 			recordsBuffer.add(newRecord);
 		}
 		sendRecordBuffer();
-		
+
 		if (recordsBuffer.isEmpty() == true) {
 			return 1;
 		} else {
 			return 0;
 		}
-		
 
 	}
 
 	/**
 	 * setIp
+	 * 
 	 * @param ip
 	 * @return
 	 */
@@ -200,21 +203,24 @@ public class TimeRecordControler implements NetworkObserver {
 		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$";
 		 */
 		networkManager.setClientIp(ip);
-		return  networkManager.getClientIp();
+		return networkManager.getClientIp();
 	}
-	
-/**
- * setPort
- * @param port
- * @return state of the port
- */
+
+	/**
+	 * setPort
+	 * 
+	 * @param port
+	 * @return state of the port
+	 */
 	public String setPort(String port) {
-		networkManager.setClientPort( port);
-		return "" +networkManager.getClientPort();
-		
+		networkManager.setClientPort(port);
+		return "" + networkManager.getClientPort();
+
 	}
+
 	/**
 	 * setMyPort
+	 * 
 	 * @param port
 	 * @return myPort
 	 */
@@ -222,11 +228,12 @@ public class TimeRecordControler implements NetworkObserver {
 	public String setMyPort(String port) {
 		networkManager.setServerPort(port);
 		return "" + networkManager.getServerPort();
-		
+
 	}
 
 	/**
-	 * sendRecordTest 
+	 * sendRecordTest
+	 * 
 	 * @param employee
 	 * @param date
 	 * @return state of the sending
@@ -234,25 +241,25 @@ public class TimeRecordControler implements NetworkObserver {
 	public int sendRecordTest(Employee employee, LocalDateTime date) {
 		Record newRecord = new Record(date, employee);
 		// view.comboBox.getSelectedItem().toString();
-		
-		if(recordsBuffer.contains(newRecord) ==false)
-		{
+
+		if (recordsBuffer.contains(newRecord) == false) {
 			recordsBuffer.add(newRecord);
 		}
 		sendRecordBuffer();
-		
+
 		if (recordsBuffer.isEmpty() == true) {
 			return 1;
 		} else {
 			return 0;
 		}
-		
+
 		// view.comboBox.
-		//System.out.println(newRecord);
+		// System.out.println(newRecord);
 	}
 
 	/**
 	 * getFile
+	 * 
 	 * @return file
 	 */
 	public File getFile() {
@@ -261,6 +268,7 @@ public class TimeRecordControler implements NetworkObserver {
 
 	/**
 	 * setFile
+	 * 
 	 * @param file
 	 */
 	public void setFile(File file) {
@@ -269,6 +277,7 @@ public class TimeRecordControler implements NetworkObserver {
 
 	/**
 	 * deserialiseCompany
+	 * 
 	 * @return state of the serialisation
 	 */
 	@SuppressWarnings("unchecked")
@@ -302,8 +311,6 @@ public class TimeRecordControler implements NetworkObserver {
 		return "File not found";
 	}
 
-
-
 	public String getMyIp() {
 		return networkManager.getServerIp();
 	}
@@ -320,9 +327,8 @@ public class TimeRecordControler implements NetworkObserver {
 		return networkManager.getClientIp();
 	}
 
-	
 	/**
-	 * sendRecordBuffer send the Records of the buffer 
+	 * sendRecordBuffer send the Records of the buffer
 	 */
 	public void sendRecordBuffer() {
 
@@ -377,9 +383,6 @@ public class TimeRecordControler implements NetworkObserver {
 
 		}
 
-
-
 	}
-
 
 }

@@ -10,6 +10,10 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  TCPClient is a Class for the encapsulation of a TCP client
+ *  @version 03/03/24
+ */
 public class TCPClient extends TCPInfo
 {
 	

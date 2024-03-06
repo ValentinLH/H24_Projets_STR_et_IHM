@@ -10,6 +10,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
+/**
+ *  TCPInfo is a Class for the encapsulation of TCP information
+ *  @version 03/03/24
+ */
 public class TCPInfo {
 	
 	protected ServerSocket server;

@@ -16,6 +16,13 @@ import fr.polytech.vgl.network.TCPServer;
 import fr.polytech.vgl.serialisation.Serialisation;
 
 
+/**
+ * CentralAppController is the main controller of the Central Application
+ * 
+ * @author Touret Lino - L'Hermite Valentin
+ * @version VLH 06/03/24
+ */
+
 public class CentralAppController implements NetworkObserver {
 
 
