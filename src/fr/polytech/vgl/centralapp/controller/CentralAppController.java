@@ -34,6 +34,8 @@ public class CentralAppController implements NetworkObserver {
 	{
 		networkManager = new NetworkManager(8081,"localhost", 8080,this);
 		
+		
+		// petite saleté ici
 		company = GiveCompanyView.c;
 		
 

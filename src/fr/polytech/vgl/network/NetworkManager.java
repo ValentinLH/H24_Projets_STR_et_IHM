@@ -5,11 +5,10 @@ import java.util.regex.Pattern;
 
 import javax.realtime.*;
 
-
 /**
- *  NetworkManager is a Class for the encapsulation of network request
- *  @since 03/03/24
- *  VLH
+ * NetworkManager is a Class for the encapsulation of network request
+ * 
+ * @since 03/03/24 VLH
  */
 public class NetworkManager {
 
@@ -87,7 +86,7 @@ public class NetworkManager {
 						client.setSocketConnection();
 
 						Object obj = client.getInputStream().readObject();
-						System.out.println("[+] " + client.getAddress().toString()+ " receive" );
+						System.out.println("[+] " + client.getAddress().toString() + " receive");
 
 						if (obj != null) {
 							client.notifyObjectReceived(obj);
@@ -103,7 +102,7 @@ public class NetworkManager {
 	}
 
 	public boolean sendObject(Object obj) {
-		System.out.println("[+] "+server.getServer()+" is sending to "+client.getAddress());
+		System.out.println("[+] " + server.getServer() + " is sending to " + client.getAddress());
 		return server.sendObject(obj);
 	}
 
@@ -145,10 +144,10 @@ public class NetworkManager {
 			// System.out.println("motif trouv�");
 			if (TCPInfo.available(getServerIp(), Integer.parseInt(serverPort)) == true) {
 				server.setPort(Integer.parseInt(serverPort));
-				//restartServer();
+				// restartServer();
 			}
 		}
-	
+
 	}
 
 	/**
@@ -166,7 +165,7 @@ public class NetworkManager {
 
 			try {
 				client.setIp(clientIp);
-				//restartClient();
+				// restartClient();
 
 			} catch (Exception exc) {
 				// nothing
@@ -190,7 +189,7 @@ public class NetworkManager {
 			// System.out.println("motif trouv�");
 			client.setPort(Integer.parseInt(clientPort));
 		}
-		//restartClient();
+		// restartClient();
 	}
 
 	private void restartClient() {
