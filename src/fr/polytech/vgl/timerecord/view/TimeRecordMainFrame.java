@@ -29,19 +29,22 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.MaskFormatter;
 
 import fr.polytech.vgl.model.Company;
+import fr.polytech.vgl.model.Department;
 import fr.polytech.vgl.model.Employee;
 import fr.polytech.vgl.model.Record;
 //import fr.polytech.vgl.model.Frame;
 import fr.polytech.vgl.timerecord.controller.DateLabel;
 import fr.polytech.vgl.timerecord.controller.RoundedLabel;
 import fr.polytech.vgl.timerecord.controller.TimeRecordControler;
+import fr.polytech.vgl.timerecord.controller.ObserverModel;
+
 
 /**
  * TimeRecordMainFrame is the main Frame of the Time Record
 * @author Lino Touret - Valentin L'Hermite
 *
 */
-public class TimeRecordMainFrame {
+public class TimeRecordMainFrame implements ObserverModel{
 
 	
 	private TimeRecordControler controler;
@@ -532,100 +535,7 @@ public class TimeRecordMainFrame {
 		});
 
 		// Test Panel
-		final JPanel testPanel = new JPanel();
-		testPanel.setBackground(colors[0]);
-		tabbedPane.addTab("Test Mode", null, testPanel, null);
-		GridBagLayout gbl_testPanel = new GridBagLayout();
-		gbl_testPanel.columnWidths = new int[] { 50, 100, 150, 100, 0, 0 };
-		gbl_testPanel.rowHeights = new int[] { 50, 0, 45, 0, 0, 35, 35, 0 };
-		gbl_testPanel.columnWeights = new double[] { 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_testPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		testPanel.setLayout(gbl_testPanel);
-
-		DateLabel lblDate_1 = new DateLabel();
-		lblDate_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblDate_1 = new GridBagConstraints();
-		gbc_lblDate_1.gridwidth = 3;
-		gbc_lblDate_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDate_1.gridx = 1;
-		gbc_lblDate_1.gridy = 0;
-		testPanel.add(lblDate_1, gbc_lblDate_1);
-
-		DateLabel lblHour_1 = new DateLabel(true);
-		lblHour_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblHour_1 = new GridBagConstraints();
-		gbc_lblHour_1.gridwidth = 3;
-		gbc_lblHour_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblHour_1.gridx = 1;
-		gbc_lblHour_1.gridy = 1;
-		testPanel.add(lblHour_1, gbc_lblHour_1);
-
-		RoundedLabel lblRoundedHour_1 = new RoundedLabel();
-		lblRoundedHour_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblRoundedHour_1 = new GridBagConstraints();
-		gbc_lblRoundedHour_1.gridwidth = 3;
-		gbc_lblRoundedHour_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblRoundedHour_1.gridx = 1;
-		gbc_lblRoundedHour_1.gridy = 2;
-		testPanel.add(lblRoundedHour_1, gbc_lblRoundedHour_1);
-
-		// EmployeesComboBox comboBox_1 = new EmployeesComboBox();
-		// JComboBox<Employee> comboBox_1 = new JComboBox<Employee>();
-		comboBox_1 = new JComboBox<Employee>(modelEmployee);
-		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
-		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox_1.gridwidth = 2;
-		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox_1.gridx = 1;
-		gbc_comboBox_1.gridy = 3;
-		testPanel.add(comboBox_1, gbc_comboBox_1);
-
-		JButton btnNewButton_1_1 = new JButton("Check In/Out");
-
-		GridBagConstraints gbc_btnNewButton_1_1 = new GridBagConstraints();
-		gbc_btnNewButton_1_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_1_1.gridx = 3;
-		gbc_btnNewButton_1_1.gridy = 3;
-		testPanel.add(btnNewButton_1_1, gbc_btnNewButton_1_1);
-
-		final JFormattedTextField formattedTextField_2 = new JFormattedTextField(dateFormatter);
-		final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy;HH:mm");
-		formattedTextField_2.setText(LocalDateTime.now().format(formatter));
-		GridBagConstraints gbc_formattedTextField_2 = new GridBagConstraints();
-		gbc_formattedTextField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_formattedTextField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_formattedTextField_2.gridx = 2;
-		gbc_formattedTextField_2.gridy = 4;
-		testPanel.add(formattedTextField_2, gbc_formattedTextField_2);
-
-		final JLabel lblValidateMessage_1 = new JLabel("");
-		lblValidateMessage_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblValidateMessage_1 = new GridBagConstraints();
-		gbc_lblValidateMessage_1.gridwidth = 3;
-		gbc_lblValidateMessage_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblValidateMessage_1.gridx = 1;
-		gbc_lblValidateMessage_1.gridy = 5;
-		testPanel.add(lblValidateMessage_1, gbc_lblValidateMessage_1);
-
-		btnNewButton_1_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String text = formattedTextField_2.getText();
-				// System.out.println(LocalDateTime.parse(text,formatter));
-				try {
-					LocalDateTime date = LocalDateTime.parse(text, formatter);
-					if ((Employee) comboBox.getSelectedItem() != null) {
-						controler.sendRecordTest((Employee) comboBox_1.getSelectedItem(), date);
-					}
-				} catch (Exception exc) {
-					// nothinf
-					lblValidateMessage_1.setText("Erreur Date");
-					testPanel.setBackground(colors[3]);
-
-				}
-
-			}
-		});
-
+		TestModeOnglet(tabbedPane,modelEmployee);
 	}
 
 	/**
@@ -692,133 +602,119 @@ public class TimeRecordMainFrame {
 		       "Confirmation",
 		       JOptionPane.YES_NO_OPTION);
 		 }
+	
+	
+	public void TestModeOnglet(JTabbedPane tabbedPane,DefaultComboBoxModel<Employee> modelEmployee) {
+				final JPanel testPanel = new JPanel();
+				testPanel.setBackground(colors[0]);
+				tabbedPane.addTab("Test Mode", null, testPanel, null);
+				GridBagLayout gbl_testPanel = new GridBagLayout();
+				gbl_testPanel.columnWidths = new int[] { 50, 100, 150, 100, 0, 0 };
+				gbl_testPanel.rowHeights = new int[] { 50, 0, 45, 0, 0, 35, 35, 0 };
+				gbl_testPanel.columnWeights = new double[] { 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+				gbl_testPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+				testPanel.setLayout(gbl_testPanel);
+
+				DateLabel lblDate_1 = new DateLabel();
+				lblDate_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
+				GridBagConstraints gbc_lblDate_1 = new GridBagConstraints();
+				gbc_lblDate_1.gridwidth = 3;
+				gbc_lblDate_1.insets = new Insets(0, 0, 5, 5);
+				gbc_lblDate_1.gridx = 1;
+				gbc_lblDate_1.gridy = 0;
+				testPanel.add(lblDate_1, gbc_lblDate_1);
+
+				DateLabel lblHour_1 = new DateLabel(true);
+				lblHour_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
+				GridBagConstraints gbc_lblHour_1 = new GridBagConstraints();
+				gbc_lblHour_1.gridwidth = 3;
+				gbc_lblHour_1.insets = new Insets(0, 0, 5, 5);
+				gbc_lblHour_1.gridx = 1;
+				gbc_lblHour_1.gridy = 1;
+				testPanel.add(lblHour_1, gbc_lblHour_1);
+
+				RoundedLabel lblRoundedHour_1 = new RoundedLabel();
+				lblRoundedHour_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
+				GridBagConstraints gbc_lblRoundedHour_1 = new GridBagConstraints();
+				gbc_lblRoundedHour_1.gridwidth = 3;
+				gbc_lblRoundedHour_1.insets = new Insets(0, 0, 5, 5);
+				gbc_lblRoundedHour_1.gridx = 1;
+				gbc_lblRoundedHour_1.gridy = 2;
+				testPanel.add(lblRoundedHour_1, gbc_lblRoundedHour_1);
+
+				// EmployeesComboBox comboBox_1 = new EmployeesComboBox();
+				// JComboBox<Employee> comboBox_1 = new JComboBox<Employee>();
+				comboBox_1 = new JComboBox<Employee>(modelEmployee);
+				GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
+				gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
+				gbc_comboBox_1.gridwidth = 2;
+				gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
+				gbc_comboBox_1.gridx = 1;
+				gbc_comboBox_1.gridy = 3;
+				testPanel.add(comboBox_1, gbc_comboBox_1);
+
+				JButton btnNewButton_1_1 = new JButton("Check In/Out");
+
+				GridBagConstraints gbc_btnNewButton_1_1 = new GridBagConstraints();
+				gbc_btnNewButton_1_1.insets = new Insets(0, 0, 5, 5);
+				gbc_btnNewButton_1_1.gridx = 3;
+				gbc_btnNewButton_1_1.gridy = 3;
+				testPanel.add(btnNewButton_1_1, gbc_btnNewButton_1_1);
+
+				final JFormattedTextField formattedTextField_2 = new JFormattedTextField(dateFormatter);
+				final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy;HH:mm");
+				formattedTextField_2.setText(LocalDateTime.now().format(formatter));
+				GridBagConstraints gbc_formattedTextField_2 = new GridBagConstraints();
+				gbc_formattedTextField_2.insets = new Insets(0, 0, 5, 5);
+				gbc_formattedTextField_2.fill = GridBagConstraints.HORIZONTAL;
+				gbc_formattedTextField_2.gridx = 2;
+				gbc_formattedTextField_2.gridy = 4;
+				testPanel.add(formattedTextField_2, gbc_formattedTextField_2);
+
+				final JLabel lblValidateMessage_1 = new JLabel("");
+				lblValidateMessage_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
+				GridBagConstraints gbc_lblValidateMessage_1 = new GridBagConstraints();
+				gbc_lblValidateMessage_1.gridwidth = 3;
+				gbc_lblValidateMessage_1.insets = new Insets(0, 0, 5, 5);
+				gbc_lblValidateMessage_1.gridx = 1;
+				gbc_lblValidateMessage_1.gridy = 5;
+				testPanel.add(lblValidateMessage_1, gbc_lblValidateMessage_1);
+
+				btnNewButton_1_1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String text = formattedTextField_2.getText();
+						// System.out.println(LocalDateTime.parse(text,formatter));
+						try {
+							LocalDateTime date = LocalDateTime.parse(text, formatter);
+							if ((Employee) comboBox.getSelectedItem() != null) {
+								controler.sendRecordTest((Employee) comboBox_1.getSelectedItem(), date);
+							}
+						} catch (Exception exc) {
+							// nothinf
+							lblValidateMessage_1.setText("Erreur Date");
+							testPanel.setBackground(colors[3]);
+
+						}
+
+					}
+				});
+	}
+	
+	public void onEmployeeReceived(Employee receivedEmployee){
+		
+	}
+	public void onDepartementReceived(Department receivedDepartment){
+		
+	}
+	public void onCompanyReceived(Company receivedCompany){
+		
+	}
+	public void onRecordReceived(Record receivedRecord){
+		
+	}
 }
 
 
-/*
 
 
-final JPanel settingsPanel = new JPanel();
-settingsPanel.setBackground(colors[0]);
-tabbedPane.addTab("Settings", null, settingsPanel, null);
-GridBagLayout gbl_settingsPanel = new GridBagLayout();
-gbl_settingsPanel.columnWidths = new int[] { 50, 138, 160, 0, 0 };
-gbl_settingsPanel.rowHeights = new int[] { 40, 60, 40, 40, 50, 0, 0 };
-gbl_settingsPanel.columnWeights = new double[] { 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-gbl_settingsPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-settingsPanel.setLayout(gbl_settingsPanel);
 
-JButton btnSetIp = new JButton("Set Ip");
-btnSetIp.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 16));
-
-JLabel lblNewLabel = new JLabel("IP Address");
-lblNewLabel.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-gbc_lblNewLabel.gridwidth = 2;
-gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-gbc_lblNewLabel.gridx = 1;
-gbc_lblNewLabel.gridy = 0;
-settingsPanel.add(lblNewLabel, gbc_lblNewLabel);
-
-final JFormattedTextField textIp = new JFormattedTextField();
-textIp.setText("Localhost");
-textIp.setFont(new Font("Verdana Pro", Font.PLAIN, 13));
-GridBagConstraints gbc_formattedTextField = new GridBagConstraints();
-gbc_formattedTextField.insets = new Insets(0, 0, 5, 5);
-gbc_formattedTextField.fill = GridBagConstraints.HORIZONTAL;
-gbc_formattedTextField.gridx = 1;
-gbc_formattedTextField.gridy = 1;
-settingsPanel.add(textIp, gbc_formattedTextField);
-/*
- * 
- * final JTextPane textIp = new JTextPane(); textIp.setText("Localhost");
- * GridBagConstraints gbc_textIp = new GridBagConstraints(); gbc_textIp.insets =
- * new Insets(0, 0, 5, 5); gbc_textIp.fill = GridBagConstraints.HORIZONTAL;
- * gbc_textIp.gridx = 1; gbc_textIp.gridy = 1; settingsPanel.add(textIp,
- * gbc_textIp);
- */
-/*
-GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-gbc_btnNewButton.gridx = 2;
-gbc_btnNewButton.gridy = 1;
-settingsPanel.add(btnSetIp, gbc_btnNewButton);
-
-JLabel lblPort = new JLabel("Port");
-lblPort.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-GridBagConstraints gbc_lblPort = new GridBagConstraints();
-gbc_lblPort.gridwidth = 2;
-gbc_lblPort.insets = new Insets(0, 0, 5, 5);
-gbc_lblPort.gridx = 1;
-gbc_lblPort.gridy = 2;
-settingsPanel.add(lblPort, gbc_lblPort);
-
-final JFormattedTextField textPort = new JFormattedTextField();
-textPort.setText("8080");
-textPort.setFont(new Font("Verdana Pro", Font.PLAIN, 13));
-GridBagConstraints gbc_formattedTextField_1 = new GridBagConstraints();
-gbc_formattedTextField_1.insets = new Insets(0, 0, 5, 5);
-gbc_formattedTextField_1.fill = GridBagConstraints.HORIZONTAL;
-gbc_formattedTextField_1.gridx = 1;
-gbc_formattedTextField_1.gridy = 3;
-settingsPanel.add(textPort, gbc_formattedTextField_1);
-
-JButton btnSetPort = new JButton("Set Port");
-btnSetPort.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 16));
-GridBagConstraints gbc_btnSetPort = new GridBagConstraints();
-gbc_btnSetPort.insets = new Insets(0, 0, 5, 5);
-gbc_btnSetPort.gridx = 2;
-gbc_btnSetPort.gridy = 3;
-settingsPanel.add(btnSetPort, gbc_btnSetPort);
-
-final JLabel settingLabel = new JLabel("");
-settingLabel.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 17));
-GridBagConstraints gbc_settingLabel = new GridBagConstraints();
-gbc_settingLabel.gridwidth = 2;
-gbc_settingLabel.insets = new Insets(0, 0, 5, 5);
-gbc_settingLabel.gridx = 1;
-gbc_settingLabel.gridy = 4;
-settingsPanel.add(settingLabel, gbc_settingLabel);
-
-btnSetIp.addActionListener(new ActionListener() {
-	public void actionPerformed(ActionEvent e) {
-		// System.out.println();
-		String text = textIp.getText();
-		String ret = controler.setIp(text);
-		if (text.equals(ret))
-		{
-			settingLabel.setText("IP selected");
-			settingsPanel.setBackground(colors[2]);
-		}
-		else
-		{
-			textIp.setText(ret);
-			settingLabel.setText("Error IP");
-			settingsPanel.setBackground(colors[3]);
-		}
-
-		
-		
-	}
-});
-
-
-btnSetPort.addActionListener(new ActionListener() {
-	public void actionPerformed(ActionEvent e) {
-		
-		String port = textPort.getText();
-		String ret = controler.setPort(port);
-		if (port.equals(ret))
-		{
-			settingLabel.setText("Port selected");
-			settingsPanel.setBackground(colors[2]);
-		}
-		else
-		{
-			textPort.setText(ret);
-			settingLabel.setText("Error Port");
-			settingsPanel.setBackground(colors[3]);
-		}
-	}
-});
-*/

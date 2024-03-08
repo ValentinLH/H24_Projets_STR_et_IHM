@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import fr.polytech.vgl.model.Company;
+import fr.polytech.vgl.model.Department;
 import fr.polytech.vgl.model.Employee;
 import fr.polytech.vgl.model.Record;
 import fr.polytech.vgl.network.NetworkManager;
@@ -20,6 +21,7 @@ import fr.polytech.vgl.network.TCPServer;
 import fr.polytech.vgl.network.TCPInfo;
 import fr.polytech.vgl.serialisation.Serialisation;
 import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
+import fr.polytech.vgl.timerecord.controller.ObserverModel;
 
 /**
  * Main Controller Class of the TimeRecorder
@@ -39,6 +41,8 @@ public class TimeRecordControler implements NetworkObserver {
 	private File file;
 
 	private Map<Employee, LocalDateTime> antiSpam;
+	
+	private List<ObserverModel> modelObservers;
 
 	/**
 	 * TimeRecordControler()
@@ -79,6 +83,9 @@ public class TimeRecordControler implements NetworkObserver {
 
 		// addCompany()
 		// view.
+		
+		modelObservers = new ArrayList<>();
+		addModelObservers(view);
 
 		sendRecordBuffer();
 
@@ -383,6 +390,36 @@ public class TimeRecordControler implements NetworkObserver {
 
 		}
 
+	}
+	
+	
+	public void addModelObservers(ObserverModel om) {
+		modelObservers.add(om);
+	}
+	
+	public void removeModelObservers(ObserverModel om) {
+		modelObservers.remove(om);
+	}
+	
+	public void onNotifyEmployeeReceived(Employee receivedEmployee){
+        for (ObserverModel observer : modelObservers) {
+            observer.onEmployeeReceived(receivedEmployee);
+        }
+	}
+	public void onNotifyDepartementReceived(Department receivedDepartment){
+        for (ObserverModel observer : modelObservers) {
+            observer.onDepartementReceived(receivedDepartment);
+        }
+	}
+	public void onNotifyCompanyReceived(Company receivedCompany){
+        for (ObserverModel observer : modelObservers) {
+            observer.onCompanyReceived(receivedCompany);
+        }
+	}
+	public void onNotifyRecordReceived(Record receivedRecord){
+        for (ObserverModel observer : modelObservers) {
+            observer.onRecordReceived(receivedRecord);
+        }
 	}
 
 }
