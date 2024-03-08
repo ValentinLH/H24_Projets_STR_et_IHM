@@ -3,13 +3,14 @@ package fr.polytech.vgl.centralapp.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.polytech.vgl.centralapp.view.CentralApplicationView;
 import fr.polytech.vgl.centralapp.view.GiveCompanyView;
 import fr.polytech.vgl.model.Company;
 
 public class CompanyListController {
 
 	/**
-	 * La vue de la première fenêtre
+	 * La vue de la premiï¿½re fenï¿½tre
 	 */
 	private GiveCompanyView view;
 
@@ -29,7 +30,7 @@ public class CompanyListController {
 	}
 
 	/**
-	 * Permet de récupérer la liste des entreprise
+	 * Permet de rï¿½cupï¿½rer la liste des entreprise
 	 * 
 	 * @return la liste des entreprises
 	 */
@@ -64,5 +65,10 @@ public class CompanyListController {
 			listCompany.add(company);
 		}
 
+	}
+
+	public void selected(Company company) {
+		// TODO Auto-generated method stub
+		CentralAppController centralController = new CentralAppController(company);
 	}
 }

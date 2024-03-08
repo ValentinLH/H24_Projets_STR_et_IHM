@@ -10,7 +10,7 @@ public class ModelOfOneEmployeeCheck extends AbstractTableModel {
 	/**
 	 * Nom de l'entreprise choisie par l'utilisateur
 	 */
-	private Company company = GiveCompanyView.c;
+	private Company company = GiveCompanyView.company;
 
 	/**
 	 * Employee
@@ -51,14 +51,14 @@ public class ModelOfOneEmployeeCheck extends AbstractTableModel {
 	}
 
 	/**
-	 * Permet de créer le tableau de les pointages d'un employee et de stocker les
-	 * valeurs au bon endroit C'est une méthode spéciale de TableModel qui renvoit
-	 * un objet dans la case [row][col] Elle s'arrête quand le nombre de ligne a été
+	 * Permet de crï¿½er le tableau de les pointages d'un employee et de stocker les
+	 * valeurs au bon endroit C'est une mï¿½thode spï¿½ciale de TableModel qui renvoit
+	 * un objet dans la case [row][col] Elle s'arrï¿½te quand le nombre de ligne a ï¿½tï¿½
 	 * atteint
 	 * 
 	 * @param lignes
 	 * @param colonne
-	 * @return l'object à mettre dans la bonne case
+	 * @return l'object ï¿½ mettre dans la bonne case
 	 */
 	public Object getValueAt(int row, int col) {
 

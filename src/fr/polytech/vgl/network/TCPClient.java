@@ -7,11 +7,18 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ *  TCPClient is a Class for the encapsulation of a TCP client
+ *  @version 03/03/24
+ */
 public class TCPClient extends TCPInfo
 {
 	
-        
+	private List<NetworkObserver> observers = new ArrayList<>();    
+	
     //builders
     public TCPClient() 
     {
@@ -24,34 +31,33 @@ public class TCPClient extends TCPInfo
     
     public TCPClient(String address,Integer port)
     {
+    	updateAddress( address,port); 
+    }
+        
+    public void updateAddress(String address,Integer port)
+    {
     	try {
     		this.address = new InetSocketAddress(address, port);
     		this.port = port;
     		this.ip = address;
+    		
     	}
     	catch (Exception exc)
     	{
     		this.address = new InetSocketAddress(this.ip, this.port);
     	}
         
-        
     }
-        
-    /*
-    public ObjectOutputStream getOutputStream() {
-		return outputStream;
-	}
-	public void setOutputStream(ObjectOutputStream outputStream) {
-		this.outputStream = outputStream;
-	}
-	public ObjectInputStream getInputStream() {
-		return inputStream;
-	}
-	public void setInputStream(ObjectInputStream inputStream) {
-		this.inputStream = inputStream;
-	}
-	*/
     
+	@Override
+	public void setIp(String ip) {
+		 updateAddress(ip,this.port);
+	}
+	
+	@Override
+	public void setPort(Integer port) {
+		 updateAddress(this.ip,port);
+	}
 	
     public void setSocketConnection() 
     {
@@ -65,6 +71,7 @@ public class TCPClient extends TCPInfo
         catch (IOException exc) 
         {
         	//exc.printStackTrace();
+        	notifyNetworkError(exc);
         }
     }
     
@@ -91,10 +98,33 @@ public class TCPClient extends TCPInfo
         {
         	System.out.println("[-] Error Closing Client");
         	//exc.printStackTrace();
+        	notifyNetworkError(exc);
         }
     	catch (Exception exc)
     	{
-    		
+    		notifyNetworkError(exc);
     	}
     }
+
+
+    public void addObserver(NetworkObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(NetworkObserver observer) {
+        observers.remove(observer);
+    }
+
+    public void notifyObjectReceived(Object receivedObject) {
+        for (NetworkObserver observer : observers) {
+            observer.onObjectReceived(receivedObject);
+        }
+    }
+
+    public void notifyNetworkError(Exception e) {
+        for (NetworkObserver observer : observers) {
+        	 observer.onNetworkError(e);
+        }
+    }
 }
+

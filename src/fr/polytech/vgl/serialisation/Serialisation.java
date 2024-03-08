@@ -1,175 +1,62 @@
 package fr.polytech.vgl.serialisation;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.List;
 
-import fr.polytech.vgl.model.Company;
-import fr.polytech.vgl.model.Record;
-
 /**
- * Serialisation is an tool box to serialize data
+ * Serialization is a toolbox to serialize data
  * @author Touret Lino - L'Hermite Valentin
- *
  */
 public class Serialisation {
 
-	/**
-	 * Serialize a company
-	 * @param company
-	 * @param fileName
-	 */
-	public static void SerializeCompany(Company company, String fileName) {
-		ObjectOutputStream outputStream = null;
+    /**
+     * Serialize an object
+     * @param obj
+     * @param fileName
+     * @param <T>
+     */
+    public static <T> void serialize(T obj, String fileName) {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            outputStream.writeObject(obj);
+            outputStream.flush();
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+    }
 
-		try {
-			FileOutputStream file = new FileOutputStream(fileName);
-			outputStream = new ObjectOutputStream(file);
-			outputStream.writeObject(company);
-			outputStream.flush();
-		} catch (java.io.IOException exc) {
-			exc.printStackTrace();
-		} finally {
-			try {
-				if (outputStream != null) {
-					outputStream.flush();
-					outputStream.close();
-				}
-			} catch (IOException exc) {
-				exc.printStackTrace();
-			}
-		}
-	}
-	
-	/**
-	 * Serialize a list of company
-	 * @param listCompany
-	 * @param fileName
-	 */
-	public static void SerializeListCompany(List<Company> listCompany, String fileName) {
-		ObjectOutputStream outputStream = null;
+    /**
+     * Serialize a list of objects
+     * @param list
+     * @param fileName
+     * @param <T>
+     */
+    public static <T> void serialize(List<T> list, String fileName) {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            outputStream.writeObject(list);
+            outputStream.flush();
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+    }
 
-		try {
-			FileOutputStream file = new FileOutputStream(fileName);
-			outputStream = new ObjectOutputStream(file);
-			outputStream.writeObject(listCompany);
-			outputStream.flush();
-		} catch (java.io.IOException exc) {
-			exc.printStackTrace();
-		} finally {
-			try {
-				if (outputStream != null) {
-					outputStream.flush();
-					outputStream.close();
-				}
-			} catch (IOException exc) {
-				exc.printStackTrace();
-			}
-		}
-	}
+    /**
+     * Deserialize an object
+     * @param fileName
+     * @param <T>
+     * @return T
+     */
+    @SuppressWarnings("unchecked")
+	public static <T> T deserialize(String fileName) {
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileName))) {
+            return (T) inputStream.readObject();
+        } catch (IOException | ClassNotFoundException exc) {
+            exc.printStackTrace();
+            return null;
+        }
+    }
 
-	/**
-	 * DeSerializeCompany
-	 * @param fileName
-	 * @return Company
-	 */
-	public static Company DeSerializeCompany(String fileName) {
-		ObjectInputStream inputStream = null;
-		Company company = null;
-		try {
-			final FileInputStream file = new FileInputStream(fileName);
-			inputStream = new ObjectInputStream(file);
-			company = (Company) inputStream.readObject();
-		
-		} catch (java.io.IOException exc) {
-			//exc.printStackTrace();
-		} catch (ClassNotFoundException exc) {
-			//exc.printStackTrace();
-		} 
-		finally {
-			try {
-				if (inputStream != null) {
-					inputStream.close();
-				}
-			} catch (IOException exc) {
-				exc.printStackTrace();
-			}
-		}
-		return company;
-	}
-
-	public static void SerializeRecord(Record record, String fileName) {
-		ObjectOutputStream outputStream = null;
-
-		try {
-			final FileOutputStream file = new FileOutputStream(fileName);
-			outputStream = new ObjectOutputStream(file);
-			outputStream.writeObject(record);
-			outputStream.flush();
-		} catch (java.io.IOException exc) {
-			exc.printStackTrace();
-		} finally {
-			try {
-				if (outputStream != null) {
-					outputStream.flush();
-					outputStream.close();
-				}
-			} catch (IOException exc) {
-				exc.printStackTrace();
-			}
-		}
-	}
-	
-	public static void SerializeObject(Object obj, String fileName) {
-		ObjectOutputStream outputStream = null;
-
-		try {
-			final FileOutputStream file = new FileOutputStream(fileName);
-			outputStream = new ObjectOutputStream(file);
-			outputStream.writeObject(obj);
-			outputStream.flush();
-		} catch (java.io.IOException exc) {
-			exc.printStackTrace();
-		} finally {
-			try {
-				if (outputStream != null) {
-					outputStream.flush();
-					outputStream.close();
-				}
-			} catch (IOException exc) {
-				exc.printStackTrace();
-			}
-		}
-	}
-
-	public static Record DeSerializeRecord(String fileName) {
-		ObjectInputStream inputStream = null;
-		Record record = null;
-		try {
-			final FileInputStream fichier = new FileInputStream(fileName);
-			inputStream = new ObjectInputStream(fichier);
-			record = (Record) inputStream.readObject();
-
-		} catch (java.io.IOException exc) {
-			exc.printStackTrace();
-		} catch (ClassNotFoundException exc) {
-			exc.printStackTrace();
-		} finally {
-			try {
-				if (inputStream != null) {
-					inputStream.close();
-				}
-			} catch (IOException exc) {
-				exc.printStackTrace();
-			}
-		}
-		return record;
-	}
-	
-	public static Object DeSerialize(String fileName) {
+    /*
+    public static Object deserialize(String fileName) {
 		ObjectInputStream inputStream = null;
 		Object obj = null;
 		try {
@@ -192,5 +79,5 @@ public class Serialisation {
 			}
 		}
 		return obj;
-	}
+	}*/
 }

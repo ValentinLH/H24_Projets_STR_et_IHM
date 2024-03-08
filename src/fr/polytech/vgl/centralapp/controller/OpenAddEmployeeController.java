@@ -24,13 +24,13 @@ public class OpenAddEmployeeController implements ActionListener {
 	}
 
 	/**
-	 * Permet d'ouvrir la fenêtre pour ajouter un employée. Permet également de
-	 * créer le menu déroulant des départements
+	 * Permet d'ouvrir la fenï¿½tre pour ajouter un employï¿½e. Permet ï¿½galement de
+	 * crï¿½er le menu dï¿½roulant des dï¿½partements
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		AddEmployeeView view = new AddEmployeeView(table);
-		List<Department> listDpt = GiveCompanyView.c.getListDpt();
+		List<Department> listDpt = GiveCompanyView.company.getListDpt();
 
 		for (Department D : listDpt) {
 			view.addDepartment(D);

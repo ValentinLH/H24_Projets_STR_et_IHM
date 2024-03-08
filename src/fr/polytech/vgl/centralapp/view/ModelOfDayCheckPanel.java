@@ -16,7 +16,7 @@ public class ModelOfDayCheckPanel extends AbstractTableModel {
 	/**
 	 * Nom de l'entreprise choisie par l'utilisateur
 	 */
-	private Company company = GiveCompanyView.c;
+	private Company company = GiveCompanyView.company;
 
 	/*
 	 * Une liste d'employee
@@ -28,7 +28,7 @@ public class ModelOfDayCheckPanel extends AbstractTableModel {
 	/**
 	 * Constructeur de la classe
 	 * 
-	 * @param Une liste d'employé
+	 * @param Une liste d'employï¿½
 	 */
 	public ModelOfDayCheckPanel(List<Employee> listemp) {
 		super();
@@ -43,8 +43,8 @@ public class ModelOfDayCheckPanel extends AbstractTableModel {
 	}
 
 	/*
-	 * Permet d'avoir le nombre de lignes Ce nombre est comtpé à partir des
-	 * pointages du jour, par employé
+	 * Permet d'avoir le nombre de lignes Ce nombre est comtpï¿½ ï¿½ partir des
+	 * pointages du jour, par employï¿½
 	 */
 	public int getRowCount() {
 		/*int compteur = 0;
@@ -57,13 +57,13 @@ public class ModelOfDayCheckPanel extends AbstractTableModel {
 	
 	
 	/**
-	 * Permet de créer le tableau des pointages du jour et de stocker les valeurs au
-	 * bon endroit C'est une méthode spéciale de TableModel qui renvoit un objet
-	 * dans la case [row][col] Elle s'arrête quand le nombre de ligne a été atteint
+	 * Permet de crï¿½er le tableau des pointages du jour et de stocker les valeurs au
+	 * bon endroit C'est une mï¿½thode spï¿½ciale de TableModel qui renvoit un objet
+	 * dans la case [row][col] Elle s'arrï¿½te quand le nombre de ligne a ï¿½tï¿½ atteint
 	 * 
 	 * @param lignes
 	 * @param colonne
-	 * @return l'object à mettre dans la bonne case
+	 * @return l'object ï¿½ mettre dans la bonne case
 	 */
 	public Object getValueAt(int row, int col) {
 		
@@ -82,11 +82,11 @@ public class ModelOfDayCheckPanel extends AbstractTableModel {
 	}
 
 	/**
-	 *C'était un test avant de créer la fonction recordsOftheDay qui permet de renvoyer tous les pointages du jour
+	 *C'ï¿½tait un test avant de crï¿½er la fonction recordsOftheDay qui permet de renvoyer tous les pointages du jour
 	 * 
 	 * @param lignes
 	 * @param colonne
-	 * @return l'object à mettre dans la bonne case
+	 * @return l'object ï¿½ mettre dans la bonne case
 	 */
 	public Object getValueAtTest(int row, int col) {
 
@@ -134,7 +134,7 @@ public class ModelOfDayCheckPanel extends AbstractTableModel {
 	 * pointage
 	 * 
 	 * @param employee
-	 * @return la liste des pointages du jour de l'employé
+	 * @return la liste des pointages du jour de l'employï¿½
 	 */
 	public List<Record> getListRecordofDay(Employee employee) {
 		List<Record> records = employee.getRecords();

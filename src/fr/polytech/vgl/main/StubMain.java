@@ -16,7 +16,7 @@ import fr.polytech.vgl.serialisation.Serialisation;
 *
 */
 
-public class CentralAppMain {
+public class StubMain {
 
 	public static void main(String[] args) {
 
@@ -58,14 +58,14 @@ public class CentralAppMain {
 
 		Company sec = miniStubCompany();
 
-		System.out.println("Employé du mois :");
+		System.out.println("Employï¿½ du mois :");
 		// System.out.println("Le portefeuile de "+ sec.getListEmp().get(0) + " est de "
 		// + sec.getListEmp().get(0).getOvertimePortfolio() + " Minutes");
 		System.out.println("Les records ");
 		for (Record rec : sec.getListRec()) {
 
 			System.out.println(rec);
-			Serialisation.SerializeRecord(rec,"company.sav");
+			Serialisation.serialize(rec, "company.sav");
 			
 		}
 		sec.getListEmp().get(0).addRecord(LocalDateTime.now().plusDays(1));
@@ -73,7 +73,7 @@ public class CentralAppMain {
 		
 		System.out.println("Le portefeuile  est de " + sec.getListEmp().get(0).getOvertimePortfolio() + " Minutes");
 		System.out.println("Serialisation :");
-		Record rec = Serialisation.DeSerializeRecord("company.sav");
+		Record rec =  Serialisation.deserialize("company.sav");
 		System.out.println(rec);
 		System.out.println(rec.getEmployee());
 		
@@ -89,7 +89,7 @@ public class CentralAppMain {
 		listComp.add(comp2);
 		listComp.add(gigaStubCompany());
 		
-		Serialisation.SerializeListCompany(listComp, "timerecord.sav");
+		Serialisation.serialize(listComp, "timerecord.sav");
 		
 		List<Record> listRec = new ArrayList<>();
 		System.out.println(comp2.getListEmp().get(0).getRecords().get(0));
@@ -98,12 +98,12 @@ public class CentralAppMain {
 		listRec.add(comp2.getListEmp().get(1).getRecords().get(2));
 		listRec.add(comp2.getListEmp().get(2).getRecords().get(0));
 		
-		Serialisation.SerializeObject(listRec,"records.sav");
+		Serialisation.serialize(listRec,"records.sav");
 		
-		Serialisation.SerializeCompany(rep,"company.sav");
+		Serialisation.serialize(rep,"company.sav");
 		
 		
-		Company c = Serialisation.DeSerializeCompany("company.sav");
+		Company c = Serialisation.deserialize("company.sav");
 		
 		System.out.println(c);
 
@@ -137,9 +137,9 @@ public class CentralAppMain {
 		Collections.shuffle(listD);
 		listE.add(new Employee("Lara", "Clette", c, listD.get(0)));
 		Collections.shuffle(listD);
-		listE.add(new Employee("Sylvain", "Hébon", c, listD.get(0)));
+		listE.add(new Employee("Sylvain", "Hebon", c, listD.get(0)));
 		Collections.shuffle(listD);
-		listE.add(new Employee("Ève", "Idamant", c, listD.get(0)));
+		listE.add(new Employee("Eve", "Idamant", c, listD.get(0)));
 		Collections.shuffle(listD);
 		listE.add(new Employee("Aubin", "Sahalor", c, listD.get(0)));
 

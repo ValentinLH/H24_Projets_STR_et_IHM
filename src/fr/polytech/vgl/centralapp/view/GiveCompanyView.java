@@ -27,19 +27,19 @@ public class GiveCompanyView extends JFrame {
 
 	// private JComboBox<Company> company = new JComboBox<Company>();
 	/**
-	 * Menu déroulant qui va comprendre le nom des différentes entreprises
+	 * Menu dï¿½roulant qui va comprendre le nom des diffï¿½rentes entreprises
 	 */
 	public static JComboBox<Company> comboBox = new JComboBox<Company>();
 
 	/**
 	 * Attribut qui stockera l'entreprise choisi par l'utilisateur
 	 */
-	public static Company c;
+	public static Company company;
 
 	private CompanyListController controler;
 
 	/*
-	 * Permet de créer la première fenêtre comportant le menu déroulant des
+	 * Permet de crï¿½er la premiï¿½re fenï¿½tre comportant le menu dï¿½roulant des
 	 * entreprises et un bouton pour confirmer notre choix
 	 */
 	public GiveCompanyView() { // on lui passe le modele qui nous interesse
@@ -68,7 +68,7 @@ public class GiveCompanyView extends JFrame {
 	}
 
 	/**
-	 * Permet de créer la première fenêtre comportant le menu déroulant des
+	 * Permet de crï¿½er la premiï¿½re fenï¿½tre comportant le menu dï¿½roulant des
 	 * entreprises et un bouton pour confirmer notre choix
 	 * 
 	 * @param le controler
@@ -83,17 +83,17 @@ public class GiveCompanyView extends JFrame {
 	}
 
 	/**
-	 * permet de récupérer le menu déroulant
+	 * permet de rï¿½cupï¿½rer le menu dï¿½roulant
 	 * 
-	 * @return le menu déroulant
+	 * @return le menu dï¿½roulant
 	 */
 	public JComboBox<Company> getComboBox() {
 		return comboBox;
 	}
 
 	/**
-	 * C'est le corps de la fenêtre Il y a la création du menu déroulant et de ses
-	 * actions et la création du bouton "Done" qui permet de confirmer le choix On
+	 * C'est le corps de la fenï¿½tre Il y a la crï¿½ation du menu dï¿½roulant et de ses
+	 * actions et la crï¿½ation du bouton "Done" qui permet de confirmer le choix On
 	 * stocke l'entreprise choisie dans l'attribut "c"
 	 * 
 	 * @return l'entreprise choisie par l'utilisateur
@@ -138,20 +138,21 @@ public class GiveCompanyView extends JFrame {
 		buttonDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if ((Company) comboBox.getSelectedItem() != null) {
-					c = (Company) comboBox.getSelectedItem();
+					company = (Company) comboBox.getSelectedItem();
 					// Pour voir si marche bien
 					// System.out.println(c);
 				}
-				CentralApplicationView view = new CentralApplicationView();
+				controler.selected(company);
+				
 			}
 
 		});
 
-		return c;
+		return company;
 	}
 
 	/**
-	 * Permet d'ajouter une entreprise dans un menu déroulant
+	 * Permet d'ajouter une entreprise dans un menu dï¿½roulant
 	 * 
 	 * @param une entreprise
 	 */
@@ -160,7 +161,7 @@ public class GiveCompanyView extends JFrame {
 	}
 
 	/**
-	 * Permet d'avoir la liste des entreprises dans le menu déroulant
+	 * Permet d'avoir la liste des entreprises dans le menu dï¿½roulant
 	 * 
 	 * @return la liste des entreprises
 	 */

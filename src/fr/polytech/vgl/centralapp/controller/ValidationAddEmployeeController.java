@@ -22,7 +22,7 @@ public class ValidationAddEmployeeController implements ActionListener{
 	
 	/**
 	 * Constructeur de la classe
-	 * @param Prend une fenêtre/view en paramètre
+	 * @param Prend une fenï¿½tre/view en paramï¿½tre
 	 */
 	public ValidationAddEmployeeController(AddEmployeeView frame)
 	{
@@ -32,11 +32,11 @@ public class ValidationAddEmployeeController implements ActionListener{
 		//Pour serialisation
 		try {
 			@SuppressWarnings("unchecked")
-			List<Employee> deSerialize = (List<Employee>) Serialisation.DeSerialize("timerecord.sav");
+			List<Employee> deSerialize = (List<Employee>) Serialisation.deserialize("timerecord.sav");
 			// listCompany = deSerialize;
 
 			for (Employee newemp : deSerialize) {
-				GiveCompanyView.c.addEmployee(newemp);
+				GiveCompanyView.company.addEmployee(newemp);
 			}
 		} catch (Exception e) {
 			System.out.println("Heys");
@@ -44,7 +44,7 @@ public class ValidationAddEmployeeController implements ActionListener{
 	}
 	
 	/**
-	 * Permet d'ajouter un employé dans le tableau et de le sérialiser
+	 * Permet d'ajouter un employï¿½ dans le tableau et de le sï¿½rialiser
 	 */
 	public void actionPerformed(ActionEvent event)
 	{
@@ -52,8 +52,8 @@ public class ValidationAddEmployeeController implements ActionListener{
 		String surnameEmp = ((AddEmployeeView)addEmployeeFrame).getSurname().getText();
 		Department departmentEmp = ((AddEmployeeView)addEmployeeFrame).getDepartment();
 		
-		//En attendant d'avoir bien réglé le problème des entreprises
-		Company c1 = GiveCompanyView.c;
+		//En attendant d'avoir bien rï¿½glï¿½ le problï¿½me des entreprises
+		Company c1 = GiveCompanyView.company;
 		
 		((ModelOfEmployeeTable)table.getModel()).addRow(new Employee(nameEmp, surnameEmp,c1, departmentEmp));
 	}

@@ -14,7 +14,7 @@ public class ModelOfCheckPanel extends AbstractTableModel {
 	/**
 	 * Nom de l'entreprise choisie par l'utilisateur
 	 */
-	private Company company = GiveCompanyView.c;
+	private Company company = GiveCompanyView.company;
 
 	/*
 	 * Une liste d'employee
@@ -41,8 +41,8 @@ public class ModelOfCheckPanel extends AbstractTableModel {
 	}
 
 	/**
-	 * Permet d'avoir le nombre de lignes. On utilise pour ça une double boucle for
-	 * pour avoir la nombre de pointage pour chaque employé Donc avoir finalement le
+	 * Permet d'avoir le nombre de lignes. On utilise pour ï¿½a une double boucle for
+	 * pour avoir la nombre de pointage pour chaque employï¿½ Donc avoir finalement le
 	 * nombre total de pointage
 	 */
 	public int getRowCount() {
@@ -61,13 +61,13 @@ public class ModelOfCheckPanel extends AbstractTableModel {
 	}
 
 	/**
-	 * Permet de créer le tableau de tous les pointages et de stocker les valeurs au
-	 * bon endroit C'est une méthode spéciale de TableModel qui renvoit un objet
-	 * dans la case [row][col] Elle s'arrête quand le nombre de ligne a été atteint
+	 * Permet de crï¿½er le tableau de tous les pointages et de stocker les valeurs au
+	 * bon endroit C'est une mï¿½thode spï¿½ciale de TableModel qui renvoit un objet
+	 * dans la case [row][col] Elle s'arrï¿½te quand le nombre de ligne a ï¿½tï¿½ atteint
 	 * 
 	 * @param lignes
 	 * @param colonne
-	 * @return l'object à mettre dans la bonne case
+	 * @return l'object ï¿½ mettre dans la bonne case
 	 */
 	public Object getValueAt(int row, int col) {
 
@@ -85,12 +85,12 @@ public class ModelOfCheckPanel extends AbstractTableModel {
 
 	
 	/**
-	 * ça a été un test non concluant pour stocker les bonnes valeurs mais la
-	 * méthode étant déjà codé spécifiquement, cela ne marchait pas
+	 * ï¿½a a ï¿½tï¿½ un test non concluant pour stocker les bonnes valeurs mais la
+	 * mï¿½thode ï¿½tant dï¿½jï¿½ codï¿½ spï¿½cifiquement, cela ne marchait pas
 	 * 
 	 * @param lignes
 	 * @param colonne
-	 * @return l'object à mettre dans la bonne case
+	 * @return l'object ï¿½ mettre dans la bonne case
 	 */
 	public Object getValueAtTest(int row, int col) {
 
@@ -120,12 +120,12 @@ public class ModelOfCheckPanel extends AbstractTableModel {
 	}
 
 	/**
-	 * ça a été un test non concluant pour stocker les bonnes valeurs mais la
-	 * méthode étant déjà codé spécifiquement, cela ne marchait partiellement
+	 * ï¿½a a ï¿½tï¿½ un test non concluant pour stocker les bonnes valeurs mais la
+	 * mï¿½thode ï¿½tant dï¿½jï¿½ codï¿½ spï¿½cifiquement, cela ne marchait partiellement
 	 * 
 	 * @param lignes
 	 * @param colonne
-	 * @return l'object à mettre dans la bonne case
+	 * @return l'object ï¿½ mettre dans la bonne case
 	 */
 	public Object getValueAtTest2(int row, int col) {
 
@@ -143,24 +143,24 @@ public class ModelOfCheckPanel extends AbstractTableModel {
 	}
 
 	/**
-	 * Permet de récupérer le nom des colonnes
+	 * Permet de rï¿½cupï¿½rer le nom des colonnes
 	 */
 	public String getColumnName(int col) {
 		return this.entetes[col];
 	}
 
 	/**
-	 * Permet de préciser si les cellules sont modifiables
+	 * Permet de prï¿½ciser si les cellules sont modifiables
 	 */
 	public boolean isCellEditable(int row, int col) {
 		return false;
 	}
 
 	/**
-	 * Méthode permtant de récupérer une liste de pointage rapidement d'un employé
+	 * Mï¿½thode permtant de rï¿½cupï¿½rer une liste de pointage rapidement d'un employï¿½
 	 * 
 	 * @param employee
-	 * @return la liste des pointage de cet employé
+	 * @return la liste des pointage de cet employï¿½
 	 */
 	public List<Record> getListRecord(Employee employee) {
 		List<Record> records = employee.getRecords();

@@ -15,7 +15,7 @@ public class ModelOfEmployeeTable extends AbstractTableModel {
 	/**
 	 * Nom de l'entreprise choisie par l'utilisateur
 	 */
-	private Company company = GiveCompanyView.c;
+	private Company company = GiveCompanyView.company;
 
 	/*
 	 * Une liste d'employee
@@ -40,27 +40,27 @@ public class ModelOfEmployeeTable extends AbstractTableModel {
 	}
 
 	/**
-	 * Permet de récupérer le nombre de colonne
+	 * Permet de rï¿½cupï¿½rer le nombre de colonne
 	 */
 	public int getColumnCount() {
 		return entetes.length;
 	}
 
 	/**
-	 * Permet de récupérer le nombre de ligne
+	 * Permet de rï¿½cupï¿½rer le nombre de ligne
 	 */
 	public int getRowCount() {
 		return company.getListEmp().size();
 	}
 
 	/**
-	 * Permet de créer le tableau de tous les employés et de stocker les valeurs au
-	 * bon endroit C'est une méthode spéciale de TableModel qui renvoit un objet
-	 * dans la case [row][col] Elle s'arrête quand le nombre de ligne a été atteint
+	 * Permet de crï¿½er le tableau de tous les employï¿½s et de stocker les valeurs au
+	 * bon endroit C'est une mï¿½thode spï¿½ciale de TableModel qui renvoit un objet
+	 * dans la case [row][col] Elle s'arrï¿½te quand le nombre de ligne a ï¿½tï¿½ atteint
 	 * 
 	 * @param lignes
 	 * @param colonne
-	 * @return l'object à mettre dans la bonne case
+	 * @return l'object ï¿½ mettre dans la bonne case
 	 */
 	public Object getValueAt(int row, int col) {
 		switch (col) {
@@ -80,7 +80,7 @@ public class ModelOfEmployeeTable extends AbstractTableModel {
 	}
 
 	/**
-	 * Permet de récuperer le nom des colonnes
+	 * Permet de rï¿½cuperer le nom des colonnes
 	 */
 	public String getColumnName(int col) {
 		return this.entetes[col];
@@ -96,7 +96,7 @@ public class ModelOfEmployeeTable extends AbstractTableModel {
 	/**
 	 * Permet de supprimer une ligne
 	 * 
-	 * @param la position de la ligne à supprimer
+	 * @param la position de la ligne ï¿½ supprimer
 	 */
 	public void removeRow(int position) {
 		if (position >= 0) {
@@ -108,14 +108,14 @@ public class ModelOfEmployeeTable extends AbstractTableModel {
 	/**
 	 * Permet d'ajouter une ligne
 	 * 
-	 * @param L'employé à ajouter
+	 * @param L'employï¿½ ï¿½ ajouter
 	 */
 	public void addRow(Employee newEmployee) {
 		this.fireTableRowsInserted(company.getListEmp().size() - 1, company.getListEmp().size() - 1);
 	}
 
 	/**
-	 * Permet de modifier une ligne. La méthode n'est pas utilisée car nous n'avaons
+	 * Permet de modifier une ligne. La mï¿½thode n'est pas utilisï¿½e car nous n'avaons
 	 * pas eu le temps
 	 * 
 	 * @param selection

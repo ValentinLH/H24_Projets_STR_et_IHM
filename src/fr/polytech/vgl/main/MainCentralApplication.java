@@ -1,8 +1,12 @@
 package fr.polytech.vgl.main;
 
 import java.awt.EventQueue;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.polytech.vgl.centralapp.controller.CompanyListController;
+import fr.polytech.vgl.model.Company;
+import fr.polytech.vgl.serialisation.Serialisation;
 
 /**
  * @author Lino Touret - Valentin L'Hermite
@@ -12,9 +16,9 @@ import fr.polytech.vgl.centralapp.controller.CompanyListController;
 public class MainCentralApplication {
 
 	/**
-	 * Main permattant de lance la première fenêtre Ce main permet de créer
-	 * l'entreprise ainsi que les employés La première fenêtre correspond au menu
-	 * déroulant et le bouton pour confirmer
+	 * Main permattant de lance la premiï¿½re fenï¿½tre Ce main permet de crï¿½er
+	 * l'entreprise ainsi que les employï¿½s La premiï¿½re fenï¿½tre correspond au menu
+	 * dï¿½roulant et le bouton pour confirmer
 	 * 
 	 * @param args
 	 */
@@ -26,7 +30,19 @@ public class MainCentralApplication {
 				try {
 					// GiveCompanyView gv = new GiveCompanyView();
 					CompanyListController window = new CompanyListController();
-					window.addCompany(CentralAppMain.stubCompany());
+					
+					try {
+						List<Company> deSerialize = Serialisation.deserialize("company.sav");
+						// listCompany = deSerialize;
+
+						for (Company newcomp : deSerialize) {
+							window.addCompany(newcomp);
+						}
+					} catch (Exception e) {
+						
+					}
+					
+					//window.addCompany(StubMain.stubCompany());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

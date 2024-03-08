@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Employee;
 import fr.polytech.vgl.model.Record;
+import fr.polytech.vgl.network.NetworkManager;
+import fr.polytech.vgl.network.NetworkObserver;
 import fr.polytech.vgl.network.TCPClient;
 import fr.polytech.vgl.network.TCPServer;
 import fr.polytech.vgl.network.TCPInfo;
@@ -20,40 +22,40 @@ import fr.polytech.vgl.serialisation.Serialisation;
 import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
 
 /**
- *  Main Controller Class of the TimeRecorder
+ * Main Controller Class of the TimeRecorder
+ * 
  * @author Touret Lino - L'Hermite Valentin
- *
+ * @version VLH 06/03/24
  *
  */
 
-public class TimeRecordControler {
+public class TimeRecordControler implements NetworkObserver {
 
 	private TimeRecordMainFrame view;
 	private List<Company> listCompany;
 	private List<Record> recordsBuffer;
 
-	public static TCPServer server = new TCPServer(8080);
-	public static TCPClient client = new TCPClient("localhost", 8081);
-	public static Thread tClient, tServer;
-
+	private NetworkManager networkManager;
 	private File file;
 
 	private Map<Employee, LocalDateTime> antiSpam;
 
 	/**
 	 * TimeRecordControler()
+	 * 
 	 * @return A proper generated TimeRecordControler
 	 * @param void
 	 */
 	public TimeRecordControler() {
+		networkManager = new NetworkManager(this);
+
 		listCompany = new ArrayList<>();
 		view = new TimeRecordMainFrame(this);
 		file = null;
 		antiSpam = new HashMap<>();
 
 		try {
-			@SuppressWarnings("unchecked")
-			List<Company> deSerialize = (List<Company>) Serialisation.DeSerialize("timerecord.sav");
+			List<Company> deSerialize = Serialisation.deserialize("timerecord.sav");
 			// listCompany = deSerialize;
 
 			for (Company newcomp : deSerialize) {
@@ -65,8 +67,7 @@ public class TimeRecordControler {
 
 		recordsBuffer = new ArrayList<>();
 		try {
-			@SuppressWarnings("unchecked")
-			List<Record> deSerializeRec = (List<Record>) Serialisation.DeSerialize("records.sav");
+			List<Record> deSerializeRec = Serialisation.deserialize("records.sav");
 			// listCompany = deSerialize;
 			for (Record rec : deSerializeRec) {
 				recordsBuffer.add(rec);
@@ -78,8 +79,6 @@ public class TimeRecordControler {
 
 		// addCompany()
 		// view.
-		tServer = TCPOpeningServer();
-		tClient = TCPOpeningClient();
 
 		sendRecordBuffer();
 
@@ -87,14 +86,16 @@ public class TimeRecordControler {
 
 	/**
 	 * getListCompany
+	 * 
 	 * @return listCompany
 	 */
 	public List<Company> getListCompany() {
 		return listCompany;
 	}
-	
+
 	/**
 	 * setListCompany
+	 * 
 	 * @param listCompany
 	 */
 	public void setListCompany(List<Company> listCompany) {
@@ -103,6 +104,7 @@ public class TimeRecordControler {
 
 	/**
 	 * addCompany
+	 * 
 	 * @param company
 	 */
 	public void addCompany(Company company) {
@@ -129,8 +131,9 @@ public class TimeRecordControler {
 
 	/**
 	 * delCompany
+	 * 
 	 * @param company
-	 * @return false if it was not deleted else true 
+	 * @return false if it was not deleted else true
 	 */
 	public boolean delCompany(Company company) {
 		if (listCompany.contains(company) == true) {
@@ -148,6 +151,7 @@ public class TimeRecordControler {
 
 	/**
 	 * sendRecord send the record to the central application
+	 * 
 	 * @param employee
 	 * @return state of the sending
 	 */
@@ -167,41 +171,30 @@ public class TimeRecordControler {
 		Record newRecord = new Record(LocalDateTime.now(), employee);
 
 		antiSpam.put(employee, LocalDateTime.now().plusMinutes(Record.getRounded()));
-		
-		if(recordsBuffer.contains(newRecord) ==false)
-		{
+
+		if (recordsBuffer.contains(newRecord) == false) {
 			recordsBuffer.add(newRecord);
 		}
 		sendRecordBuffer();
-		
+
 		if (recordsBuffer.isEmpty() == true) {
 			return 1;
 		} else {
 			return 0;
 		}
-		
-		/*
-		if (server.sendObject(newRecord) == true) {
-
-			
-			return 1;
-		} else {
-			return 0;
-		}
-		*/
-		// System.out.println(newRecord);
 
 	}
 
 	/**
 	 * setIp
+	 * 
 	 * @param ip
 	 * @return
 	 */
 	public String setIp(String ip) {
 		// System.out.println("HEY ip:" + ip);
 		// String patternString =
-		// "^(25[0–5]|2[0–4][0–9]|[01]?[0–9][0–9]?).(25[0–5]|2[0–4][0–9]|[01]?[0–9][0–9]?).(25[0–5]|2[0–4][0–9]|[01]?[0–9][0–9]?).(25[0–5]|2[0–4][0–9]|[01]?[0–9][0–9]?)$";
+		// "^(25[0ï¿½5]|2[0ï¿½4][0ï¿½9]|[01]?[0ï¿½9][0ï¿½9]?).(25[0ï¿½5]|2[0ï¿½4][0ï¿½9]|[01]?[0ï¿½9][0ï¿½9]?).(25[0ï¿½5]|2[0ï¿½4][0ï¿½9]|[01]?[0ï¿½9][0ï¿½9]?).(25[0ï¿½5]|2[0ï¿½4][0ï¿½9]|[01]?[0ï¿½9][0ï¿½9]?)$";
 		/*
 		 * String patternString =
 		 * "(Localhost)| ^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +
@@ -209,107 +202,38 @@ public class TimeRecordControler {
 		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +
 		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$";
 		 */
-		String patternString = "(Localhost)|(^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$)";
-		Pattern pattern = Pattern.compile(patternString);
-		Matcher m = pattern.matcher(ip);
-		// si le motif est trouvé
-		if (m.find()) {
-			int port = client.getPort();
-
-			try {
-				client.closeClient();
-				client = new TCPClient(ip, port);
-				TCPOpeningClient();
-			} catch (Exception exc) {
-				// nothing
-				return client.getIp();
-			}
-			return ip;
-		} else {
-			return client.getIp();
-		}
-
+		networkManager.setClientIp(ip);
+		return networkManager.getClientIp();
 	}
-	
-/**
- * setPort
- * @param port
- * @return state of the port
- */
+
+	/**
+	 * setPort
+	 * 
+	 * @param port
+	 * @return state of the port
+	 */
 	public String setPort(String port) {
-		// System.out.println("HEY port:" + port);
-		String patternString = "^([0-9]|[0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9])$";
-		Pattern pattern = Pattern.compile(patternString);
-		Matcher m = pattern.matcher(port);
-		// si le motif est trouvé
-		if (m.find()) {
-			// System.out.println("motif trouvé");
-			String ip = client.getIp();
+		networkManager.setClientPort(port);
+		return "" + networkManager.getClientPort();
 
-			if (TCPInfo.available(ip, Integer.parseInt(port)) == true) {
-
-				try {
-
-					client.closeClient();
-
-				} catch (Exception exc) {
-					// nothing
-					// return "" + server.getPort();
-
-				}
-				client = new TCPClient(ip, Integer.parseInt(port));
-
-				System.out.println(client.getAddress().toString());
-				TCPOpeningClient();
-			} else {
-				return "" + client.getPort();
-			}
-
-			return port;
-		} else {
-			return "" + client.getPort();
-		}
 	}
+
 	/**
 	 * setMyPort
+	 * 
 	 * @param port
 	 * @return myPort
 	 */
 
 	public String setMyPort(String port) {
-		// System.out.println("HEY port:" + port);
-		String patternString = "^([0-9]|[0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9])$";
-		Pattern pattern = Pattern.compile(patternString);
-		Matcher m = pattern.matcher(port);
-		// si le motif est trouvé
-		if (m.find()) {
-			// System.out.println("motif trouvé");
-			String ip = server.getIp();
+		networkManager.setServerPort(port);
+		return "" + networkManager.getServerPort();
 
-			if (TCPInfo.available(ip, Integer.parseInt(port)) == true) {
-				try {
-					server.closeServer();
-
-				} catch (Exception exc) {
-					// nothing
-					// return "" + server.getPort();
-
-				}
-				server = new TCPServer(Integer.parseInt(port));
-				TCPOpeningServer();
-			} else {
-
-				return "" + server.getPort();
-			}
-
-			return port;
-		} else {
-			return "" + server.getPort();
-		}
 	}
 
 	/**
-	 * sendRecordTest 
+	 * sendRecordTest
+	 * 
 	 * @param employee
 	 * @param date
 	 * @return state of the sending
@@ -317,25 +241,25 @@ public class TimeRecordControler {
 	public int sendRecordTest(Employee employee, LocalDateTime date) {
 		Record newRecord = new Record(date, employee);
 		// view.comboBox.getSelectedItem().toString();
-		
-		if(recordsBuffer.contains(newRecord) ==false)
-		{
+
+		if (recordsBuffer.contains(newRecord) == false) {
 			recordsBuffer.add(newRecord);
 		}
 		sendRecordBuffer();
-		
+
 		if (recordsBuffer.isEmpty() == true) {
 			return 1;
 		} else {
 			return 0;
 		}
-		
+
 		// view.comboBox.
-		//System.out.println(newRecord);
+		// System.out.println(newRecord);
 	}
 
 	/**
 	 * getFile
+	 * 
 	 * @return file
 	 */
 	public File getFile() {
@@ -344,6 +268,7 @@ public class TimeRecordControler {
 
 	/**
 	 * setFile
+	 * 
 	 * @param file
 	 */
 	public void setFile(File file) {
@@ -352,12 +277,13 @@ public class TimeRecordControler {
 
 	/**
 	 * deserialiseCompany
+	 * 
 	 * @return state of the serialisation
 	 */
 	@SuppressWarnings("unchecked")
 	public String deserialiseCompany() {
 		if (file != null) {
-			Object obj = Serialisation.DeSerialize(file.getAbsolutePath());
+			Object obj = Serialisation.deserialize(file.getAbsolutePath());
 			if (obj != null) {
 				// System.out.println(obj.getClass().getName());
 				if (obj.getClass().getName().equals("fr.polytech.vgl.model.Company") == true) {
@@ -385,113 +311,32 @@ public class TimeRecordControler {
 		return "File not found";
 	}
 
-	/**
-	 * TCPOpeningServer open the server
-	 * @return thread
-	 */
-	public Thread TCPOpeningServer() {
-		Thread t = new Thread(new Runnable() {
-			public void run() {
-
-				try {
-					server.setServerConnection();
-				} catch (Exception exc) {
-					//
-				}
-
-			}
-		});
-		t.start();
-		return t;
-	}
-
-	/**
-	 * TCPOpeningClient open the client
-	 * @return thread
-	 */
-	public Thread TCPOpeningClient() {
-		Thread t = new Thread(new Runnable() {
-			@SuppressWarnings("unchecked")
-			public void run() {
-				while (!Thread.currentThread().isInterrupted()) {
-					try {
-
-						while (true) {
-
-							// while ()
-							client.setSocketConnection();
-
-							Object obj = client.getInputStream().readObject();
-
-							System.out.println("Client TimeRecord> Object Receive ");
-							if (obj != null) {
-								// System.out.println(obj.getClass().getName());
-								if (obj.getClass().getName().equals("fr.polytech.vgl.model.Company") == true) {
-									Company c = (Company) obj;
-									addCompany(c);
-
-									System.out.println("Client TimeRecord> Company added ");
-									// return "Company : " + c.getCompanyName() + " added";
-								} else if (obj.getClass().getName().equals("java.util.ArrayList") == true) {
-									try {
-										ArrayList<Company> obj2 = (ArrayList<Company>) obj;
-										List<Company> listc = obj2;
-										for (Company comp : listc) {
-											addCompany(comp);
-										}
-										// return "Companies has been insered";
-
-										System.out.println("Companies has been insered");
-									} catch (Exception exc) {
-										// return "No company found in the file";
-									}
-								}
-
-							}
-
-							client.closeClient();
-
-						}
-
-					}
-
-					catch (Exception exc) {
-						// System.out.println("Client> Closed");
-					}
-				}
-			}
-
-		});
-		t.start();
-		return t;
-	}
-
 	public String getMyIp() {
-		return server.getIp();
+		return networkManager.getServerIp();
 	}
 
 	public int getMyPort() {
-		return server.getPort();
+		return networkManager.getServerPort();
 	}
 
 	public int getPort() {
-		return client.getPort();
+		return networkManager.getClientPort();
 	}
 
 	public String getIp() {
-		return client.getIp();
+		return networkManager.getClientIp();
 	}
 
 	/**
-	 * sendRecordBuffer send the Records of the buffer 
+	 * sendRecordBuffer send the Records of the buffer
 	 */
 	public void sendRecordBuffer() {
 
-		if (server.sendObject(recordsBuffer) == false) {
-			System.out.println("Record Not Sended : " + recordsBuffer);
-		} else {
+		if (networkManager.sendObject(recordsBuffer)) {
 			System.out.println("Record  Sended : " + recordsBuffer);
 			recordsBuffer.clear();
+		} else {
+			System.out.println("Record Not Sended : " + recordsBuffer);
 		}
 	}
 
@@ -503,14 +348,41 @@ public class TimeRecordControler {
 		sendRecordBuffer();
 		if (recordsBuffer.isEmpty() == false) {
 			// System.out.println("Hey "+recordsBuffer.get(0));
-			Serialisation.SerializeObject(recordsBuffer, "records.sav");
+			Serialisation.serialize(recordsBuffer, "records.sav");
 		}
 
-		Serialisation.SerializeListCompany(listCompany, "timerecord.sav");
-		server.closeServer();
-		client.closeClient();
-		tServer.interrupt();
-		tClient.interrupt();
+		Serialisation.serialize(listCompany, "timerecord.sav");
+	}
+
+	@Override
+	public void onObjectReceived(Object receivedObject) {
+		// TODO Auto-generated method stub
+		System.out.println("Client TimeRecord> Object Receive ");
+		if (receivedObject != null) {
+			// System.out.println(obj.getClass().getName());
+			if (receivedObject.getClass().getName().equals("fr.polytech.vgl.model.Company") == true) {
+				Company c = (Company) receivedObject;
+				addCompany(c);
+
+				System.out.println("Client TimeRecord> Company added ");
+				// return "Company : " + c.getCompanyName() + " added";
+			} else if (receivedObject.getClass().getName().equals("java.util.ArrayList") == true) {
+				try {
+					ArrayList<Company> obj2 = (ArrayList<Company>) receivedObject;
+					List<Company> listc = obj2;
+					for (Company comp : listc) {
+						addCompany(comp);
+					}
+					// return "Companies has been insered";
+
+					System.out.println("Companies has been insered");
+				} catch (Exception exc) {
+					// return "No company found in the file";
+				}
+			}
+
+		}
 
 	}
+
 }

@@ -26,7 +26,7 @@ public class Company implements java.io.Serializable {
 		companyName = "Not Defined";
 		this.listEmp = new ArrayList<>();
 		this.listRec = new ArrayList<>();
-		this.listDpt =new ArrayList<>(); 
+		this.listDpt = new ArrayList<>(); 
 	}
 	
 	/**
@@ -275,7 +275,7 @@ public class Company implements java.io.Serializable {
 		//for (Employee emp : listEmp) {
 			for (Record rec : listRec)
 			{
-					allrecord.add(rec);
+				allrecord.add(rec);
 			}
 		//}
 		
