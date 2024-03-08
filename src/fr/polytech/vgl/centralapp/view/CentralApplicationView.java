@@ -32,6 +32,7 @@ import fr.polytech.vgl.centralapp.controller.DelEmployeeController;
 import fr.polytech.vgl.centralapp.controller.FilterEmployeeController;
 import fr.polytech.vgl.centralapp.controller.OpenAddEmployeeController;
 import fr.polytech.vgl.centralapp.controller.SeeCheckEmployeeController;
+import fr.polytech.vgl.model.Company;
 
 public class CentralApplicationView extends JFrame {
 
@@ -56,7 +57,7 @@ public class CentralApplicationView extends JFrame {
 	 * Cr�ation de la fen�tre ainsi que du panel de tous les pointages Cela
 	 * correspond au tableau aux pointages de tous les emloy�s
 	 */
-	private ModelOfCheckPanel frame2 = new ModelOfCheckPanel(GiveCompanyView.c.getListEmp());
+	private ModelOfCheckPanel frame2 = new ModelOfCheckPanel(GiveCompanyView.company.getListEmp());
 	private JTable tableau2 = new JTable(frame2);
 	public TableRowSorter<TableModel> sorter2 = new TableRowSorter<TableModel>(tableau2.getModel());
 
@@ -64,7 +65,7 @@ public class CentralApplicationView extends JFrame {
 	 * Cr�ation de la fen�tre ainsi que du panel de tous les pointages du jour Cela
 	 * correspond au tableau de tous les pointages du jour
 	 */
-	private ModelOfDayCheckPanel frame3 = new ModelOfDayCheckPanel(GiveCompanyView.c.getListEmp());
+	private ModelOfDayCheckPanel frame3 = new ModelOfDayCheckPanel(GiveCompanyView.company.getListEmp());
 	private JTable tableau3 = new JTable(frame3);
 
 	/**
@@ -88,11 +89,11 @@ public class CentralApplicationView extends JFrame {
 	 * Application principale Elle comporte tous les onglets ainsi que l'affichage
 	 * des panels Elle affiche �galement la fen�tre principale
 	 */
-	public CentralApplicationView() { // on lui passe le modele qui nous interesse
+	public CentralApplicationView(Company company) { // on lui passe le modele qui nous interesse
 
 		super();
 		setTitle("CENTRAL APPLICATION");
-		controler = new CentralAppController();
+		controler = new CentralAppController(company);
 		jFrame.setLayout(null);
 		jFrame.setResizable(true);
 		jFrame.setMinimumSize(new Dimension(500, 500));

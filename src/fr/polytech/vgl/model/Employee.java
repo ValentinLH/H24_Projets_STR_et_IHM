@@ -81,7 +81,7 @@ public class Employee implements java.io.Serializable {
 	}
 
 	public static Employee getById(int idEmployee) {
-		for (Employee E : GiveCompanyView.c.getListEmp()) {
+		for (Employee E : GiveCompanyView.company.getListEmp()) {
 			if (E.getId() == idEmployee) {
 				return E;
 			}

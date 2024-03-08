@@ -36,7 +36,7 @@ public class ValidationAddEmployeeController implements ActionListener{
 			// listCompany = deSerialize;
 
 			for (Employee newemp : deSerialize) {
-				GiveCompanyView.c.addEmployee(newemp);
+				GiveCompanyView.company.addEmployee(newemp);
 			}
 		} catch (Exception e) {
 			System.out.println("Heys");
@@ -53,7 +53,7 @@ public class ValidationAddEmployeeController implements ActionListener{
 		Department departmentEmp = ((AddEmployeeView)addEmployeeFrame).getDepartment();
 		
 		//En attendant d'avoir bien r�gl� le probl�me des entreprises
-		Company c1 = GiveCompanyView.c;
+		Company c1 = GiveCompanyView.company;
 		
 		((ModelOfEmployeeTable)table.getModel()).addRow(new Employee(nameEmp, surnameEmp,c1, departmentEmp));
 	}

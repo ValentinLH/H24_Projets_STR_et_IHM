@@ -15,7 +15,6 @@ import fr.polytech.vgl.network.TCPInfo;
 import fr.polytech.vgl.network.TCPServer;
 import fr.polytech.vgl.serialisation.Serialisation;
 
-
 /**
  * CentralAppController is the main controller of the Central Application
  * 
@@ -25,43 +24,41 @@ import fr.polytech.vgl.serialisation.Serialisation;
 
 public class CentralAppController implements NetworkObserver {
 
-
-	Company company;
+	private Company company;
 	private NetworkManager networkManager;
 
-	
-	public CentralAppController()
-	{
-		networkManager = new NetworkManager(8081,"localhost", 8080,this);
-		
-		
-		// petite saleté ici
-		company = GiveCompanyView.c;
-		
+	public CentralAppController(Company company) {
+		networkManager = new NetworkManager(8081, "localhost", 8080, this);
+		this.company = company;
 
 	}
-	
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
 	public String setIp(String ip) {
 		networkManager.setClientIp(ip);
 		return networkManager.getClientIp();
-		
 
 	}
-	
+
 	public String setPort(String port) {
-		networkManager.setClientPort( port);
-		return "" +networkManager.getClientPort();
-		
+		networkManager.setClientPort(port);
+		return "" + networkManager.getClientPort();
+
 	}
 
 	public String setMyPort(String port) {
 		networkManager.setServerPort(port);
 		return "" + networkManager.getServerPort();
-		
+
 	}
-	
-	
-	
+
 	public String getMyIp() {
 		return networkManager.getServerIp();
 	}
@@ -77,24 +74,21 @@ public class CentralAppController implements NetworkObserver {
 	public String getIp() {
 		return networkManager.getClientIp();
 	}
-	
-	public void closeWindow()
-	{
-		//sendRecordBuffer();
-	
+
+	public void closeWindow() {
+		// sendRecordBuffer();
+
 		if (GiveCompanyView.getlistCompany().isEmpty() == false) {
 			// System.out.println("Hey "+recordsBuffer.get(0));
-			List<Company> listC = new ArrayList<>();  
-			for (Company Comp : GiveCompanyView.getlistCompany())
-			{
-				if (listC.contains(Comp) == false)
-				{
+			List<Company> listC = new ArrayList<>();
+			for (Company Comp : GiveCompanyView.getlistCompany()) {
+				if (listC.contains(Comp) == false) {
 					listC.add(Comp);
 				}
 			}
 			Serialisation.serialize(listC, "centralAppCompanies.sav");
 		}
-		
+
 	}
 
 	@Override
@@ -105,46 +99,38 @@ public class CentralAppController implements NetworkObserver {
 			// System.out.println(obj.getClass().getName());
 			if (receivedObject.getClass().getName().equals("fr.polytech.vgl.model.Record") == true) {
 				Record rec = (Record) receivedObject;
-				
-				//ajouter le rec
-				
+
+				// ajouter le rec
+
 				System.out.println("Client> Central app Record Receive " + rec);
 				// return "Company : " + c.getCompanyName() + " added";
 			} else if (receivedObject.getClass().getName().equals("java.util.ArrayList") == true) {
 				try {
 					@SuppressWarnings("unchecked")
 					ArrayList<Record> obj2 = (ArrayList<Record>) receivedObject;
-				
-					for (Record rec : obj2)
-					{
-						if (rec.getEmployee().getCompany().equals(company) == true )
-						{
-							if ( company.getListEmp().contains(rec.getEmployee()) == true )
-							{
+
+					for (Record rec : obj2) {
+						if (rec.getEmployee().getCompany().equals(company) == true) {
+							if (company.getListEmp().contains(rec.getEmployee()) == true) {
 								company.addRecord(rec);
 								System.out.println("CA> Record  Added");
-							}
-							else
-							{
+							} else {
 								company.addEmployee(rec.getEmployee());
 								company.addRecord(rec);
 								System.out.println("CA> Record and Employee  Added");
 							}
-						}
-						else
-						{
-							if (GiveCompanyView.getlistCompany().contains(rec.getEmployee().getCompany()) ==false ) {
+						} else {
+							if (GiveCompanyView.getlistCompany().contains(rec.getEmployee().getCompany()) == false) {
 								GiveCompanyView.comboBox.addItem(rec.getEmployee().getCompany());
-							}
-							else {
+							} else {
 								int i = GiveCompanyView.getlistCompany().indexOf(rec.getEmployee().getCompany());
 								GiveCompanyView.getlistCompany().get(i).addRecord(rec);
 							}
-							
+
 							System.out.println("CA> Company Added");
 						}
 					}
-					
+
 					System.out.println("Client> Central app Record Receive " + obj2);
 				} catch (Exception exc) {
 					// return "No company found in the file";
@@ -153,5 +139,5 @@ public class CentralAppController implements NetworkObserver {
 
 		}
 	}
-	
+
 }
