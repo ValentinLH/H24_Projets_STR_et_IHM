@@ -89,11 +89,11 @@ public class CentralApplicationView extends JFrame {
 	 * Application principale Elle comporte tous les onglets ainsi que l'affichage
 	 * des panels Elle affiche �galement la fen�tre principale
 	 */
-	public CentralApplicationView(Company company) { // on lui passe le modele qui nous interesse
+	public CentralApplicationView(CentralAppController controler) { // on lui passe le modele qui nous interesse
 
 		super();
 		setTitle("CENTRAL APPLICATION");
-		controler = new CentralAppController(company);
+		this.controler = controler;
 		jFrame.setLayout(null);
 		jFrame.setResizable(true);
 		jFrame.setMinimumSize(new Dimension(500, 500));

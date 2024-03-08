@@ -2,17 +2,13 @@ package fr.polytech.vgl.centralapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import fr.polytech.vgl.centralapp.view.CentralApplicationView;
 import fr.polytech.vgl.centralapp.view.GiveCompanyView;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Record;
 import fr.polytech.vgl.network.NetworkManager;
 import fr.polytech.vgl.network.NetworkObserver;
-import fr.polytech.vgl.network.TCPClient;
-import fr.polytech.vgl.network.TCPInfo;
-import fr.polytech.vgl.network.TCPServer;
 import fr.polytech.vgl.serialisation.Serialisation;
 
 /**
@@ -25,11 +21,14 @@ import fr.polytech.vgl.serialisation.Serialisation;
 public class CentralAppController implements NetworkObserver {
 
 	private Company company;
+	private CentralApplicationView view;
 	private NetworkManager networkManager;
-
+	
+	
 	public CentralAppController(Company company) {
 		networkManager = new NetworkManager(8081, "localhost", 8080, this);
 		this.company = company;
+		this.view = new CentralApplicationView(this);
 
 	}
 

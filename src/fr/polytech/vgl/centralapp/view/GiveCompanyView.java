@@ -142,7 +142,8 @@ public class GiveCompanyView extends JFrame {
 					// Pour voir si marche bien
 					// System.out.println(c);
 				}
-				CentralApplicationView view = new CentralApplicationView(company);
+				controler.selected(company);
+				
 			}
 
 		});
