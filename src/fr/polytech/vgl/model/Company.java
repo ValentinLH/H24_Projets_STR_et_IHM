@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
  * Company represent the company
  * 
  * @author Touret Lino - L'Hermite Valentin
+ * @version VLH 09/03/24
  */
 
 public class Company implements java.io.Serializable {
@@ -18,7 +19,6 @@ public class Company implements java.io.Serializable {
 	private static final long serialVersionUID = 8140981971700902890L;
 
 	private String companyName;
-	private List<Employee> listEmp;
 	private List<Department> listDpt;
 
 	/**
@@ -26,7 +26,6 @@ public class Company implements java.io.Serializable {
 	 */
 	public Company() {
 		companyName = "Not Defined";
-		this.listEmp = new ArrayList<>();
 		this.listDpt = new ArrayList<>();
 	}
 
@@ -37,7 +36,6 @@ public class Company implements java.io.Serializable {
 	 */
 	public Company(String _companyName) {
 		companyName = _companyName;
-		this.listEmp = new ArrayList<>();
 		this.listDpt = new ArrayList<>();
 	}
 
@@ -51,7 +49,6 @@ public class Company implements java.io.Serializable {
 	public Company(String _companyName, List<Employee> listEmp) {
 		super();
 		companyName = _companyName;
-		this.listEmp = listEmp;
 		this.listDpt = new ArrayList<>();
 	}
 
@@ -64,15 +61,16 @@ public class Company implements java.io.Serializable {
 	}
 
 	public List<Employee> getListEmp() {
-		return listEmp;
+		return listDpt.stream().flatMap(department -> department.getListEmp().stream()).collect(Collectors.toList());
 	}
 
 	public void setListEmp(List<Employee> listEmp) {
-		this.listEmp = listEmp;
+		System.out.println("Il n'est plus possible d'ajouter une liste brute d'employee a company");
+		// this.listEmp = listEmp;
 	}
 
 	public List<Record> getListRec() {
-		return listEmp.stream().flatMap(employee -> employee.getRecords().stream()).collect(Collectors.toList());
+		return getListEmp().stream().flatMap(employee -> employee.getRecords().stream()).collect(Collectors.toList());
 	}
 
 	@Deprecated
@@ -87,12 +85,11 @@ public class Company implements java.io.Serializable {
 	 * @param emp
 	 */
 	public void addEmployee(Employee emp) {
-		if (listEmp.contains(emp) == false) {
-			listEmp.add(emp);
-			emp.setCompany(this);
+
+		if (emp.getDepartement() != null) {
 			addDepartment(emp.getDepartement());
 		}
-
+		
 	}
 
 	/**
@@ -101,11 +98,11 @@ public class Company implements java.io.Serializable {
 	 * @param emp
 	 */
 	public void delEmployee(Employee emp) {
-		try {
-			listEmp.remove(emp);
-		} catch (Exception exc) {
-			// nothing here to del
+		if (listDpt.contains(emp.getDepartement())) {
+			// System.out.println("Heu : " +Dpt);
+			emp.getDepartement().delEmployee(emp);
 		}
+
 	}
 
 	/**
@@ -114,8 +111,10 @@ public class Company implements java.io.Serializable {
 	 * @param index
 	 */
 	public void delEmployee(int index) {
+		System.out.println("Il n'est plus possible delEmployee avec un index");
+
 		try {
-			listEmp.remove(index);
+			// listEmp.remove(index);
 		} catch (Exception exc) {
 			// nothing here to del
 		}
@@ -128,9 +127,9 @@ public class Company implements java.io.Serializable {
 	 */
 	public void addRecord(Record rec) {
 
-		if (listEmp.contains(rec.getEmployee())) {
+		if (getListEmp().contains(rec.getEmployee())) {
 
-			Employee foundEmployee = listEmp.get(listEmp.indexOf(rec.getEmployee()));
+			Employee foundEmployee = getListEmp().get(getListEmp().indexOf(rec.getEmployee()));
 
 			foundEmployee.addRecord(rec);
 
@@ -151,7 +150,7 @@ public class Company implements java.io.Serializable {
 	 * sortRecord sort the list of record
 	 */
 	public void sortRecord() {
-		List<Record> listRec = listEmp.stream().flatMap(employee -> employee.getRecords().stream())
+		List<Record> listRec = getListEmp().stream().flatMap(employee -> employee.getRecords().stream())
 				.collect(Collectors.toList());
 		java.util.Collections.sort(listRec);
 	}
@@ -163,7 +162,7 @@ public class Company implements java.io.Serializable {
 	 */
 	public List<Record> recordsOfTheDay() {
 		List<Record> listR = new ArrayList<>();
-		List<Record> listRec = listEmp.stream().flatMap(employee -> employee.getRecords().stream())
+		List<Record> listRec = getListEmp().stream().flatMap(employee -> employee.getRecords().stream())
 				.collect(Collectors.toList());
 		for (Record rec : listRec) {
 			if (rec.getRecord().toLocalDate().equals(LocalDate.now())) {
@@ -191,9 +190,7 @@ public class Company implements java.io.Serializable {
 		if (listDpt.contains(Dpt) == false) {
 			// System.out.println("Heu : " +Dpt);
 			listDpt.add(Dpt);
-		}
-		if (listDpt.contains(null) == true) {
-			listDpt.remove(null);
+			Dpt.setCompany(this);
 		}
 	}
 
@@ -205,12 +202,13 @@ public class Company implements java.io.Serializable {
 	public void delDepartment(Department Dpt) {
 		if (listDpt.contains(Dpt)) {
 			listDpt.remove(Dpt);
+			Dpt.setCompany(null);
 		}
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(listEmp, listDpt);
+		return Objects.hash(listDpt);
 	}
 
 	@Override
@@ -231,11 +229,11 @@ public class Company implements java.io.Serializable {
 	 * @param rec
 	 */
 	public void delRecord(Record rec) {
-		
-		try {
-			if (listEmp.contains(rec.getEmployee())) {
 
-				Employee foundEmployee = listEmp.get(listEmp.indexOf(rec.getEmployee()));
+		try {
+			if (getListEmp().contains(rec.getEmployee())) {
+
+				Employee foundEmployee = getListEmp().get(getListEmp().indexOf(rec.getEmployee()));
 
 				foundEmployee.delRecord(rec);
 
@@ -251,12 +249,11 @@ public class Company implements java.io.Serializable {
 	}
 
 	public String extendedToString() {
-		return "Company [companyName=" + companyName + ", listEmp=" + listEmp + "]";
+		return "Company [companyName=" + companyName + "]";
 	}
 
 	public List<Record> AllRecord() {
-		List<Record> listRec = listEmp.stream().flatMap(employee -> employee.getRecords().stream())
-				.collect(Collectors.toList());
+		List<Record> listRec = getListEmp().stream().flatMap(employee -> employee.getRecords().stream()).collect(Collectors.toList());
 		java.util.Collections.sort(listRec);
 		return listRec;
 	}

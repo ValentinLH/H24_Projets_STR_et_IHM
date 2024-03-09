@@ -20,6 +20,7 @@ import fr.polytech.vgl.centralapp.view.GiveCompanyView;
  * @author Touret Lino - L'Hermite Valentin
  * @since 02/03/24 
  * VLH
+ * @version VLH 09/03/24
  */
 public class Employee implements java.io.Serializable {
 
@@ -28,19 +29,18 @@ public class Employee implements java.io.Serializable {
 	private String name;
 	private String surname;
 	private int id;
-	private Company company;
-	private Department departement;
-	private List<Record> records;
 	private Schedule schedule;
 	private Integer overtimePortfolio;
 
+	private Department departement;
+	private List<Record> records;
+	
+	
     public Employee(String _name, String _surname, Company _company, Department _departement) {
         name = _name;
         surname = _surname;
         id = id_auto;
         id_auto++;
-        company = null;
-        setCompany(_company);
         setDepartement(_departement);
         // Using CopyOnWriteArrayList for thread safety
         records = new CopyOnWriteArrayList<>();
@@ -91,23 +91,11 @@ public class Employee implements java.io.Serializable {
 	}
 
 	public Company getCompany() {
-		return company;
+		return departement.getCompany();
 	}
 
 	public void setCompany(Company company) {
-		if (this.company != null) {
-			if (this.company != company) {
-				this.company.delEmployee(this);
-				this.company = company;
-				company.addEmployee(this);
-			}
-
-		} else {
-			this.company = company;
-			if (company.getListEmp().contains(this) == false) {
-				company.addEmployee(this);
-			}
-		}
+		System.out.println("Employee set company n'existe plus, la charge est au département");
 
 	}
 
@@ -117,8 +105,6 @@ public class Employee implements java.io.Serializable {
 
 	public void setDepartement(Department departement) {
 		this.departement = departement;
-		departement.addEmployee(this);
-		company.addDepartment(departement);
 	}
 
     // Add synchronization for thread safety
@@ -149,9 +135,7 @@ public class Employee implements java.io.Serializable {
             records.add(record);
         }
 
-        if (!company.getListRec().contains(record)) {
-            company.addRecord(record);
-        }
+ 
     }
 
 	public void delRecord(Record record) {
@@ -165,13 +149,13 @@ public class Employee implements java.io.Serializable {
 	@Override
 	public String toString() {
 		// return name + " " + surname+ " [ID" + id+"]" ;
-		return name + " " + surname + " - " + departement + " of " + company.getCompanyName() + "";
+		return name + " " + surname + " - " + departement + " of " + getCompany().getCompanyName() + "";
 	}
 
 	public String ExtendedtoString() {
 		// sortRecord();
 		return "Employee [name=" + name + ", surname=" + surname + ", id=" + id + ", company="
-				+ company.getCompanyName() + ", departement=" + departement + ", records=" + records + "]";
+				+ getCompany().getCompanyName() + ", departement=" + departement + ", records=" + records + "]";
 	}
 
 	public Schedule getSchedule() {
@@ -233,7 +217,7 @@ public class Employee implements java.io.Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(company.getCompanyName(), departement.getDepartmentName(), id, name, surname);
+		return Objects.hash(getCompany().getCompanyName(), departement.getDepartmentName(), id, name, surname);
 	}
 
 	@Override
@@ -245,7 +229,7 @@ public class Employee implements java.io.Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		return Objects.equals(company.getCompanyName(), other.company.getCompanyName())
+		return Objects.equals(getCompany().getCompanyName(), other.getCompany().getCompanyName())
 				&& Objects.equals(departement, other.departement) && id == other.id && Objects.equals(name, other.name)
 				&& Objects.equals(surname, other.surname);
 	}

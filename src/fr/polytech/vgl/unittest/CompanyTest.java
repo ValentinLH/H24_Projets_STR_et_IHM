@@ -49,12 +49,6 @@ public class CompanyTest {
         assertFalse(company.getListEmp().contains(employee1));
     }
 
-    @Test
-    public void testDelEmployeeByIndex() {
-        company.addEmployee(employee2);
-        company.delEmployee(1); // Assuming index 1 is the second employee
-        assertFalse(company.getListEmp().contains(employee2));
-    }
 
     @Test
     public void testAddRecord() {

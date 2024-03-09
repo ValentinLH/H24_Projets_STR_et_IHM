@@ -36,6 +36,7 @@ public class MainCentralApplication {
 						// listCompany = deSerialize;
 
 						for (Company newcomp : deSerialize) {
+							newcomp.getListDpt().forEach(dpt -> dpt.setCompany(newcomp));
 							window.addCompany(newcomp);
 						}
 					} catch (Exception e) {
