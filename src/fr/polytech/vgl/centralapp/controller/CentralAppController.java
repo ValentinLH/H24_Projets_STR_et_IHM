@@ -15,7 +15,7 @@ import fr.polytech.vgl.serialisation.Serialisation;
  * CentralAppController is the main controller of the Central Application
  * 
  * @author Touret Lino - L'Hermite Valentin
- * @version VLH 06/03/24
+ * @version VLH 09/03/24
  */
 
 public class CentralAppController implements NetworkObserver {
@@ -97,7 +97,8 @@ public class CentralAppController implements NetworkObserver {
 
 	@Override
 	public synchronized void onObjectReceived(Object receivedObject) {
-		System.out.println("Client TimeRecord> Object Receive ");
+		
+		System.out.println("Client Central app> Object Receive ");
 		if (receivedObject != null) {
 			// System.out.println(obj.getClass().getName());
 			if (receivedObject.getClass().getName().equals("fr.polytech.vgl.model.Record") == true) {
@@ -105,7 +106,7 @@ public class CentralAppController implements NetworkObserver {
 
 				// ajouter le rec
 
-				System.out.println("TimeRecord> Record Receive " + rec);
+				System.out.println("Client> Central app Record Receive " + rec);
 				// return "Company : " + c.getCompanyName() + " added";
 			} else if (receivedObject.getClass().getName().equals("java.util.ArrayList") == true) {
 				try {
@@ -116,11 +117,11 @@ public class CentralAppController implements NetworkObserver {
 						if (rec.getEmployee().getCompany().equals(company) == true) {
 							if (company.getListEmp().contains(rec.getEmployee()) == true) {
 								company.addRecord(rec);
-								System.out.println("TimeRecord> Record  Added");
+								System.out.println("CA> Record  Added");
 							} else {
 								company.addEmployee(rec.getEmployee());
 								company.addRecord(rec);
-								System.out.println("TimeRecord> Record and Employee  Added");
+								System.out.println("CA> Record and Employee  Added");
 							}
 						} else {
 							if (GiveCompanyView.getlistCompany().contains(rec.getEmployee().getCompany()) == false) {
@@ -130,11 +131,11 @@ public class CentralAppController implements NetworkObserver {
 								GiveCompanyView.getlistCompany().get(i).addRecord(rec);
 							}
 
-							System.out.println("TimeRecord> Company Added");
+							System.out.println("CA> Company Added");
 						}
 					}
 
-					System.out.println("Client TimeRecord> Record Receive " + obj2);
+					System.out.println("Client> Central app Record Receive " + obj2);
 				} catch (Exception exc) {
 					// return "No company found in the file";
 				}
