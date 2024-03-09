@@ -26,55 +26,60 @@ public class CentralAppController implements NetworkObserver {
 	
 	
 	public CentralAppController(Company company) {
-		networkManager = new NetworkManager(8081, "localhost", 8080, this);
-		this.company = company;
-		this.view = new CentralApplicationView(this);
-
+	    // Création d'un gestionnaire de réseau avec les ports et l'observateur spécifiés
+	    // Pour simplifier, on suppose ici une approche à thread unique (single-threaded)
+	    this.networkManager = new NetworkManager(8081, "localhost", 8080, this);
+	    
+	    // Initialisation de l'objet Company associé à ce contrôleur
+	    this.company = company;
+	    
+	    // Création de la vue associée à ce contrôleur
+	    this.setView(new CentralApplicationView(this));
 	}
 
-	public Company getCompany() {
+	public synchronized Company getCompany() {
 		return company;
 	}
 
-	public void setCompany(Company company) {
+	public synchronized void setCompany(Company company) {
 		this.company = company;
 	}
 
-	public String setIp(String ip) {
+	public synchronized String setIp(String ip) {
 		networkManager.setClientIp(ip);
 		return networkManager.getClientIp();
 
 	}
 
-	public String setPort(String port) {
+	public synchronized String setPort(String port) {
 		networkManager.setClientPort(port);
 		return "" + networkManager.getClientPort();
 
 	}
 
-	public String setMyPort(String port) {
+	public synchronized String setMyPort(String port) {
 		networkManager.setServerPort(port);
 		return "" + networkManager.getServerPort();
 
 	}
 
-	public String getMyIp() {
+	public synchronized String getMyIp() {
 		return networkManager.getServerIp();
 	}
 
-	public int getMyPort() {
+	public synchronized int getMyPort() {
 		return networkManager.getServerPort();
 	}
 
-	public int getPort() {
+	public synchronized int getPort() {
 		return networkManager.getClientPort();
 	}
 
-	public String getIp() {
+	public synchronized String getIp() {
 		return networkManager.getClientIp();
 	}
 
-	public void closeWindow() {
+	public synchronized void closeWindow() {
 		// sendRecordBuffer();
 
 		if (GiveCompanyView.getlistCompany().isEmpty() == false) {
@@ -91,8 +96,7 @@ public class CentralAppController implements NetworkObserver {
 	}
 
 	@Override
-	public void onObjectReceived(Object receivedObject) {
-		// TODO Auto-generated method stub
+	public synchronized void onObjectReceived(Object receivedObject) {
 		System.out.println("Client TimeRecord> Object Receive ");
 		if (receivedObject != null) {
 			// System.out.println(obj.getClass().getName());
@@ -101,7 +105,7 @@ public class CentralAppController implements NetworkObserver {
 
 				// ajouter le rec
 
-				System.out.println("Client> Central app Record Receive " + rec);
+				System.out.println("TimeRecord> Record Receive " + rec);
 				// return "Company : " + c.getCompanyName() + " added";
 			} else if (receivedObject.getClass().getName().equals("java.util.ArrayList") == true) {
 				try {
@@ -112,11 +116,11 @@ public class CentralAppController implements NetworkObserver {
 						if (rec.getEmployee().getCompany().equals(company) == true) {
 							if (company.getListEmp().contains(rec.getEmployee()) == true) {
 								company.addRecord(rec);
-								System.out.println("CA> Record  Added");
+								System.out.println("TimeRecord> Record  Added");
 							} else {
 								company.addEmployee(rec.getEmployee());
 								company.addRecord(rec);
-								System.out.println("CA> Record and Employee  Added");
+								System.out.println("TimeRecord> Record and Employee  Added");
 							}
 						} else {
 							if (GiveCompanyView.getlistCompany().contains(rec.getEmployee().getCompany()) == false) {
@@ -126,17 +130,25 @@ public class CentralAppController implements NetworkObserver {
 								GiveCompanyView.getlistCompany().get(i).addRecord(rec);
 							}
 
-							System.out.println("CA> Company Added");
+							System.out.println("TimeRecord> Company Added");
 						}
 					}
 
-					System.out.println("Client> Central app Record Receive " + obj2);
+					System.out.println("Client TimeRecord> Record Receive " + obj2);
 				} catch (Exception exc) {
 					// return "No company found in the file";
 				}
 			}
 
 		}
+	}
+
+	public synchronized CentralApplicationView getView() {
+		return view;
+	}
+
+	public synchronized void setView(CentralApplicationView view) {
+		this.view = view;
 	}
 
 }
