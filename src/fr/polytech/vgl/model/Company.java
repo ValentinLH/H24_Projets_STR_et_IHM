@@ -37,7 +37,7 @@ public class Company implements java.io.Serializable {
 		companyName = _companyName;
 		this.listEmp = new ArrayList<>();
 		this.listRec = new ArrayList<>();
-		this.listDpt =new ArrayList<>(); 
+		this.listDpt = new ArrayList<>(); 
 	}
 
 	/**
