@@ -134,103 +134,315 @@ public class TimeRecordMainFrame implements ObserverModel{
 		tabbedPane.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 14));
 		frmTimerecord.getContentPane().add(tabbedPane);
 
-		final JPanel checkPanel = new JPanel();
-		checkPanel.setBackground(colors[0]);
-		tabbedPane.addTab("Check", null, checkPanel, null);
-		GridBagLayout gbl_checkPanel = new GridBagLayout();
-		gbl_checkPanel.columnWidths = new int[] { 50, 100, 150, 100, 0, 0 };
-		gbl_checkPanel.rowHeights = new int[] { 50, 0, 45, 0, 45, 35, 0 };
-		gbl_checkPanel.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_checkPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		checkPanel.setLayout(gbl_checkPanel);
-
-		DateLabel lblDate = new DateLabel();
-		lblDate.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblDate = new GridBagConstraints();
-		gbc_lblDate.gridwidth = 3;
-		gbc_lblDate.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDate.gridx = 1;
-		gbc_lblDate.gridy = 0;
-		checkPanel.add(lblDate, gbc_lblDate);
-
-		DateLabel lblHour = new DateLabel(true);
-		lblHour.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblHour = new GridBagConstraints();
-		gbc_lblHour.gridwidth = 3;
-		gbc_lblHour.insets = new Insets(0, 0, 5, 5);
-		gbc_lblHour.gridx = 1;
-		gbc_lblHour.gridy = 1;
-		checkPanel.add(lblHour, gbc_lblHour);
-
-		RoundedLabel lblRoundedHour = new RoundedLabel();
-		lblRoundedHour.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblRoundedHour = new GridBagConstraints();
-		gbc_lblRoundedHour.gridwidth = 3;
-		gbc_lblRoundedHour.insets = new Insets(0, 0, 5, 5);
-		gbc_lblRoundedHour.gridx = 1;
-		gbc_lblRoundedHour.gridy = 2;
-		checkPanel.add(lblRoundedHour, gbc_lblRoundedHour);
-
-		JButton btnNewButton_1 = new JButton("Check In/Out");
 		
-
-		// ComboBoxModel<Employee> c = new ComboBoxModel<Employee>();
-		comboBox = new JComboBox<Employee>(modelEmployee);
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.gridwidth = 2;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 1;
-		gbc_comboBox.gridy = 3;
-		checkPanel.add(comboBox, gbc_comboBox);
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_1.gridx = 3;
-		gbc_btnNewButton_1.gridy = 3;
-		checkPanel.add(btnNewButton_1, gbc_btnNewButton_1);
-
-		final JLabel lblValidateMessage = new JLabel("");
-		lblValidateMessage.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblValidateMessage = new GridBagConstraints();
-		gbc_lblValidateMessage.gridwidth = 3;
-		gbc_lblValidateMessage.insets = new Insets(0, 0, 5, 5);
-		gbc_lblValidateMessage.gridx = 1;
-		gbc_lblValidateMessage.gridy = 4;
-		checkPanel.add(lblValidateMessage, gbc_lblValidateMessage);
-
+		//Check Panel
+		CheckOnglet(tabbedPane, modelEmployee);
 		
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					if ((Employee) comboBox.getSelectedItem() != null) {
-						int ret = 	controler.sendRecord((Employee) comboBox.getSelectedItem());
-						if (ret == 1)
-						{
-							checkPanel.setBackground(colors[2]);
-							lblValidateMessage.setText("Record Sended");							
+		//Settings Panel 
+		settingOnglet(tabbedPane);
+
+		//File company panel
+		FileOnglet(tabbedPane,modelCompany);
+
+		// Test Panel
+		TestModeOnglet(tabbedPane,modelEmployee);
+	}
+
+	/**
+	 * getComboBox
+	 * @return comboBox
+	 */
+	public JComboBox<Employee> getComboBox() {
+		return comboBox;
+	}
+
+	/**
+	 * getComboBox_1
+	 * @return comboBox
+	 */
+	public JComboBox<Employee> getComboBox_1() {
+		return comboBox_1;
+	}
+
+	/**
+	 * addEmployee
+	 * @param employee
+	 */
+	public void addEmployee(Employee emp) {
+		// comboBox_1.addItem(emp);
+		comboBox.addItem(emp);
+
+	}
+
+	/**
+	 * delEmployee
+	 * @param employee
+	 */
+	public void delEmployee(Employee emp) {
+		// comboBox_1.addItem(emp);
+		comboBox.removeItem(emp);
+
+	}
+	
+	/**
+	 * addCompany
+	 * @param company
+	 */
+	public void addCompany(Company com) {
+		comboBox_2.addItem(com);
+	}
+
+	/**
+	 * delCompany 
+	 * @param company
+	 */
+	public void delCompany(Company com) {
+		comboBox_2.removeItem(com);
+	}
+
+	/**
+	 * ConfirmDel is a confirmation dialog
+	 * @param companyName
+	 * @return JOptionPane result
+	 */
+	static int ConfirmDel(String companyName){
+		return JOptionPane.showConfirmDialog(
+		       null,
+		       "Do you really want to delete the Company: "+ companyName+" ?",
+		       "Confirmation",
+		       JOptionPane.YES_NO_OPTION);
+		 }
+	
+	//Onglet d'affiche de la pointeuse
+	public void TestModeOnglet(JTabbedPane tabbedPane,DefaultComboBoxModel<Employee> modelEmployee) {
+				final JPanel testPanel = new JPanel();
+				testPanel.setBackground(colors[0]);
+				tabbedPane.addTab("Test Mode", null, testPanel, null);
+				GridBagLayout gbl_testPanel = new GridBagLayout();
+				gbl_testPanel.columnWidths = new int[] { 50, 100, 150, 100, 0, 0 };
+				gbl_testPanel.rowHeights = new int[] { 50, 0, 45, 0, 0, 35, 35, 0 };
+				gbl_testPanel.columnWeights = new double[] { 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+				gbl_testPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+				testPanel.setLayout(gbl_testPanel);
+
+				DateLabel lblDate_1 = new DateLabel();
+				lblDate_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
+				GridBagConstraints gbc_lblDate_1 = new GridBagConstraints();
+				gbc_lblDate_1.gridwidth = 3;
+				gbc_lblDate_1.insets = new Insets(0, 0, 5, 5);
+				gbc_lblDate_1.gridx = 1;
+				gbc_lblDate_1.gridy = 0;
+				testPanel.add(lblDate_1, gbc_lblDate_1);
+
+				DateLabel lblHour_1 = new DateLabel(true);
+				lblHour_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
+				GridBagConstraints gbc_lblHour_1 = new GridBagConstraints();
+				gbc_lblHour_1.gridwidth = 3;
+				gbc_lblHour_1.insets = new Insets(0, 0, 5, 5);
+				gbc_lblHour_1.gridx = 1;
+				gbc_lblHour_1.gridy = 1;
+				testPanel.add(lblHour_1, gbc_lblHour_1);
+
+				RoundedLabel lblRoundedHour_1 = new RoundedLabel();
+				lblRoundedHour_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
+				GridBagConstraints gbc_lblRoundedHour_1 = new GridBagConstraints();
+				gbc_lblRoundedHour_1.gridwidth = 3;
+				gbc_lblRoundedHour_1.insets = new Insets(0, 0, 5, 5);
+				gbc_lblRoundedHour_1.gridx = 1;
+				gbc_lblRoundedHour_1.gridy = 2;
+				testPanel.add(lblRoundedHour_1, gbc_lblRoundedHour_1);
+
+				// EmployeesComboBox comboBox_1 = new EmployeesComboBox();
+				// JComboBox<Employee> comboBox_1 = new JComboBox<Employee>();
+				comboBox_1 = new JComboBox<Employee>(modelEmployee);
+				GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
+				gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
+				gbc_comboBox_1.gridwidth = 2;
+				gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
+				gbc_comboBox_1.gridx = 1;
+				gbc_comboBox_1.gridy = 3;
+				testPanel.add(comboBox_1, gbc_comboBox_1);
+
+				JButton btnNewButton_1_1 = new JButton("Check In/Out");
+
+				GridBagConstraints gbc_btnNewButton_1_1 = new GridBagConstraints();
+				gbc_btnNewButton_1_1.insets = new Insets(0, 0, 5, 5);
+				gbc_btnNewButton_1_1.gridx = 3;
+				gbc_btnNewButton_1_1.gridy = 3;
+				testPanel.add(btnNewButton_1_1, gbc_btnNewButton_1_1);
+
+				final JFormattedTextField formattedTextField_2 = new JFormattedTextField(dateFormatter);
+				final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy;HH:mm");
+				formattedTextField_2.setText(LocalDateTime.now().format(formatter));
+				GridBagConstraints gbc_formattedTextField_2 = new GridBagConstraints();
+				gbc_formattedTextField_2.insets = new Insets(0, 0, 5, 5);
+				gbc_formattedTextField_2.fill = GridBagConstraints.HORIZONTAL;
+				gbc_formattedTextField_2.gridx = 2;
+				gbc_formattedTextField_2.gridy = 4;
+				testPanel.add(formattedTextField_2, gbc_formattedTextField_2);
+
+				final JLabel lblValidateMessage_1 = new JLabel("");
+				lblValidateMessage_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
+				GridBagConstraints gbc_lblValidateMessage_1 = new GridBagConstraints();
+				gbc_lblValidateMessage_1.gridwidth = 3;
+				gbc_lblValidateMessage_1.insets = new Insets(0, 0, 5, 5);
+				gbc_lblValidateMessage_1.gridx = 1;
+				gbc_lblValidateMessage_1.gridy = 5;
+				testPanel.add(lblValidateMessage_1, gbc_lblValidateMessage_1);
+
+				btnNewButton_1_1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String text = formattedTextField_2.getText();
+						// System.out.println(LocalDateTime.parse(text,formatter));
+						try {
+							LocalDateTime date = LocalDateTime.parse(text, formatter);
+							if ((Employee) comboBox.getSelectedItem() != null) {
+								controler.sendRecordTest((Employee) comboBox_1.getSelectedItem(), date);
+							}
+						} catch (Exception exc) {
+							// nothinf
+							lblValidateMessage_1.setText("Erreur Date");
+							testPanel.setBackground(colors[3]);
+
 						}
-						else if (ret == 0)
-						{
-							checkPanel.setBackground(colors[1]);
-							lblValidateMessage.setText("Waiting Connection to Send");							
-						}
-						else if (ret == -1)
-						{
-							checkPanel.setBackground(colors[3]);
-							lblValidateMessage.setText("Already sended record in the last "+ Record.getRounded() + " min");							
-						}
-						//checkPanel.setBackground(new Color(223, 245, 233));
-						// Thread.sleep(5000);
-						
+
 					}
-				} catch (Exception exc) {
-					// nothinf
+				});
+	}
+	
+	public void FileOnglet(JTabbedPane tabbedPane,DefaultComboBoxModel<Company> modelCompany) {
+		final JPanel filePanel = new JPanel();
+		filePanel.setBackground(colors[0]);
+		tabbedPane.addTab("File", null, filePanel, null);
+		GridBagLayout gbl_filePanel = new GridBagLayout();
+		gbl_filePanel.columnWidths = new int[] { 50, 138, 160, 0, 0 };
+		gbl_filePanel.rowHeights = new int[] { 40, 60, 40, 40, 50, 0, 0 };
+		gbl_filePanel.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_filePanel.rowWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		filePanel.setLayout(gbl_filePanel);
+
+		JLabel lblNewLabel_1 = new JLabel("File");
+		lblNewLabel_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.gridwidth = 2;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 1;
+		gbc_lblNewLabel_1.gridy = 0;
+		filePanel.add(lblNewLabel_1, gbc_lblNewLabel_1);
+
+		final JTextPane textFile = new JTextPane();
+		textFile.setEnabled(true);
+		textFile.setEditable(false);
+		GridBagConstraints gbc_textIp_1 = new GridBagConstraints();
+		gbc_textIp_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textIp_1.insets = new Insets(0, 0, 5, 5);
+		gbc_textIp_1.gridx = 1;
+		gbc_textIp_1.gridy = 1;
+		filePanel.add(textFile, gbc_textIp_1);
+
+		JButton btnSelectCompany = new JButton("Select a Company");
+		btnSelectCompany.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser choose = new JFileChooser(new File("."));
+
+				choose.setDialogTitle("TimeRecord> Select a Company Serialized File");
+				choose.setAcceptAllFileFilterUsed(true);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(".sav .ser .dat", "sav", "ser", "dat");
+				choose.addChoosableFileFilter(filter);
+				int res = choose.showOpenDialog(null);
+				if (res == JFileChooser.APPROVE_OPTION) {
+					System.out.println(choose.getSelectedFile().getPath());
+					controler.setFile(choose.getSelectedFile());
+					textFile.setText(choose.getSelectedFile().getName());
 				}
 			}
 		});
-		
-		
-		//Settings Panel 
+		btnSelectCompany.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 16));
+		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
+		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_2.gridx = 2;
+		gbc_btnNewButton_2.gridy = 1;
+		filePanel.add(btnSelectCompany, gbc_btnNewButton_2);
+
+		JButton btnAddCompany = new JButton("Add Company");
+
+		btnAddCompany.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 16));
+		GridBagConstraints gbc_btnAddCompany = new GridBagConstraints();
+		gbc_btnAddCompany.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAddCompany.gridx = 2;
+		gbc_btnAddCompany.gridy = 2;
+		filePanel.add(btnAddCompany, gbc_btnAddCompany);
+
+		comboBox_2 = new JComboBox<Company>(modelCompany);
+		GridBagConstraints gbc_comboBox_2 = new GridBagConstraints();
+		gbc_comboBox_2.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox_2.gridx = 1;
+		gbc_comboBox_2.gridy = 3;
+		filePanel.add(comboBox_2, gbc_comboBox_2);
+
+		JButton btnDelCompany = new JButton("Delete Company");
+		btnDelCompany.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 16));
+
+		GridBagConstraints gbc_btnDelCompany = new GridBagConstraints();
+		gbc_btnDelCompany.insets = new Insets(0, 0, 5, 5);
+		gbc_btnDelCompany.gridx = 2;
+		gbc_btnDelCompany.gridy = 3;
+		filePanel.add(btnDelCompany, gbc_btnDelCompany);
+
+		final JLabel fileLabel = new JLabel("");
+		fileLabel.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 17));
+		GridBagConstraints gbc_fileLabel = new GridBagConstraints();
+		gbc_fileLabel.gridwidth = 2;
+		gbc_fileLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_fileLabel.gridx = 1;
+		gbc_fileLabel.gridy = 4;
+		filePanel.add(fileLabel, gbc_fileLabel);
+
+		btnAddCompany.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String a = controler.deserialiseCompany();
+				if (a.equals("No company found in the file")) {
+					filePanel.setBackground(colors[3]);
+					fileLabel.setText(a);
+				} else if (a.equals("File not found")) {
+					fileLabel.setText(a);
+					filePanel.setBackground(colors[3]);
+				} else {
+					fileLabel.setText(a);
+					filePanel.setBackground(colors[2]);
+				}
+			}
+		});
+
+		btnDelCompany.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int ret = ConfirmDel(((Company)comboBox_2.getSelectedItem()).getCompanyName());
+				if (ret == 0)
+				{
+					boolean r = controler.delCompany((Company)comboBox_2.getSelectedItem());
+					if (r == true)
+					{
+						fileLabel.setText("Company Successfully Deleted");
+						filePanel.setBackground(colors[2]);
+					}
+					else
+					{
+						fileLabel.setText("Error During Deletion");
+						filePanel.setBackground(colors[3]);
+					}
+				}
+				else
+				{
+					fileLabel.setText("Company Not Deleted");
+					filePanel.setBackground(colors[0]);
+				}
+					//System.exit(0);
+			}
+		});
+	}
+	
+	public void settingOnglet(JTabbedPane tabbedPane) {
 		final JPanel settingsPanel = new JPanel();
 		settingsPanel.setBackground(colors[0]);
 		tabbedPane.addTab("Settings", null, settingsPanel, null);
@@ -402,304 +614,108 @@ public class TimeRecordMainFrame implements ObserverModel{
 				}
 			}
 		});
+	}
+	
+	public void CheckOnglet(JTabbedPane tabbedPane,DefaultComboBoxModel<Employee> modelEmployee) {
+		
+		final JPanel checkPanel = new JPanel();
+		checkPanel.setBackground(colors[0]);
+		tabbedPane.addTab("Check", null, checkPanel, null);
+		GridBagLayout gbl_checkPanel = new GridBagLayout();
+		gbl_checkPanel.columnWidths = new int[] { 50, 100, 150, 100, 0, 0 };
+		gbl_checkPanel.rowHeights = new int[] { 50, 0, 45, 0, 45, 35, 0 };
+		gbl_checkPanel.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_checkPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		checkPanel.setLayout(gbl_checkPanel);
 
-		//FIle company panel
-		final JPanel filePanel = new JPanel();
-		filePanel.setBackground(colors[0]);
-		tabbedPane.addTab("File", null, filePanel, null);
-		GridBagLayout gbl_filePanel = new GridBagLayout();
-		gbl_filePanel.columnWidths = new int[] { 50, 138, 160, 0, 0 };
-		gbl_filePanel.rowHeights = new int[] { 40, 60, 40, 40, 50, 0, 0 };
-		gbl_filePanel.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_filePanel.rowWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		filePanel.setLayout(gbl_filePanel);
+		DateLabel lblDate = new DateLabel();
+		lblDate.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblDate = new GridBagConstraints();
+		gbc_lblDate.gridwidth = 3;
+		gbc_lblDate.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDate.gridx = 1;
+		gbc_lblDate.gridy = 0;
+		checkPanel.add(lblDate, gbc_lblDate);
 
-		JLabel lblNewLabel_1 = new JLabel("File");
-		lblNewLabel_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.gridwidth = 2;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 1;
-		gbc_lblNewLabel_1.gridy = 0;
-		filePanel.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		DateLabel lblHour = new DateLabel(true);
+		lblHour.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblHour = new GridBagConstraints();
+		gbc_lblHour.gridwidth = 3;
+		gbc_lblHour.insets = new Insets(0, 0, 5, 5);
+		gbc_lblHour.gridx = 1;
+		gbc_lblHour.gridy = 1;
+		checkPanel.add(lblHour, gbc_lblHour);
 
-		final JTextPane textFile = new JTextPane();
-		textFile.setEnabled(true);
-		textFile.setEditable(false);
-		GridBagConstraints gbc_textIp_1 = new GridBagConstraints();
-		gbc_textIp_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textIp_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textIp_1.gridx = 1;
-		gbc_textIp_1.gridy = 1;
-		filePanel.add(textFile, gbc_textIp_1);
+		RoundedLabel lblRoundedHour = new RoundedLabel();
+		lblRoundedHour.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblRoundedHour = new GridBagConstraints();
+		gbc_lblRoundedHour.gridwidth = 3;
+		gbc_lblRoundedHour.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRoundedHour.gridx = 1;
+		gbc_lblRoundedHour.gridy = 2;
+		checkPanel.add(lblRoundedHour, gbc_lblRoundedHour);
 
-		JButton btnSelectCompany = new JButton("Select a Company");
-		btnSelectCompany.addActionListener(new ActionListener() {
+		JButton btnNewButton_1 = new JButton("Check In/Out");
+		
+
+		// ComboBoxModel<Employee> c = new ComboBoxModel<Employee>();
+		comboBox = new JComboBox<Employee>(modelEmployee);
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.gridwidth = 2;
+		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 1;
+		gbc_comboBox.gridy = 3;
+		checkPanel.add(comboBox, gbc_comboBox);
+		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_1.gridx = 3;
+		gbc_btnNewButton_1.gridy = 3;
+		checkPanel.add(btnNewButton_1, gbc_btnNewButton_1);
+
+		final JLabel lblValidateMessage = new JLabel("");
+		lblValidateMessage.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblValidateMessage = new GridBagConstraints();
+		gbc_lblValidateMessage.gridwidth = 3;
+		gbc_lblValidateMessage.insets = new Insets(0, 0, 5, 5);
+		gbc_lblValidateMessage.gridx = 1;
+		gbc_lblValidateMessage.gridy = 4;
+		checkPanel.add(lblValidateMessage, gbc_lblValidateMessage);
+
+		
+		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser choose = new JFileChooser(new File("."));
-
-				choose.setDialogTitle("TimeRecord> Select a Company Serialized File");
-				choose.setAcceptAllFileFilterUsed(true);
-				FileNameExtensionFilter filter = new FileNameExtensionFilter(".sav .ser .dat", "sav", "ser", "dat");
-				choose.addChoosableFileFilter(filter);
-				int res = choose.showOpenDialog(null);
-				if (res == JFileChooser.APPROVE_OPTION) {
-					System.out.println(choose.getSelectedFile().getPath());
-					controler.setFile(choose.getSelectedFile());
-					textFile.setText(choose.getSelectedFile().getName());
-				}
-			}
-		});
-		btnSelectCompany.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 16));
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_2.gridx = 2;
-		gbc_btnNewButton_2.gridy = 1;
-		filePanel.add(btnSelectCompany, gbc_btnNewButton_2);
-
-		JButton btnAddCompany = new JButton("Add Company");
-
-		btnAddCompany.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 16));
-		GridBagConstraints gbc_btnAddCompany = new GridBagConstraints();
-		gbc_btnAddCompany.insets = new Insets(0, 0, 5, 5);
-		gbc_btnAddCompany.gridx = 2;
-		gbc_btnAddCompany.gridy = 2;
-		filePanel.add(btnAddCompany, gbc_btnAddCompany);
-
-		comboBox_2 = new JComboBox<Company>(modelCompany);
-		GridBagConstraints gbc_comboBox_2 = new GridBagConstraints();
-		gbc_comboBox_2.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox_2.gridx = 1;
-		gbc_comboBox_2.gridy = 3;
-		filePanel.add(comboBox_2, gbc_comboBox_2);
-
-		JButton btnDelCompany = new JButton("Delete Company");
-		btnDelCompany.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 16));
-
-		GridBagConstraints gbc_btnDelCompany = new GridBagConstraints();
-		gbc_btnDelCompany.insets = new Insets(0, 0, 5, 5);
-		gbc_btnDelCompany.gridx = 2;
-		gbc_btnDelCompany.gridy = 3;
-		filePanel.add(btnDelCompany, gbc_btnDelCompany);
-
-		final JLabel fileLabel = new JLabel("");
-		fileLabel.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 17));
-		GridBagConstraints gbc_fileLabel = new GridBagConstraints();
-		gbc_fileLabel.gridwidth = 2;
-		gbc_fileLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_fileLabel.gridx = 1;
-		gbc_fileLabel.gridy = 4;
-		filePanel.add(fileLabel, gbc_fileLabel);
-
-		btnAddCompany.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String a = controler.deserialiseCompany();
-				if (a.equals("No company found in the file")) {
-					filePanel.setBackground(colors[3]);
-					fileLabel.setText(a);
-				} else if (a.equals("File not found")) {
-					fileLabel.setText(a);
-					filePanel.setBackground(colors[3]);
-				} else {
-					fileLabel.setText(a);
-					filePanel.setBackground(colors[2]);
-				}
-			}
-		});
-
-		btnDelCompany.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int ret = ConfirmDel(((Company)comboBox_2.getSelectedItem()).getCompanyName());
-				if (ret == 0)
-				{
-					boolean r = controler.delCompany((Company)comboBox_2.getSelectedItem());
-					if (r == true)
-					{
-						fileLabel.setText("Company Successfully Deleted");
-						filePanel.setBackground(colors[2]);
-					}
-					else
-					{
-						fileLabel.setText("Error During Deletion");
-						filePanel.setBackground(colors[3]);
-					}
-				}
-				else
-				{
-					fileLabel.setText("Company Not Deleted");
-					filePanel.setBackground(colors[0]);
-				}
-					//System.exit(0);
-			}
-		});
-
-		// Test Panel
-		TestModeOnglet(tabbedPane,modelEmployee);
-	}
-
-	/**
-	 * getComboBox
-	 * @return comboBox
-	 */
-	public JComboBox<Employee> getComboBox() {
-		return comboBox;
-	}
-
-	/**
-	 * getComboBox_1
-	 * @return comboBox
-	 */
-	public JComboBox<Employee> getComboBox_1() {
-		return comboBox_1;
-	}
-
-	/**
-	 * addEmployee
-	 * @param employee
-	 */
-	public void addEmployee(Employee emp) {
-		// comboBox_1.addItem(emp);
-		comboBox.addItem(emp);
-
-	}
-
-	/**
-	 * delEmployee
-	 * @param employee
-	 */
-	public void delEmployee(Employee emp) {
-		// comboBox_1.addItem(emp);
-		comboBox.removeItem(emp);
-
-	}
-	
-	/**
-	 * addCompany
-	 * @param company
-	 */
-	public void addCompany(Company com) {
-		comboBox_2.addItem(com);
-	}
-
-	/**
-	 * delCompany 
-	 * @param company
-	 */
-	public void delCompany(Company com) {
-		comboBox_2.removeItem(com);
-	}
-
-	/**
-	 * ConfirmDel is a confirmation dialog
-	 * @param companyName
-	 * @return JOptionPane result
-	 */
-	static int ConfirmDel(String companyName){
-		return JOptionPane.showConfirmDialog(
-		       null,
-		       "Do you really want to delete the Company: "+ companyName+" ?",
-		       "Confirmation",
-		       JOptionPane.YES_NO_OPTION);
-		 }
-	
-	
-	public void TestModeOnglet(JTabbedPane tabbedPane,DefaultComboBoxModel<Employee> modelEmployee) {
-				final JPanel testPanel = new JPanel();
-				testPanel.setBackground(colors[0]);
-				tabbedPane.addTab("Test Mode", null, testPanel, null);
-				GridBagLayout gbl_testPanel = new GridBagLayout();
-				gbl_testPanel.columnWidths = new int[] { 50, 100, 150, 100, 0, 0 };
-				gbl_testPanel.rowHeights = new int[] { 50, 0, 45, 0, 0, 35, 35, 0 };
-				gbl_testPanel.columnWeights = new double[] { 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
-				gbl_testPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-				testPanel.setLayout(gbl_testPanel);
-
-				DateLabel lblDate_1 = new DateLabel();
-				lblDate_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-				GridBagConstraints gbc_lblDate_1 = new GridBagConstraints();
-				gbc_lblDate_1.gridwidth = 3;
-				gbc_lblDate_1.insets = new Insets(0, 0, 5, 5);
-				gbc_lblDate_1.gridx = 1;
-				gbc_lblDate_1.gridy = 0;
-				testPanel.add(lblDate_1, gbc_lblDate_1);
-
-				DateLabel lblHour_1 = new DateLabel(true);
-				lblHour_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-				GridBagConstraints gbc_lblHour_1 = new GridBagConstraints();
-				gbc_lblHour_1.gridwidth = 3;
-				gbc_lblHour_1.insets = new Insets(0, 0, 5, 5);
-				gbc_lblHour_1.gridx = 1;
-				gbc_lblHour_1.gridy = 1;
-				testPanel.add(lblHour_1, gbc_lblHour_1);
-
-				RoundedLabel lblRoundedHour_1 = new RoundedLabel();
-				lblRoundedHour_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-				GridBagConstraints gbc_lblRoundedHour_1 = new GridBagConstraints();
-				gbc_lblRoundedHour_1.gridwidth = 3;
-				gbc_lblRoundedHour_1.insets = new Insets(0, 0, 5, 5);
-				gbc_lblRoundedHour_1.gridx = 1;
-				gbc_lblRoundedHour_1.gridy = 2;
-				testPanel.add(lblRoundedHour_1, gbc_lblRoundedHour_1);
-
-				// EmployeesComboBox comboBox_1 = new EmployeesComboBox();
-				// JComboBox<Employee> comboBox_1 = new JComboBox<Employee>();
-				comboBox_1 = new JComboBox<Employee>(modelEmployee);
-				GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
-				gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
-				gbc_comboBox_1.gridwidth = 2;
-				gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
-				gbc_comboBox_1.gridx = 1;
-				gbc_comboBox_1.gridy = 3;
-				testPanel.add(comboBox_1, gbc_comboBox_1);
-
-				JButton btnNewButton_1_1 = new JButton("Check In/Out");
-
-				GridBagConstraints gbc_btnNewButton_1_1 = new GridBagConstraints();
-				gbc_btnNewButton_1_1.insets = new Insets(0, 0, 5, 5);
-				gbc_btnNewButton_1_1.gridx = 3;
-				gbc_btnNewButton_1_1.gridy = 3;
-				testPanel.add(btnNewButton_1_1, gbc_btnNewButton_1_1);
-
-				final JFormattedTextField formattedTextField_2 = new JFormattedTextField(dateFormatter);
-				final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy;HH:mm");
-				formattedTextField_2.setText(LocalDateTime.now().format(formatter));
-				GridBagConstraints gbc_formattedTextField_2 = new GridBagConstraints();
-				gbc_formattedTextField_2.insets = new Insets(0, 0, 5, 5);
-				gbc_formattedTextField_2.fill = GridBagConstraints.HORIZONTAL;
-				gbc_formattedTextField_2.gridx = 2;
-				gbc_formattedTextField_2.gridy = 4;
-				testPanel.add(formattedTextField_2, gbc_formattedTextField_2);
-
-				final JLabel lblValidateMessage_1 = new JLabel("");
-				lblValidateMessage_1.setFont(new Font("Verdana Pro Cond Light", Font.PLAIN, 20));
-				GridBagConstraints gbc_lblValidateMessage_1 = new GridBagConstraints();
-				gbc_lblValidateMessage_1.gridwidth = 3;
-				gbc_lblValidateMessage_1.insets = new Insets(0, 0, 5, 5);
-				gbc_lblValidateMessage_1.gridx = 1;
-				gbc_lblValidateMessage_1.gridy = 5;
-				testPanel.add(lblValidateMessage_1, gbc_lblValidateMessage_1);
-
-				btnNewButton_1_1.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						String text = formattedTextField_2.getText();
-						// System.out.println(LocalDateTime.parse(text,formatter));
-						try {
-							LocalDateTime date = LocalDateTime.parse(text, formatter);
-							if ((Employee) comboBox.getSelectedItem() != null) {
-								controler.sendRecordTest((Employee) comboBox_1.getSelectedItem(), date);
-							}
-						} catch (Exception exc) {
-							// nothinf
-							lblValidateMessage_1.setText("Erreur Date");
-							testPanel.setBackground(colors[3]);
-
+				try {
+					if ((Employee) comboBox.getSelectedItem() != null) {
+						int ret = 	controler.sendRecord((Employee) comboBox.getSelectedItem());
+						if (ret == 1)
+						{
+							checkPanel.setBackground(colors[2]);
+							lblValidateMessage.setText("Record Sended");							
 						}
-
+						else if (ret == 0)
+						{
+							checkPanel.setBackground(colors[1]);
+							lblValidateMessage.setText("Waiting Connection to Send");							
+						}
+						else if (ret == -1)
+						{
+							checkPanel.setBackground(colors[3]);
+							lblValidateMessage.setText("Already sended record in the last "+ Record.getRounded() + " min");							
+						}
+						//checkPanel.setBackground(new Color(223, 245, 233));
+						// Thread.sleep(5000);
+						
 					}
-				});
+				} catch (Exception exc) {
+					// nothinf
+				}
+			}
+		});
+		
 	}
 	
+	//
 	public void onEmployeeReceived(Employee receivedEmployee){
 		
 	}
