@@ -10,12 +10,17 @@ import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Department;
 import fr.polytech.vgl.model.Employee;
 
+/**
+ * ModelOfEmployeeTable is a view of a table application
+ * 
+ * @version VLH 09/03/24
+ */
 public class ModelOfEmployeeTable extends AbstractTableModel {
 
 	/**
 	 * Nom de l'entreprise choisie par l'utilisateur
 	 */
-	private Company company = GiveCompanyView.company;
+	private Company company;
 
 	/*
 	 * Une liste d'employee
@@ -32,9 +37,10 @@ public class ModelOfEmployeeTable extends AbstractTableModel {
 	/**
 	 * Constructeur de la classe
 	 */
-	public ModelOfEmployeeTable() {
+	public ModelOfEmployeeTable( Company company ) {
 
 		super();
+		this.company = company;
 		employee = company.getListEmp();
 
 	}
