@@ -103,11 +103,11 @@ public class CentralApplicationView extends JFrame {
 		tableau = new JTable(frame);
 		sorter = new TableRowSorter<TableModel>(tableau.getModel());
 		
-		frame2 = new ModelOfCheckPanel(controler.getCompany().getListEmp());
+		frame2 = new ModelOfCheckPanel(controler.getCompany());
 		tableau2 = new JTable(frame2);
 		sorter2 = new TableRowSorter<TableModel>(tableau2.getModel());
 
-		frame3 = new ModelOfDayCheckPanel(controler.getCompany().getListEmp());
+		frame3 = new ModelOfDayCheckPanel(controler.getCompany());
 		tableau3 = new JTable(frame3);		
 		
 		// de retour sur la création de la fenetre
