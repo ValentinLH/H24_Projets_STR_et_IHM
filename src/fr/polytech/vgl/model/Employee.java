@@ -149,13 +149,13 @@ public class Employee implements java.io.Serializable {
 	@Override
 	public String toString() {
 		// return name + " " + surname+ " [ID" + id+"]" ;
-		return name + " " + surname + " - " + departement + " of " + getCompany().getCompanyName() + "";
+		return name + " " + surname + " - " + departement + " of " + (getCompany() != null ? getCompany().getCompanyName() : null) + "";
 	}
 
 	public String ExtendedtoString() {
 		// sortRecord();
 		return "Employee [name=" + name + ", surname=" + surname + ", id=" + id + ", company="
-				+ getCompany().getCompanyName() + ", departement=" + departement + ", records=" + records + "]";
+				+ (getCompany() != null ? getCompany().getCompanyName() : null)+ ", departement=" + departement + ", records=" + records + "]";
 	}
 
 	public Schedule getSchedule() {
@@ -217,7 +217,7 @@ public class Employee implements java.io.Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getCompany().getCompanyName(), departement.getDepartmentName(), id, name, surname);
+		return Objects.hash((getCompany() != null ? getCompany().getCompanyName() : null), departement.getDepartmentName(), id, name, surname);
 	}
 
 	@Override
@@ -229,7 +229,7 @@ public class Employee implements java.io.Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		return Objects.equals(getCompany().getCompanyName(), other.getCompany().getCompanyName())
+		return Objects.equals((getCompany() != null ? getCompany().getCompanyName() : null), (other.getCompany() != null ? other.getCompany().getCompanyName() : null))
 				&& Objects.equals(departement, other.departement) && id == other.id && Objects.equals(name, other.name)
 				&& Objects.equals(surname, other.surname);
 	}
