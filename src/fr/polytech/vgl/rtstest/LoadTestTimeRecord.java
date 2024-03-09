@@ -15,11 +15,12 @@ import fr.polytech.vgl.timerecord.controller.TimeRecordControler;
 
 public class LoadTestTimeRecord {
 
+	static Company company = new Company("TestCompany");
+
 	public static void main(String[] args) {
 		// Création d'un contrôleur
 
 		// Ajout d'une entreprise
-		Company company = new Company("TestCompany");
 
 		Department department = new Department("Admin");
 
@@ -37,7 +38,7 @@ public class LoadTestTimeRecord {
 		// Simuler des actions simultanées de plusieurs utilisateurs
 		simulateUserActions(controller, 5, 20); // 10 utilisateurs effectuent 20 actions chacun
 
-		System.out.println("Total record receive : " + app.getCompany().AllRecord().size());
+		System.out.println("Total record receive : " + app.getCompany().getListRec().size());
 
 	}
 
@@ -47,7 +48,7 @@ public class LoadTestTimeRecord {
 
 		CountDownLatch latch = new CountDownLatch(numberOfUsers);
 
-		for (int i = 1; i < numberOfUsers+1; i++) {
+		for (int i = 1; i < numberOfUsers + 1; i++) {
 			new Thread(() -> {
 				int addMin = 0;
 				int goodResult = 0;
@@ -100,15 +101,14 @@ public class LoadTestTimeRecord {
 	}
 
 	private static Employee getRandomEmployee(TimeRecordControler controller) {
-		List<Company> companies = controller.getListCompany();
-		if (!companies.isEmpty()) {
-			Company randomCompany = companies.get(0);
-			List<Employee> employees = randomCompany.getListEmp();
-			if (!employees.isEmpty()) {
-				int randomIndex = new Random().nextInt(employees.size());
-				return employees.get(randomIndex);
-			}
+
+		List<Employee> employees = company.getListEmp();
+		if (!employees.isEmpty()) {
+			int randomIndex = new Random().nextInt(employees.size());
+
+			return employees.get(randomIndex);
 		}
+
 		return null;
 	}
 

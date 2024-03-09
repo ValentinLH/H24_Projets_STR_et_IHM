@@ -112,7 +112,7 @@ public class CentralAppController implements NetworkObserver {
 				try {
 					@SuppressWarnings("unchecked")
 					ArrayList<Record> obj2 = (ArrayList<Record>) receivedObject;
-
+					
 					for (Record rec : obj2) {
 						if (rec.getEmployee().getCompany().equals(company) == true) {
 							if (company.getListEmp().contains(rec.getEmployee()) == true) {
