@@ -38,7 +38,7 @@ public class LoadTestTimeRecord {
 		// Simuler des actions simultanées de plusieurs utilisateurs
 		simulateUserActions(controller, 5, 20); // 10 utilisateurs effectuent 20 actions chacun
 
-		System.out.println("Total record receive : " + app.getCompany().getListRec().size());
+		System.out.println("Nombre total de pointage reçu par l'application central : " + app.getCompany().getListRec().size());
 
 	}
 
@@ -92,8 +92,8 @@ public class LoadTestTimeRecord {
 			// Attendre que tous les threads se terminent
 			latch.await();
 			// Afficher les totaux
-			System.out.println("Total Good Results: " + totalGoodResult.get());
-			System.out.println("Total Bad Results: " + totalBadResult.get());
+			System.out.println("Nombre total d'envoie réussi: " + totalGoodResult.get());
+			System.out.println("Nombre total d'envoie échoué " + totalBadResult.get());
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
