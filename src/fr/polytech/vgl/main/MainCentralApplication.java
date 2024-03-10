@@ -30,20 +30,30 @@ public class MainCentralApplication {
 				try {
 					// GiveCompanyView gv = new GiveCompanyView();
 					CompanyListController window = new CompanyListController();
-					
+
 					try {
 						List<Company> deSerialize = Serialisation.deserialize("company.sav");
 						// listCompany = deSerialize;
 
 						for (Company newcomp : deSerialize) {
-							newcomp.getListDpt().forEach(dpt -> dpt.setCompany(newcomp));
+							// newcomp.getListDpt().forEach(dpt -> dpt.setCompany(newcomp));
 							window.addCompany(newcomp);
 						}
 					} catch (Exception e) {
-						
+						//e.printStackTrace();
 					}
-					
-					//window.addCompany(StubMain.stubCompany());
+
+					try {
+						Company newcomp = Serialisation.deserialize("company.sav");
+						// listCompany = deSerialize;
+
+						window.addCompany(newcomp);
+
+					} catch (Exception e) {
+						//e.printStackTrace();
+					}
+
+					// window.addCompany(StubMain.stubCompany());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

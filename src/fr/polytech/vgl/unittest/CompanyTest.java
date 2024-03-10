@@ -68,7 +68,7 @@ public class CompanyTest {
         company.addRecord(record1);
         company.addRecord(record2);
         company.sortRecord();
-        assertEquals(record2, company.getListRec().get(0));
+        assertEquals(record2, company.AllRecord().get(0));
     }
 
     @Test

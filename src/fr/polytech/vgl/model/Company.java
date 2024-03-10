@@ -178,7 +178,8 @@ public class Company implements java.io.Serializable {
 	}
 
 	public void setListDpt(List<Department> listDpt) {
-		this.listDpt = listDpt;
+		this.listDpt = new ArrayList<>();
+		listDpt.forEach(dpt-> addDepartment(dpt));
 	}
 
 	/**

@@ -25,7 +25,6 @@ public class StubMain {
 		// Company c1 = new Company("Juanito Futuristique");
 		Department d1 = new Department("Administration");
 
-		
 
 		Company rep = stubCompany();
 
@@ -58,7 +57,7 @@ public class StubMain {
 
 		Company sec = miniStubCompany();
 
-		System.out.println("Employ� du mois :");
+		System.out.println("Employé du mois :");
 		// System.out.println("Le portefeuile de "+ sec.getListEmp().get(0) + " est de "
 		// + sec.getListEmp().get(0).getOvertimePortfolio() + " Minutes");
 		System.out.println("Les records ");
@@ -98,12 +97,12 @@ public class StubMain {
 		listRec.add(comp2.getListEmp().get(1).getRecords().get(2));
 		listRec.add(comp2.getListEmp().get(2).getRecords().get(0));
 		
-		Serialisation.serialize(listRec,"records.sav");
+		Serialisation.serialize(listRec,"newrecords.sav");
 		
-		Serialisation.serialize(rep,"company.sav");
+		Serialisation.serialize(rep,"newcompany.sav");
 		
 		
-		Company c = Serialisation.deserialize("company.sav");
+		Company c = Serialisation.deserialize("newcompany.sav");
 		
 		System.out.println(c);
 
@@ -130,27 +129,34 @@ public class StubMain {
 		listD.add(d2);
 		listD.add(d3);
 
-		List<Employee> listE = new ArrayList<>();
 
 		Collections.shuffle(listD);
-		listE.add(new Employee("Judas", "Nanasse", c, listD.get(0)));
+		listD.get(0).addEmployee(new Employee("Judas", "Nanasse"));
 		Collections.shuffle(listD);
-		listE.add(new Employee("Lara", "Clette", c, listD.get(0)));
+		listD.get(0).addEmployee(new Employee("Lara", "Clette"));
 		Collections.shuffle(listD);
-		listE.add(new Employee("Sylvain", "Hebon", c, listD.get(0)));
+		listD.get(0).addEmployee(new Employee("Sylvain", "Hebon"));
 		Collections.shuffle(listD);
-		listE.add(new Employee("Eve", "Idamant", c, listD.get(0)));
+		listD.get(0).addEmployee(new Employee("Eve", "Idamant"));
 		Collections.shuffle(listD);
-		listE.add(new Employee("Aubin", "Sahalor", c, listD.get(0)));
+		listD.get(0).addEmployee(new Employee("Aubin", "Sahalor"));
 
-		Collections.shuffle(listE);
+		
+		
+		
 		List<Integer> listI = new ArrayList<>();
 		listI.add(7);
 		listI.add(8);
 		listI.add(9);
 		listI.add(10);
+		
 
-		for (Employee emp : listE) {
+		c.addDepartment(d1);
+		c.addDepartment(d2);
+		c.addDepartment(d3);
+
+
+		for (Employee emp : c.getListEmp()) {
 			Collections.shuffle(listDate);
 			LocalDateTime temp = listDate.get(0);
 			for (int i = 0; i < 5; i++) {
@@ -160,7 +166,8 @@ public class StubMain {
 				temp = temp.plusDays(1);
 			}
 		}
-
+		
+		
 		return c;
 	}
 
@@ -175,19 +182,19 @@ public class StubMain {
 		listD.add(new Department("Research and Developement"));
 		listD.add(new Department("Production"));
 
-		List<Employee> listE = new ArrayList<>();
 
 		Collections.shuffle(listD);
-		listE.add(new Employee("Judas", "Nanas", c, listD.get(0)));
-
-		Collections.shuffle(listE);
+		listD.get(0).addEmployee(new Employee("Judas", "Nanas"));
+		
+		c.setListDpt(listD);
+		
 		List<Integer> listI = new ArrayList<>();
 		//listI.add(7);
 		//listI.add(8);
 		listI.add(9);
 		//listI.add(10);
 
-		for (Employee emp : listE) {
+		for (Employee emp : c.getListEmp()) {
 			Collections.shuffle(listDate);
 			LocalDateTime temp = listDate.get(0);
 			for (int i = 0; i < 5; i++) {
@@ -214,28 +221,26 @@ public class StubMain {
 		date1.withYear(1984);
 		
 		listDate.add(date1);
-		List<Department> listD = new ArrayList<>();
-		listD.add(new Department("Archive"));
-		listD.add(new Department("Administration"));
-		listD.add(new Department("Research and Developement"));
-		listD.add(new Department("Production"));
-
-		List<Employee> listE = new ArrayList<>();
-
+		c.addDepartment(new Department("Archive"));
+		c.addDepartment(new Department("Administration"));
+		c.addDepartment(new Department("Research and Developement"));
+		c.addDepartment(new Department("Production"));
+	
+		
 		for (int i = 0; i < 20; i++)
 		{
-			Collections.shuffle(listD);
-			listE.add(new Employee("Winston", "Smith", c, listD.get(0)));	
+			Collections.shuffle(c.getListDpt());
+			c.getListDpt().get(0).addEmployee(new Employee("Winston", "Smith"));	
 		}
 		
-		Collections.shuffle(listE);
+		
 		List<Integer> listI = new ArrayList<>();
 		listI.add(7);
 		listI.add(8);
 		listI.add(9);
 		listI.add(10);
 
-		for (Employee emp : listE) {
+		for (Employee emp : c.getListEmp()) {
 			Collections.shuffle(listDate);
 			LocalDateTime temp = listDate.get(0);
 			for (int i = 0; i < 5; i++) {

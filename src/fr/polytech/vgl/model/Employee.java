@@ -35,12 +35,26 @@ public class Employee implements java.io.Serializable {
 	private Department departement;
 	private List<Record> records;
 	
+    public Employee(String _name, String _surname ) {
+        name = _name;
+        surname = _surname;
+        id = id_auto;
+        id_auto++;
+        
+        departement = null;
+        // Using CopyOnWriteArrayList for thread safety
+        records = new CopyOnWriteArrayList<>();
+        schedule = new Schedule();
+        overtimePortfolio = 0;
+    }
 	
+    @Deprecated
     public Employee(String _name, String _surname, Company _company, Department _departement) {
         name = _name;
         surname = _surname;
         id = id_auto;
         id_auto++;
+        setCompany(_company);
         setDepartement(_departement);
         // Using CopyOnWriteArrayList for thread safety
         records = new CopyOnWriteArrayList<>();
@@ -48,6 +62,8 @@ public class Employee implements java.io.Serializable {
         overtimePortfolio = 0;
     }
 
+
+    @Deprecated
     public Employee(String _name, String _surname, int _id, Company _company, Department _departement,
             List<Record> _records) {
         name = _name;

@@ -58,6 +58,7 @@ public class Department implements java.io.Serializable {
 
 	public void addEmployee(Employee emp) {
 		listEmp.add(emp);
+		emp.setDepartement(this);
 	}
 
 	public void delEmployee(Employee emp) {
