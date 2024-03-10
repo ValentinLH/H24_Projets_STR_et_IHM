@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import fr.polytech.vgl.timerecord.controller.ModelManager;
+
 
 /**
  *  Company represent the company
@@ -18,6 +20,7 @@ public class Company implements java.io.Serializable {
 	private List<Employee> listEmp;
 	private List<Record> listRec;
 	private List<Department> listDpt;
+	private ModelManager Mm;
 	
 	/**
 	 * Default Constructor
@@ -62,6 +65,7 @@ public class Company implements java.io.Serializable {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+		Mm.onNotifyCompanyReceived(this);
 	}
 
 	public List<Employee> getListEmp() {
@@ -70,6 +74,7 @@ public class Company implements java.io.Serializable {
 
 	public void setListEmp(List<Employee> listEmp) {
 		this.listEmp = listEmp;
+		Mm.onNotifyCompanyReceived(this);
 	}
 
 	public List<Record> getListRec() {
@@ -78,6 +83,7 @@ public class Company implements java.io.Serializable {
 
 	public void setListRec(List<Record> listRec) {
 		this.listRec = listRec;
+		Mm.onNotifyCompanyReceived(this);
 	}
 	
 	/**
@@ -91,6 +97,7 @@ public class Company implements java.io.Serializable {
 			listEmp.add(emp);
 			emp.setCompany(this);
 			addDepartment(emp.getDepartement());
+			Mm.onNotifyCompanyReceived(this);
 		}
 		
 	}
@@ -103,6 +110,7 @@ public class Company implements java.io.Serializable {
 	{
 		try {
 			listEmp.remove(emp);
+			Mm.onNotifyCompanyReceived(this);
 		}
 		catch (Exception exc)
 		{
@@ -118,6 +126,7 @@ public class Company implements java.io.Serializable {
 	{
 		try {
 			listEmp.remove(index);
+			Mm.onNotifyCompanyReceived(this);
 		}
 		catch (Exception exc)
 		{
@@ -133,8 +142,8 @@ public class Company implements java.io.Serializable {
 	{
 		if(listRec.contains(rec) == false)
 		{
-			
 			listRec.add(rec);
+			Mm.onNotifyCompanyReceived(this);
 		}
 	}
 	
@@ -149,6 +158,7 @@ public class Company implements java.io.Serializable {
 		if(listRec.contains(rec) == false)
 		{
 			listRec.add(rec);
+			Mm.onNotifyCompanyReceived(this);
 		}
 	}
 	
@@ -201,6 +211,7 @@ public class Company implements java.io.Serializable {
 		{
 			listDpt.remove(null);
 		}
+		Mm.onNotifyCompanyReceived(this);
 	}
 	
 	/**
@@ -211,6 +222,7 @@ public class Company implements java.io.Serializable {
 		if(listDpt.contains(Dpt) == false)
 		{
 			listDpt.remove(Dpt);
+			Mm.onNotifyCompanyReceived(this);
 		}
 	}
 	
@@ -280,6 +292,14 @@ public class Company implements java.io.Serializable {
 		//}
 		
 		return allrecord;
+	}
+	
+	public void setModelManager(ModelManager Mm) {
+		this.Mm = Mm;
+	}
+	
+	public ModelManager getModelManager() {
+		return Mm;
 	}
 	
 

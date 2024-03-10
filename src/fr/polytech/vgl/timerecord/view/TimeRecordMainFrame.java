@@ -719,14 +719,25 @@ public class TimeRecordMainFrame implements ObserverModel{
 	public void onEmployeeReceived(Employee receivedEmployee){
 		
 	}
+	
 	public void onDepartementReceived(Department receivedDepartment){
 		
 	}
+	
 	public void onCompanyReceived(Company receivedCompany){
-		
+	     
+		// Mise à jour la companie
+	     /*for (int i = 0; i < comboBox_2.getItemCount(); i++) {
+	         if (receivedCompany.equals(comboBox_2.getItemAt(i))) {
+	             comboBox_2.removeItem(receivedCompany, i);
+	             break; // Sort de la boucle après la mise à jour
+	         }
+	     }*/
+		comboBox_2.removeItem(receivedCompany);
+		comboBox_2.addItem(receivedCompany);
 	}
+	
 	public void onRecordReceived(Record receivedRecord){
-		
 	}
 }
 

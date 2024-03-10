@@ -22,6 +22,7 @@ import fr.polytech.vgl.network.TCPInfo;
 import fr.polytech.vgl.serialisation.Serialisation;
 import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
 import fr.polytech.vgl.timerecord.controller.ObserverModel;
+import fr.polytech.vgl.timerecord.controller.ModelManager;
 
 /**
  * Main Controller Class of the TimeRecorder
@@ -42,8 +43,7 @@ public class TimeRecordControler implements NetworkObserver {
 
 	private Map<Employee, LocalDateTime> antiSpam;
 	
-	private List<ObserverModel> modelObservers;
-
+	private ModelManager Mm;
 	/**
 	 * TimeRecordControler()
 	 * 
@@ -84,7 +84,7 @@ public class TimeRecordControler implements NetworkObserver {
 		// addCompany()
 		// view.
 		
-		modelObservers = new ArrayList<>();
+		Mm = new ModelManager();
 		addModelObservers(view);
 
 		sendRecordBuffer();
@@ -106,6 +106,11 @@ public class TimeRecordControler implements NetworkObserver {
 	 * @param listCompany
 	 */
 	public void setListCompany(List<Company> listCompany) {
+		
+		for(Company comp : listCompany){
+			comp.setModelManager(Mm);
+		}
+		
 		this.listCompany = listCompany;
 	}
 
@@ -119,11 +124,13 @@ public class TimeRecordControler implements NetworkObserver {
 		// view.comboBox_1.addCompany(company);
 		// view.addEmployee(company.getListEmp().get(0));
 		boolean contain = false;
+		
+		company.setModelManager(Mm);
+		
 		for (Company com : listCompany) {
 			if (com.getCompanyName().equals(company.getCompanyName()) == true) {
 				contain = true;
 			}
-
 		}
 
 		if (contain == false) {
@@ -133,7 +140,6 @@ public class TimeRecordControler implements NetworkObserver {
 			view.addCompany(company);
 			listCompany.add(company);
 		}
-
 	}
 
 	/**
@@ -394,32 +400,11 @@ public class TimeRecordControler implements NetworkObserver {
 	
 	
 	public void addModelObservers(ObserverModel om) {
-		modelObservers.add(om);
+		Mm.addModelObservers(om);
 	}
 	
 	public void removeModelObservers(ObserverModel om) {
-		modelObservers.remove(om);
+		Mm.removeModelObservers(om);
 	}
 	
-	public void onNotifyEmployeeReceived(Employee receivedEmployee){
-        for (ObserverModel observer : modelObservers) {
-            observer.onEmployeeReceived(receivedEmployee);
-        }
-	}
-	public void onNotifyDepartementReceived(Department receivedDepartment){
-        for (ObserverModel observer : modelObservers) {
-            observer.onDepartementReceived(receivedDepartment);
-        }
-	}
-	public void onNotifyCompanyReceived(Company receivedCompany){
-        for (ObserverModel observer : modelObservers) {
-            observer.onCompanyReceived(receivedCompany);
-        }
-	}
-	public void onNotifyRecordReceived(Record receivedRecord){
-        for (ObserverModel observer : modelObservers) {
-            observer.onRecordReceived(receivedRecord);
-        }
-	}
-
 }
