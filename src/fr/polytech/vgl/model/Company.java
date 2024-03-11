@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import fr.polytech.vgl.timerecord.controller.ModelManager;
+import fr.polytech.vgl.timerecord.controller.ObserverModel;
 
 
 /**
@@ -20,7 +21,10 @@ public class Company implements java.io.Serializable {
 	private List<Employee> listEmp;
 	private List<Record> listRec;
 	private List<Department> listDpt;
-	private ModelManager Mm;
+	
+	private transient List<ObserverModel> modelObservers;
+	
+	//private transient ModelManager Mm;
 	
 	/**
 	 * Default Constructor
@@ -30,6 +34,7 @@ public class Company implements java.io.Serializable {
 		this.listEmp = new ArrayList<>();
 		this.listRec = new ArrayList<>();
 		this.listDpt = new ArrayList<>(); 
+		this.modelObservers = new ArrayList<>();
 	}
 	
 	/**
@@ -41,6 +46,7 @@ public class Company implements java.io.Serializable {
 		this.listEmp = new ArrayList<>();
 		this.listRec = new ArrayList<>();
 		this.listDpt =new ArrayList<>(); 
+		this.modelObservers = new ArrayList<>();
 	}
 
 	/**
@@ -55,6 +61,7 @@ public class Company implements java.io.Serializable {
 		this.listEmp = listEmp;
 		this.listRec = listRec;
 		this.listDpt =new ArrayList<>(); 
+		this.modelObservers = new ArrayList<>();
 	}
 	
 	
@@ -65,7 +72,7 @@ public class Company implements java.io.Serializable {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
-		Mm.onNotifyCompanyReceived(this);
+		onNotifyCompanyReceived(this);
 	}
 
 	public List<Employee> getListEmp() {
@@ -74,7 +81,7 @@ public class Company implements java.io.Serializable {
 
 	public void setListEmp(List<Employee> listEmp) {
 		this.listEmp = listEmp;
-		Mm.onNotifyCompanyReceived(this);
+		onNotifyCompanyReceived(this);
 	}
 
 	public List<Record> getListRec() {
@@ -83,7 +90,7 @@ public class Company implements java.io.Serializable {
 
 	public void setListRec(List<Record> listRec) {
 		this.listRec = listRec;
-		Mm.onNotifyCompanyReceived(this);
+		onNotifyCompanyReceived(this);
 	}
 	
 	/**
@@ -97,7 +104,7 @@ public class Company implements java.io.Serializable {
 			listEmp.add(emp);
 			emp.setCompany(this);
 			addDepartment(emp.getDepartement());
-			Mm.onNotifyCompanyReceived(this);
+			onNotifyCompanyReceived(this);
 		}
 		
 	}
@@ -110,7 +117,7 @@ public class Company implements java.io.Serializable {
 	{
 		try {
 			listEmp.remove(emp);
-			Mm.onNotifyCompanyReceived(this);
+			onNotifyCompanyReceived(this);
 		}
 		catch (Exception exc)
 		{
@@ -126,7 +133,7 @@ public class Company implements java.io.Serializable {
 	{
 		try {
 			listEmp.remove(index);
-			Mm.onNotifyCompanyReceived(this);
+			onNotifyCompanyReceived(this);
 		}
 		catch (Exception exc)
 		{
@@ -143,7 +150,7 @@ public class Company implements java.io.Serializable {
 		if(listRec.contains(rec) == false)
 		{
 			listRec.add(rec);
-			Mm.onNotifyCompanyReceived(this);
+			onNotifyCompanyReceived(this);
 		}
 	}
 	
@@ -158,7 +165,7 @@ public class Company implements java.io.Serializable {
 		if(listRec.contains(rec) == false)
 		{
 			listRec.add(rec);
-			Mm.onNotifyCompanyReceived(this);
+			onNotifyCompanyReceived(this);
 		}
 	}
 	
@@ -211,7 +218,7 @@ public class Company implements java.io.Serializable {
 		{
 			listDpt.remove(null);
 		}
-		Mm.onNotifyCompanyReceived(this);
+		onNotifyCompanyReceived(this);
 	}
 	
 	/**
@@ -222,7 +229,7 @@ public class Company implements java.io.Serializable {
 		if(listDpt.contains(Dpt) == false)
 		{
 			listDpt.remove(Dpt);
-			Mm.onNotifyCompanyReceived(this);
+			onNotifyCompanyReceived(this);
 		}
 	}
 	
@@ -294,14 +301,66 @@ public class Company implements java.io.Serializable {
 		return allrecord;
 	}
 	
-	public void setModelManager(ModelManager Mm) {
-		this.Mm = Mm;
+	
+	//Gestion des observeur
+	public void addModelObservers(ObserverModel om) {
+		if(modelObservers == null) {
+			this.modelObservers = new ArrayList<>();
+		}
+		
+		if(om != null && modelObservers.contains(om) == false)
+			modelObservers.add(om);
 	}
 	
-	public ModelManager getModelManager() {
-		return Mm;
+	public void removeModelObservers(ObserverModel om) {
+		if(modelObservers == null) {
+			this.modelObservers = new ArrayList<>();
+			return;
+		}
+		
+		if(om != null && modelObservers.contains(om) == true)
+			modelObservers.remove(om);
 	}
 	
-
+	public void onNotifyEmployeeReceived(Employee receivedEmployee){
+		if(modelObservers != null) {
+			for (ObserverModel observer : modelObservers) {
+	            observer.onEmployeeReceived(receivedEmployee);
+	        }
+		}
+	}
+	
+	public void onNotifyDepartementReceived(Department receivedDepartment){
+		if(modelObservers != null) {
+			for (ObserverModel observer : modelObservers) {
+	            observer.onDepartementReceived(receivedDepartment);
+	        }
+		}
+	}
+	
+	public void onNotifyCompanyReceived(Company receivedCompany){
+		
+		if(modelObservers == null) {
+			this.modelObservers = new ArrayList<>();
+		}
+		
+		
+		if(modelObservers != null) {
+	        for (ObserverModel observer : modelObservers) {
+	            observer.onCompanyReceived(receivedCompany);
+	        }
+		}
+	}
+	
+	public void onNotifyRecordReceived(Record receivedRecord){
+        
+		if(modelObservers != null) {
+			for (ObserverModel observer : modelObservers) {
+	            observer.onRecordReceived(receivedRecord);
+	        }
+		}
+	}
+	
+	
 	
 }

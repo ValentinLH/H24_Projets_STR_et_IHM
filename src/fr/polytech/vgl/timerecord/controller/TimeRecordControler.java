@@ -34,7 +34,7 @@ import fr.polytech.vgl.timerecord.controller.ModelManager;
 
 public class TimeRecordControler implements NetworkObserver {
 
-	private TimeRecordMainFrame view;
+	private transient TimeRecordMainFrame view;
 	private List<Company> listCompany;
 	private List<Record> recordsBuffer;
 
@@ -43,7 +43,8 @@ public class TimeRecordControler implements NetworkObserver {
 
 	private Map<Employee, LocalDateTime> antiSpam;
 	
-	private ModelManager Mm;
+//	private transient  ModelManager Mm;
+	
 	/**
 	 * TimeRecordControler()
 	 * 
@@ -84,8 +85,8 @@ public class TimeRecordControler implements NetworkObserver {
 		// addCompany()
 		// view.
 		
-		Mm = new ModelManager();
-		addModelObservers(view);
+//		Mm = new ModelManager();
+//		addModelObservers(view);
 
 		sendRecordBuffer();
 
@@ -108,7 +109,8 @@ public class TimeRecordControler implements NetworkObserver {
 	public void setListCompany(List<Company> listCompany) {
 		
 		for(Company comp : listCompany){
-			comp.setModelManager(Mm);
+			//comp.setModelManager(Mm);
+			comp.addModelObservers(view);
 		}
 		
 		this.listCompany = listCompany;
@@ -125,7 +127,7 @@ public class TimeRecordControler implements NetworkObserver {
 		// view.addEmployee(company.getListEmp().get(0));
 		boolean contain = false;
 		
-		company.setModelManager(Mm);
+		//company.setModelManager(Mm);
 		
 		for (Company com : listCompany) {
 			if (com.getCompanyName().equals(company.getCompanyName()) == true) {
@@ -137,6 +139,7 @@ public class TimeRecordControler implements NetworkObserver {
 			for (Employee emp : company.getListEmp()) {
 				view.addEmployee(emp);
 			}
+			company.addModelObservers(view);
 			view.addCompany(company);
 			listCompany.add(company);
 		}
@@ -375,6 +378,7 @@ public class TimeRecordControler implements NetworkObserver {
 			// System.out.println(obj.getClass().getName());
 			if (receivedObject.getClass().getName().equals("fr.polytech.vgl.model.Company") == true) {
 				Company c = (Company) receivedObject;
+				c.addModelObservers(view);
 				addCompany(c);
 
 				System.out.println("Client TimeRecord> Company added ");
@@ -384,6 +388,7 @@ public class TimeRecordControler implements NetworkObserver {
 					ArrayList<Company> obj2 = (ArrayList<Company>) receivedObject;
 					List<Company> listc = obj2;
 					for (Company comp : listc) {
+						comp.addModelObservers(view);
 						addCompany(comp);
 					}
 					// return "Companies has been insered";
@@ -399,12 +404,12 @@ public class TimeRecordControler implements NetworkObserver {
 	}
 	
 	
-	public void addModelObservers(ObserverModel om) {
-		Mm.addModelObservers(om);
-	}
-	
-	public void removeModelObservers(ObserverModel om) {
-		Mm.removeModelObservers(om);
-	}
+//	public void addModelObservers(ObserverModel om) {
+//		Mm.addModelObservers(om);
+//	}
+//	
+//	public void removeModelObservers(ObserverModel om) {
+//		Mm.removeModelObservers(om);
+//	}
 	
 }

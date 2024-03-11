@@ -1,5 +1,6 @@
 package fr.polytech.vgl.timerecord.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +9,14 @@ import fr.polytech.vgl.model.Department;
 import fr.polytech.vgl.model.Employee;
 import fr.polytech.vgl.model.Record;
 
-public class ModelManager {
+public class ModelManager implements Serializable {
 
-	private List<ObserverModel> modelObservers = new ArrayList<>();;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private transient List<ObserverModel> modelObservers = new ArrayList<>();;
 	
 	public ModelManager() {}
 	

@@ -10,9 +10,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -46,15 +48,20 @@ import fr.polytech.vgl.timerecord.controller.ObserverModel;
 */
 public class TimeRecordMainFrame implements ObserverModel{
 
-	
-	private TimeRecordControler controler;
 
-	private JComboBox<Employee> comboBox, comboBox_1;
-	private JComboBox<Company> comboBox_2;
+//	/**
+//	 * 
+//	 */
+//	private static final long serialVersionUID = 5702551851172487422L;
 
-	private JFrame frmTimerecord;
-	MaskFormatter  dateFormatter;
-	final static Color[] colors = { Color.decode("#C8DDF2"), Color.decode("#9CB5E1"), Color.decode("#DFF5E9"),
+	private transient TimeRecordControler controler;
+
+	private transient JComboBox<Employee> comboBox, comboBox_1;
+	private transient JComboBox<Company> comboBox_2;
+
+	private transient JFrame frmTimerecord;
+	transient MaskFormatter  dateFormatter;
+	transient final static Color[] colors = { Color.decode("#C8DDF2"), Color.decode("#9CB5E1"), Color.decode("#DFF5E9"),
 			Color.decode("#F0D0D0") };
 
 	/*
@@ -733,8 +740,10 @@ public class TimeRecordMainFrame implements ObserverModel{
 	             break; // Sort de la boucle après la mise à jour
 	         }
 	     }*/
-		comboBox_2.removeItem(receivedCompany);
-		comboBox_2.addItem(receivedCompany);
+		if(receivedCompany != null) {
+			comboBox_2.removeItem(receivedCompany);
+			comboBox_2.addItem(receivedCompany);
+		}
 	}
 	
 	public void onRecordReceived(Record receivedRecord){
