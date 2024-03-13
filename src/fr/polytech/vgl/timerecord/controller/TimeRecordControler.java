@@ -124,17 +124,8 @@ public class TimeRecordControler implements NetworkObserver {
 		// view.comboBox.addCompany(company);
 		// view.comboBox_1.addCompany(company);
 		// view.addEmployee(company.getListEmp().get(0));
-		boolean contain = false;
-		
-		//company.setModelManager(Mm);
-		
-		for (Company com : listCompany) {
-			if (com.getCompanyName().equals(company.getCompanyName()) == true) {
-				contain = true;
-			}
-		}
 
-		if (contain == false) {
+		if (listCompany.contains(company) == false) {
 			for (Employee emp : company.getListEmp()) {
 				view.addEmployee(emp);
 			}
@@ -213,7 +204,7 @@ public class TimeRecordControler implements NetworkObserver {
 		/*
 		 * String patternString =
 		 * "(Localhost)| ^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +
-		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +
+		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +a
 		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +
 		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$";
 		 */
