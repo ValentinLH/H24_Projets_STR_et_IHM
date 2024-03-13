@@ -54,14 +54,14 @@ public class TimeRecordMainFrame implements ObserverModel{
 //	 */
 //	private static final long serialVersionUID = 5702551851172487422L;
 
-	private transient TimeRecordControler controler;
+	private TimeRecordControler controler;
 
-	private transient JComboBox<Employee> comboBox, comboBox_1;
-	private transient JComboBox<Company> comboBox_2;
+	private JComboBox<Employee> comboBox, comboBox_1;
+	private JComboBox<Company> comboBox_2;
 
-	private transient JFrame frmTimerecord;
-	transient MaskFormatter  dateFormatter;
-	transient final static Color[] colors = { Color.decode("#C8DDF2"), Color.decode("#9CB5E1"), Color.decode("#DFF5E9"),
+	private JFrame frmTimerecord;
+	MaskFormatter  dateFormatter;
+	final static Color[] colors = { Color.decode("#C8DDF2"), Color.decode("#9CB5E1"), Color.decode("#DFF5E9"),
 			Color.decode("#F0D0D0") };
 
 	/*
@@ -722,31 +722,12 @@ public class TimeRecordMainFrame implements ObserverModel{
 		
 	}
 	
-	//
-	public void onEmployeeReceived(Employee receivedEmployee){
-		
-	}
-	
-	public void onDepartementReceived(Department receivedDepartment){
-		
-	}
-	
+	//Observer
 	public void onCompanyReceived(Company receivedCompany){
-	     
-		// Mise à jour la companie
-	     /*for (int i = 0; i < comboBox_2.getItemCount(); i++) {
-	         if (receivedCompany.equals(comboBox_2.getItemAt(i))) {
-	             comboBox_2.removeItem(receivedCompany, i);
-	             break; // Sort de la boucle après la mise à jour
-	         }
-	     }*/
-		if(receivedCompany != null) {
+	     if(receivedCompany != null) {
 			comboBox_2.removeItem(receivedCompany);
 			comboBox_2.addItem(receivedCompany);
 		}
-	}
-	
-	public void onRecordReceived(Record receivedRecord){
 	}
 }
 

@@ -22,7 +22,6 @@ import fr.polytech.vgl.network.TCPInfo;
 import fr.polytech.vgl.serialisation.Serialisation;
 import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
 import fr.polytech.vgl.timerecord.controller.ObserverModel;
-import fr.polytech.vgl.timerecord.controller.ModelManager;
 
 /**
  * Main Controller Class of the TimeRecorder
