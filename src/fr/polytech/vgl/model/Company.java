@@ -324,8 +324,7 @@ public class Company implements java.io.Serializable {
 		if(modelObservers == null) {
 			this.modelObservers = new ArrayList<>();
 		}
-		
-		if(modelObservers != null) {
+		else {
 	        for (ObserverModel observer : modelObservers) {
 	            observer.onCompanyReceived(receivedCompany);
 	        }
