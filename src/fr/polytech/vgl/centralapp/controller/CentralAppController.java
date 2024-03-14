@@ -103,7 +103,7 @@ public class CentralAppController implements NetworkObserver {
 			// System.out.println(obj.getClass().getName());
 			if (receivedObject.getClass().getName().equals("fr.polytech.vgl.model.Record") == true) {
 				Record rec = (Record) receivedObject;
-
+				company.addRecord(rec);
 				// ajouter le rec
 
 				System.out.println("Client> Central app Record Receive " + rec);
