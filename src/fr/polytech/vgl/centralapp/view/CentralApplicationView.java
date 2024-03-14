@@ -39,7 +39,7 @@ public class CentralApplicationView extends JFrame {
 	final static Color[] colors = { Color.decode("#C8DDF2"), Color.decode("#9CB5E1"), Color.decode("#DFF5E9"),
 			Color.decode("#F0D0D0") };
 	JFrame jFrame = new JFrame();
-
+	
 	/*
 	 * Conteneur des onglets
 	 */
@@ -49,24 +49,24 @@ public class CentralApplicationView extends JFrame {
 	 * Cr�ation de la fen�tre ainsi que du panel des employ�s Cela correspond au
 	 * tableau de tous les employ�s avec leurs informations respectives
 	 */
-	private ModelOfEmployeeTable frame = new ModelOfEmployeeTable();
-	private JTable tableau = new JTable(frame);
-	public TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tableau.getModel());
+	private ModelOfEmployeeTable frame;
+	private JTable tableau;
+	public TableRowSorter<TableModel> sorter;
 
 	/**
 	 * Cr�ation de la fen�tre ainsi que du panel de tous les pointages Cela
 	 * correspond au tableau aux pointages de tous les emloy�s
 	 */
-	private ModelOfCheckPanel frame2 = new ModelOfCheckPanel(GiveCompanyView.company.getListEmp());
-	private JTable tableau2 = new JTable(frame2);
-	public TableRowSorter<TableModel> sorter2 = new TableRowSorter<TableModel>(tableau2.getModel());
+	private ModelOfCheckPanel frame2;
+	private JTable tableau2;
+	public TableRowSorter<TableModel> sorter2;
 
 	/**
 	 * Cr�ation de la fen�tre ainsi que du panel de tous les pointages du jour Cela
 	 * correspond au tableau de tous les pointages du jour
 	 */
-	private ModelOfDayCheckPanel frame3 = new ModelOfDayCheckPanel(GiveCompanyView.company.getListEmp());
-	private JTable tableau3 = new JTable(frame3);
+	private ModelOfDayCheckPanel frame3;
+	private JTable tableau3;
 
 	/**
 	 * Cr�tion du controler de centralapp
@@ -93,9 +93,25 @@ public class CentralApplicationView extends JFrame {
 
 		super();
 		setTitle("CENTRAL APPLICATION");
+		
 		this.controler = controler;
 		jFrame.setLayout(null);
 		jFrame.setResizable(true);
+		
+		// parenthese initialisation des tableau et onglets
+		frame = new ModelOfEmployeeTable(controler.getCompany());
+		tableau = new JTable(frame);
+		sorter = new TableRowSorter<TableModel>(tableau.getModel());
+		
+		frame2 = new ModelOfCheckPanel(controler.getCompany());
+		tableau2 = new JTable(frame2);
+		sorter2 = new TableRowSorter<TableModel>(tableau2.getModel());
+
+		frame3 = new ModelOfDayCheckPanel(controler.getCompany());
+		tableau3 = new JTable(frame3);		
+		
+		// de retour sur la création de la fenetre
+		
 		jFrame.setMinimumSize(new Dimension(500, 500));
 		jFrame.setSize(1000, 700);
 		jFrame.setVisible(true);
