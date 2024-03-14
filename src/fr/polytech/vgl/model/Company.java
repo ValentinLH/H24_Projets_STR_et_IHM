@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import fr.polytech.vgl.timerecord.controller.ObserverModel;
 import java.util.stream.Collectors;
 
 /**
@@ -21,13 +22,18 @@ public class Company implements java.io.Serializable {
 	private List<Employee> listEmp;
 	private List<Department> listDpt;
 
+	private transient List<ObserverModel> modelObservers;
+		
+
 	/**
 	 * Default Constructor
 	 */
 	public Company() {
 		companyName = "Not Defined";
 		this.listEmp = new ArrayList<>();
-		this.listDpt = new ArrayList<>();
+		this.listDpt = new ArrayList<>(); 
+		this.modelObservers = new ArrayList<>();
+
 	}
 
 	/**
@@ -38,7 +44,9 @@ public class Company implements java.io.Serializable {
 	public Company(String _companyName) {
 		companyName = _companyName;
 		this.listEmp = new ArrayList<>();
-		this.listDpt = new ArrayList<>();
+		this.listDpt =new ArrayList<>(); 
+		this.modelObservers = new ArrayList<>();
+
 	}
 
 	/**
@@ -52,7 +60,7 @@ public class Company implements java.io.Serializable {
 		super();
 		companyName = _companyName;
 		this.listEmp = listEmp;
-		this.listDpt = new ArrayList<>();
+		this.modelObservers = new ArrayList<>();
 	}
 
 	public String getCompanyName() {
@@ -61,6 +69,7 @@ public class Company implements java.io.Serializable {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+		onNotifyCompanyReceived(this);
 	}
 
 	public List<Employee> getListEmp() {
@@ -69,6 +78,7 @@ public class Company implements java.io.Serializable {
 
 	public void setListEmp(List<Employee> listEmp) {
 		this.listEmp = listEmp;
+		onNotifyCompanyReceived(this);
 	}
 
 	public List<Record> getListRec() {
@@ -77,8 +87,11 @@ public class Company implements java.io.Serializable {
 
 	@Deprecated
 	public void setListRec(List<Record> listRec) {
+		onNotifyCompanyReceived(this);
+
 		System.out.println("Il n'est plus possible d'ajouter une liste brute de record a company");
 		// this.listRec = listRec;
+
 	}
 
 	/**
@@ -91,6 +104,7 @@ public class Company implements java.io.Serializable {
 			listEmp.add(emp);
 			emp.setCompany(this);
 			addDepartment(emp.getDepartement());
+			onNotifyCompanyReceived(this);
 		}
 
 	}
@@ -103,8 +117,12 @@ public class Company implements java.io.Serializable {
 	public void delEmployee(Employee emp) {
 		try {
 			listEmp.remove(emp);
-		} catch (Exception exc) {
-			// nothing here to del
+			onNotifyCompanyReceived(this);
+		}
+		catch (Exception exc)
+		{
+			//nothing here to del
+
 		}
 	}
 
@@ -116,8 +134,11 @@ public class Company implements java.io.Serializable {
 	public void delEmployee(int index) {
 		try {
 			listEmp.remove(index);
-		} catch (Exception exc) {
-			// nothing here to del
+			onNotifyCompanyReceived(this);
+		}
+		catch (Exception exc)
+		{
+			//nothing here to del
 		}
 	}
 
@@ -126,6 +147,7 @@ public class Company implements java.io.Serializable {
 	 * 
 	 * @param rec
 	 */
+
 	public void addRecord(Record rec) {
 
 		if (listEmp.contains(rec.getEmployee())) {
@@ -133,6 +155,8 @@ public class Company implements java.io.Serializable {
 			Employee foundEmployee = listEmp.get(listEmp.indexOf(rec.getEmployee()));
 
 			foundEmployee.addRecord(rec);
+      
+			onNotifyCompanyReceived(this);
 
 		}
 	}
@@ -143,8 +167,11 @@ public class Company implements java.io.Serializable {
 	 * @param emp
 	 * @param date
 	 */
+      
 	public void addRecord(Employee emp, LocalDateTime date) {
 		emp.addRecord(date);
+    onNotifyCompanyReceived(this);
+
 	}
 
 	/**
@@ -195,6 +222,7 @@ public class Company implements java.io.Serializable {
 		if (listDpt.contains(null) == true) {
 			listDpt.remove(null);
 		}
+		onNotifyCompanyReceived(this);
 	}
 
 	/**
@@ -205,6 +233,7 @@ public class Company implements java.io.Serializable {
 	public void delDepartment(Department Dpt) {
 		if (listDpt.contains(Dpt)) {
 			listDpt.remove(Dpt);
+			onNotifyCompanyReceived(this);
 		}
 	}
 
@@ -260,5 +289,39 @@ public class Company implements java.io.Serializable {
 		java.util.Collections.sort(listRec);
 		return listRec;
 	}
+
+	
+	
+	//Gestion des observers
+	public void addModelObservers(ObserverModel om) {
+		if(modelObservers == null) {
+			this.modelObservers = new ArrayList<>();
+		}
+		
+		if(om != null && modelObservers.contains(om) == false)
+			modelObservers.add(om);
+	}
+	
+	public void removeModelObservers(ObserverModel om) {
+		if(modelObservers == null) {
+			this.modelObservers = new ArrayList<>();
+			return;
+		}
+		
+		if(om != null && modelObservers.contains(om) == true)
+			modelObservers.remove(om);
+	}
+	
+	public void onNotifyCompanyReceived(Company receivedCompany){
+		
+		if(modelObservers == null) {
+			this.modelObservers = new ArrayList<>();
+		}
+		else {
+	        for (ObserverModel observer : modelObservers) {
+	            observer.onCompanyReceived(receivedCompany);
+	        }
+		}
+	}	
 
 }

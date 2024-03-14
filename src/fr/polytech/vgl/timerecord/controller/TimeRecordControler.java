@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import fr.polytech.vgl.model.Company;
+import fr.polytech.vgl.model.Department;
 import fr.polytech.vgl.model.Employee;
 import fr.polytech.vgl.model.Record;
 import fr.polytech.vgl.network.NetworkManager;
@@ -20,6 +21,7 @@ import fr.polytech.vgl.network.TCPServer;
 import fr.polytech.vgl.network.TCPInfo;
 import fr.polytech.vgl.serialisation.Serialisation;
 import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
+import fr.polytech.vgl.timerecord.controller.ObserverModel;
 
 /**
  * Main Controller Class of the TimeRecorder
@@ -31,7 +33,7 @@ import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
 
 public class TimeRecordControler implements NetworkObserver {
 
-	private TimeRecordMainFrame view;
+	private transient TimeRecordMainFrame view;
 	private List<Company> listCompany;
 	private List<Record> recordsBuffer;
 
@@ -39,7 +41,9 @@ public class TimeRecordControler implements NetworkObserver {
 	private File file;
 
 	private Map<Employee, LocalDateTime> antiSpam;
-
+	
+//	private transient  ModelManager Mm;
+	
 	/**
 	 * TimeRecordControler()
 	 * 
@@ -79,6 +83,9 @@ public class TimeRecordControler implements NetworkObserver {
 
 		// addCompany()
 		// view.
+		
+//		Mm = new ModelManager();
+//		addModelObservers(view);
 
 		sendRecordBuffer();
 
@@ -99,6 +106,12 @@ public class TimeRecordControler implements NetworkObserver {
 	 * @param listCompany
 	 */
 	public void setListCompany(List<Company> listCompany) {
+		
+		for(Company comp : listCompany){
+			//comp.setModelManager(Mm);
+			comp.addModelObservers(view);
+		}
+		
 		this.listCompany = listCompany;
 	}
 
@@ -111,22 +124,15 @@ public class TimeRecordControler implements NetworkObserver {
 		// view.comboBox.addCompany(company);
 		// view.comboBox_1.addCompany(company);
 		// view.addEmployee(company.getListEmp().get(0));
-		boolean contain = false;
-		for (Company com : listCompany) {
-			if (com.getCompanyName().equals(company.getCompanyName()) == true) {
-				contain = true;
-			}
 
-		}
-
-		if (contain == false) {
+		if (listCompany.contains(company) == false) {
 			for (Employee emp : company.getListEmp()) {
 				view.addEmployee(emp);
 			}
+			company.addModelObservers(view);
 			view.addCompany(company);
 			listCompany.add(company);
 		}
-
 	}
 
 	/**
@@ -198,7 +204,7 @@ public class TimeRecordControler implements NetworkObserver {
 		/*
 		 * String patternString =
 		 * "(Localhost)| ^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +
-		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +
+		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +a
 		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +
 		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$";
 		 */
@@ -362,6 +368,7 @@ public class TimeRecordControler implements NetworkObserver {
 			// System.out.println(obj.getClass().getName());
 			if (receivedObject.getClass().getName().equals("fr.polytech.vgl.model.Company") == true) {
 				Company c = (Company) receivedObject;
+				c.addModelObservers(view);
 				addCompany(c);
 
 				System.out.println("Client TimeRecord> Company added ");
@@ -371,6 +378,7 @@ public class TimeRecordControler implements NetworkObserver {
 					ArrayList<Company> obj2 = (ArrayList<Company>) receivedObject;
 					List<Company> listc = obj2;
 					for (Company comp : listc) {
+						comp.addModelObservers(view);
 						addCompany(comp);
 					}
 					// return "Companies has been insered";
@@ -384,5 +392,14 @@ public class TimeRecordControler implements NetworkObserver {
 		}
 
 	}
-
+	
+	
+//	public void addModelObservers(ObserverModel om) {
+//		Mm.addModelObservers(om);
+//	}
+//	
+//	public void removeModelObservers(ObserverModel om) {
+//		Mm.removeModelObservers(om);
+//	}
+	
 }
