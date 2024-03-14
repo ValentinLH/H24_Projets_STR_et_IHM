@@ -30,7 +30,6 @@ import fr.polytech.vgl.timerecord.controller.ObserverModel;
  * @version VLH 06/03/24
  *
  */
-
 public class TimeRecordControler implements NetworkObserver {
 
 	private transient TimeRecordMainFrame view;
@@ -42,7 +41,6 @@ public class TimeRecordControler implements NetworkObserver {
 
 	private Map<Employee, LocalDateTime> antiSpam;
 	
-//	private transient  ModelManager Mm;
 	
 	/**
 	 * TimeRecordControler()
@@ -393,13 +391,5 @@ public class TimeRecordControler implements NetworkObserver {
 
 	}
 	
-	
-//	public void addModelObservers(ObserverModel om) {
-//		Mm.addModelObservers(om);
-//	}
-//	
-//	public void removeModelObservers(ObserverModel om) {
-//		Mm.removeModelObservers(om);
-//	}
 	
 }
