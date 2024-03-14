@@ -691,12 +691,15 @@ public class TimeRecordMainFrame implements ObserverModel {
 	}
 
 
-	public void onCompanyReceived(Company receivedCompany) {
+	public void Update(Company receivedCompany) {
 
 		if (receivedCompany != null) {
 			comboBox_2.removeItem(receivedCompany);
 			comboBox_2.addItem(receivedCompany);
 		}
+		
+		System.out.println("lllllllll");
+
 	}
 
 }

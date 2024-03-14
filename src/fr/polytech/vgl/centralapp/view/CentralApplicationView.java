@@ -33,8 +33,9 @@ import fr.polytech.vgl.centralapp.controller.FilterEmployeeController;
 import fr.polytech.vgl.centralapp.controller.OpenAddEmployeeController;
 import fr.polytech.vgl.centralapp.controller.SeeCheckEmployeeController;
 import fr.polytech.vgl.model.Company;
+import fr.polytech.vgl.timerecord.controller.ObserverModel;
 
-public class CentralApplicationView extends JFrame {
+public class CentralApplicationView extends JFrame implements ObserverModel {
 
 	final static Color[] colors = { Color.decode("#C8DDF2"), Color.decode("#9CB5E1"), Color.decode("#DFF5E9"),
 			Color.decode("#F0D0D0") };
@@ -539,6 +540,12 @@ public class CentralApplicationView extends JFrame {
 	static int ConfirmDel(String companyName) {
 		return JOptionPane.showConfirmDialog(null, "Do you really want to delete the Company: " + companyName + " ?",
 				"Confirmation", JOptionPane.YES_NO_OPTION);
+	}
+
+	@Override
+	public void Update(Company receivedCompany) {
+		// TODO Auto-generated method stub
+		System.out.println("APP CENTRAL NOTIFY");
 	}
 
 }

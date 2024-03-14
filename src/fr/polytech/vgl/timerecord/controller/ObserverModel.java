@@ -6,5 +6,5 @@ import fr.polytech.vgl.model.Record;
 import fr.polytech.vgl.model.Department;
 
 public interface ObserverModel {
-	void onCompanyReceived(Company receivedCompany);
+	void Update(Company receivedCompany);
 }

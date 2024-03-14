@@ -79,12 +79,6 @@ public class TimeRecordControler implements NetworkObserver {
 			recordsBuffer = new ArrayList<>();
 		}
 
-		// addCompany()
-		// view.
-		
-//		Mm = new ModelManager();
-//		addModelObservers(view);
-
 		sendRecordBuffer();
 
 	}

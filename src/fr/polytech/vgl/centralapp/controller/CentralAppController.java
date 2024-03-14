@@ -33,8 +33,12 @@ public class CentralAppController implements NetworkObserver {
 	    // Initialisation de l'objet Company associé à ce contrôleur
 	    this.company = company;
 	    
+	    
 	    // Création de la vue associée à ce contrôleur
 	    this.setView(new CentralApplicationView(this));
+	    
+	    this.company.addModelObservers(view);
+
 	}
 
 	public synchronized Company getCompany() {
@@ -42,6 +46,7 @@ public class CentralAppController implements NetworkObserver {
 	}
 
 	public synchronized void setCompany(Company company) {
+		company.addModelObservers(view);
 		this.company = company;
 	}
 
@@ -87,6 +92,7 @@ public class CentralAppController implements NetworkObserver {
 			List<Company> listC = new ArrayList<>();
 			for (Company Comp : GiveCompanyView.getlistCompany()) {
 				if (listC.contains(Comp) == false) {
+					//Comp.addModelObservers(this.getView());
 					listC.add(Comp);
 				}
 			}
