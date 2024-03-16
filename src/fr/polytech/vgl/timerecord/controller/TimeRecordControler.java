@@ -19,6 +19,10 @@ import fr.polytech.vgl.network.TCPInfo;
 import fr.polytech.vgl.serialisation.Serialisation;
 import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
 
+
+
+import fr.polytech.vgl.timerecord.view.TimeRecordReimagined;
+
 /**
  *  Main Controller Class of the TimeRecorder
  * @author Touret Lino - L'Hermite Valentin
@@ -28,7 +32,15 @@ import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
 
 public class TimeRecordControler {
 
+	
+	
+	/******************
 	private TimeRecordMainFrame view;
+	*******************/
+	private TimeRecordReimagined view;
+
+	
+	
 	private List<Company> listCompany;
 	private List<Record> recordsBuffer;
 
@@ -47,7 +59,14 @@ public class TimeRecordControler {
 	 */
 	public TimeRecordControler() {
 		listCompany = new ArrayList<>();
+		
+		
+		/******************
 		view = new TimeRecordMainFrame(this);
+		*******************/
+		view = new TimeRecordReimagined(this);
+		
+
 		file = null;
 		antiSpam = new HashMap<>();
 

@@ -22,5 +22,6 @@
 	<classpathentry kind="lib" path="C:/Users/ivano/Desktop/Double Diplome/Semestre 10/Projet-jar/sub/trident-7.3-base.jar"/>
 	<classpathentry kind="lib" path="C:/Users/ivano/Desktop/Double Diplome/Semestre 10/Projet-jar/sub/trident-7.3-swing.jar"/>
 	<classpathentry kind="lib" path="C:/Users/ivano/Desktop/Double Diplome/Semestre 10/Projet-jar/sub/trident-7.3-swt.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

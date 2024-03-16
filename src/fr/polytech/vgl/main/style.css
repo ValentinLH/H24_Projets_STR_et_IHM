@@ -1,0 +1,62 @@
+body {
+  font-family: Arial, sans-serif; /* Remplacez $font-family par la police de caract�res de votre choix */
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000; /* Remplacez var(--black) par la couleur noire r�elle */
+  background-color: #f5f5f5; /* Utilisation d'une couleur similaire � lighten-color(color-black, 0.9) */
+  margin: 0 auto; /* L'�quivalent CSS de margin: 0 auto */
+  scroll-behavior: smooth;
+  max-width: 800px; /* Remplacez $max-width par la valeur souhait�e */
+  padding: 40px 32px;
+}
+
+.button {
+    position: relative;
+    border: 0;
+    transition: 0.5s;
+    z-index: 1;
+    min-width: 240px;
+    padding: 16px 32px;
+    font-size: 14px;
+    line-height: 1;
+    /* Remplacez $font-family par la police de caractères de votre choix */
+    font-family: Arial, sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
+    background: black;
+    color: white;
+  }
+  
+  .button:before,
+  .button:after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+  }
+  
+  .button.--glow:hover {
+    background: var(--primary); /* Assurez-vous que --primary est défini quelque part */
+    box-shadow: 0 0 5px var(--primary), 0 0 25px var(--primary);
+  }
+  
+  .button.--pulse:hover {
+    animation: pulse 1.5s infinite;
+  }
+  
+  .button.--door:hover {
+    box-shadow: inset -7.5rem 0 0 0 var(--primary), inset 7.5rem 0 0 0 var(--primary);
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
