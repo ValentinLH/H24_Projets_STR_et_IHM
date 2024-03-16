@@ -2,6 +2,7 @@ package fr.polytech.vgl.realtime;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class BufferedMemory<T> {
 
@@ -9,43 +10,28 @@ public class BufferedMemory<T> {
     private int more;
     private List<T> garbage;
     private List<T> used;
-    private Class<T> clazz;
+    private Supplier<T> supplier; // Fonction de création personnalisée
 
-    public BufferedMemory(int capacity, int more, Class<T> clazz) {
+    public BufferedMemory(int capacity, int more, Supplier<T> supplier) {
         this.capacity = capacity;
         this.more = more;
-        this.garbage = new ArrayList<>();
         this.used = new ArrayList<>();
-        this.clazz = clazz;
-        fillGarbagePool(clazz);
-    }
-
-    public BufferedMemory(int capacity, int more, List<T> used, Class<T> clazz) {
-        this.capacity = capacity;
-        this.more = more;
-        this.used = used;
         this.garbage = new ArrayList<>();
-        this.clazz = clazz;
-        fillGarbagePool(clazz);
+        this.supplier = supplier;
+        fillGarbagePool();
     }
 
-    private void fillGarbagePool(Class<T> clazz) {
+    private void fillGarbagePool() {
         for (int i = 0; i < capacity; i++) {
-            T obj = createObject(clazz);
+            T obj = createObject();
             if (obj != null) {
                 garbage.add(obj);
             }
         }
     }
 
-    private T createObject(Class<T> clazz) {
-        try {
-            // Utilisez getDeclaredConstructor() pour obtenir le constructeur par défaut (sans arguments)
-            return clazz.getDeclaredConstructor().newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    private T createObject() {
+        return supplier.get(); // Utilise la fonction de création personnalisée
     }
     
     public T useObject() {
@@ -55,7 +41,7 @@ public class BufferedMemory<T> {
             return obj;
         } else {
             // If no objects in garbage, create new object
-            T obj = createObject(clazz);
+            T obj = createObject();
             used.add(obj);
             return obj;
         }
@@ -84,3 +70,6 @@ public class BufferedMemory<T> {
         this.more = more;
     }
 }
+
+
+
