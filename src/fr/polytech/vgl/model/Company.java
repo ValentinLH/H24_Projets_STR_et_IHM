@@ -319,7 +319,7 @@ public class Company implements java.io.Serializable {
 		}
 		else {
 	        for (ObserverModel observer : modelObservers) {
-	            observer.Update(receivedCompany);
+	            observer.AsyncNotify(receivedCompany);
 	        }
 		}
 	}	
