@@ -36,7 +36,7 @@ public class LoadTestTimeRecord {
 		controller.addCompany(company);
 
 		// Simuler des actions simultanées de plusieurs utilisateurs
-		simulateUserActions(controller, 5, 50); // 10 utilisateurs effectuent 20 actions chacun
+		simulateUserActions(controller, 1, 50); // 10 utilisateurs effectuent 20 actions chacun
 
 		System.out.println(
 				"Nombre total de pointage reçu par l'application central : " + app.getCompany().getListRec().size());

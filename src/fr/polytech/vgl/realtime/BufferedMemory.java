@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import fr.polytech.vgl.model.Record;
+
 public class BufferedMemory<T> {
 
     private int capacity;
@@ -20,9 +22,20 @@ public class BufferedMemory<T> {
         this.supplier = supplier;
         fillGarbagePool();
     }
+    
+    public BufferedMemory(int capacity, int more, Supplier<T> supplier,List<T> used) {
+        this.capacity = capacity;
+        this.more = more;
+        this.used = used;
+        this.garbage = new ArrayList<>();
+        this.supplier = supplier;
+        fillGarbagePool();
+    }
+
+    
 
     private void fillGarbagePool() {
-        for (int i = 0; i < capacity; i++) {
+        for (int i = used.size(); i < capacity; i++) {
             T obj = createObject();
             if (obj != null) {
                 garbage.add(obj);
@@ -30,9 +43,17 @@ public class BufferedMemory<T> {
         }
     }
 
+    private void fillMore() {
+    	capacity += more;
+    	fillGarbagePool(); // Utilise la fonction de création personnalisée
+    }
+    
+    
     private T createObject() {
         return supplier.get(); // Utilise la fonction de création personnalisée
     }
+    
+  
     
     public T useObject() {
         if (!garbage.isEmpty()) {
@@ -69,6 +90,20 @@ public class BufferedMemory<T> {
     public void setMore(int more) {
         this.more = more;
     }
+
+	public void clear() {
+		garbage.addAll(used);
+		used.clear();
+		
+	}
+
+	public boolean isEmpty() {
+		return used.isEmpty();
+	}
+
+	public boolean contains(T obj) {
+		return used.contains(obj);
+	}
 }
 
 
