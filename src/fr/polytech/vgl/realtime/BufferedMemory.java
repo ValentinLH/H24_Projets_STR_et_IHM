@@ -9,48 +9,45 @@ public class BufferedMemory<T> {
     private int more;
     private List<T> garbage;
     private List<T> used;
+    private Class<T> clazz;
 
-    public BufferedMemory(int capacity, int more) {
+    public BufferedMemory(int capacity, int more, Class<T> clazz) {
         this.capacity = capacity;
         this.more = more;
         this.garbage = new ArrayList<>();
         this.used = new ArrayList<>();
-        create();
+        this.clazz = clazz;
+        fillGarbagePool(clazz);
     }
 
-    public BufferedMemory(int capacity, int more, List<T> used) {
+    public BufferedMemory(int capacity, int more, List<T> used, Class<T> clazz) {
         this.capacity = capacity;
         this.more = more;
         this.used = used;
         this.garbage = new ArrayList<>();
-        create();
+        this.clazz = clazz;
+        fillGarbagePool(clazz);
     }
 
-    private void create() {
+    private void fillGarbagePool(Class<T> clazz) {
         for (int i = 0; i < capacity; i++) {
-            T obj = createObject();
-            garbage.add(obj);
+            T obj = createObject(clazz);
+            if (obj != null) {
+                garbage.add(obj);
+            }
         }
     }
 
-    @SuppressWarnings("unchecked")
-	private T createObject() {
-        // Create new object of type T
-        // You need to implement this method based on your requirements
-        // For demonstration, let's assume T has a no-arg constructor
+    private T createObject(Class<T> clazz) {
         try {
-        	Class<T> clazz = (Class<T>) Class.forName("fr.polytech.vgl.realtime.BufferedMemory");
             // Utilisez getDeclaredConstructor() pour obtenir le constructeur par défaut (sans arguments)
             return clazz.getDeclaredConstructor().newInstance();
-        	 //return type.getDeclaredConstructor().newInstance();
-        } catch (Exception  e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
         return null;
     }
     
-   
-
     public T useObject() {
         if (!garbage.isEmpty()) {
             T obj = garbage.remove(0);
@@ -58,7 +55,7 @@ public class BufferedMemory<T> {
             return obj;
         } else {
             // If no objects in garbage, create new object
-            T obj = createObject();
+            T obj = createObject(clazz);
             used.add(obj);
             return obj;
         }
