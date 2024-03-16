@@ -36,13 +36,15 @@ public class LoadTestTimeRecord {
 		controller.addCompany(company);
 
 		// Simuler des actions simultanées de plusieurs utilisateurs
-		simulateUserActions(controller, 5, 20); // 10 utilisateurs effectuent 20 actions chacun
+		simulateUserActions(controller, 5, 50); // 10 utilisateurs effectuent 20 actions chacun
 
-		System.out.println("Nombre total de pointage reçu par l'application central : " + app.getCompany().getListRec().size());
+		System.out.println(
+				"Nombre total de pointage reçu par l'application central : " + app.getCompany().getListRec().size());
 
 	}
 
-	private static void simulateUserActions(TimeRecordControler controller, int numberOfUsers, int actionsPerUser) {
+	private static void simulateRandomUserActions(TimeRecordControler controller, int numberOfUsers,
+			int actionsPerUser) {
 		AtomicInteger totalGoodResult = new AtomicInteger(0);
 		AtomicInteger totalBadResult = new AtomicInteger(0);
 
@@ -73,8 +75,59 @@ public class LoadTestTimeRecord {
 
 						}
 					} catch (Exception e) {
+						// e.printStackTrace();
+
 					}
-					addMin += 15;
+					addMin += 16;
+					sleepRandomMilliseconds(100, 500);
+				}
+
+				// Ajouter les résultats du thread aux totaux
+				totalGoodResult.addAndGet(goodResult);
+				totalBadResult.addAndGet(badResult);
+
+				// Indiquer que le thread a terminé son exécution
+				latch.countDown();
+			}).start();
+		}
+	}
+
+	private static void simulateUserActions(TimeRecordControler controller, int numberOfUsers, int actionsPerUser) {
+		AtomicInteger totalGoodResult = new AtomicInteger(0);
+		AtomicInteger totalBadResult = new AtomicInteger(0);
+
+		CountDownLatch latch = new CountDownLatch(numberOfUsers);
+
+		for (int i = 1; i < numberOfUsers + 1; i++) {
+			int userId = i;
+
+			new Thread(() -> {
+				int addMin = 0;
+				int goodResult = 0;
+				int badResult = 0;
+				List<Employee> employees = company.getListEmp();
+				Employee randomEmployee = employees.get(userId);
+				for (int j = 1; j <= actionsPerUser; j++) {
+					try {
+
+						if (randomEmployee != null) {
+
+							int result = controller.sendRecordTest(randomEmployee,
+									LocalDateTime.now().plusMinutes(addMin));
+
+							System.out.println(
+									"User " + Thread.currentThread().getId() + " - Action " + j + ": Result " + result);
+
+							if (result == 1) {
+								goodResult++;
+							} else {
+								badResult++;
+							}
+
+						}
+					} catch (Exception e) {
+					}
+					addMin += 16;
 					sleepRandomMilliseconds(100, 500);
 				}
 

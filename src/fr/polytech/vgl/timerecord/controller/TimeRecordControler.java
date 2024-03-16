@@ -42,7 +42,6 @@ public class TimeRecordControler implements NetworkObserver {
 
 	private Map<Employee, LocalDateTime> antiSpam;
 	
-//	private transient  ModelManager Mm;
 	
 	/**
 	 * TimeRecordControler()
