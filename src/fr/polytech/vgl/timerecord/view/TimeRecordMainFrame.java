@@ -47,7 +47,6 @@ public class TimeRecordMainFrame implements ObserverModel {
 //	/**
 //	 * 
 //	 */
-//	private static final long serialVersionUID = 5702551851172487422L;
 
 	private TimeRecordControler controler;
 

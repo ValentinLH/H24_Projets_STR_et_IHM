@@ -24,13 +24,23 @@ public class Record implements Comparable<Record>,java.io.Serializable {
 	
 	public Record(LocalDateTime record, Employee emp) {
 		super();
-		this.record = record ;
+			
+		if (record == null)
+		{
+			record = LocalDateTime.now();
+		}
+		this.record = record ;	
 		setHoursMinutes(record.getHour(),record.getMinute());
 		this.employee = emp;
 		emp.addRecord(this);
 	}
 	public Record(LocalDateTime record) {
 		super();
+		
+		if (record == null)
+		{
+			record = LocalDateTime.now();
+		}
 		this.record = record;
 		setHoursMinutes(record.getHour(),record.getMinute());
 		employee= null;
