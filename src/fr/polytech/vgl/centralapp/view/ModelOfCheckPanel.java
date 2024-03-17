@@ -9,12 +9,17 @@ import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Employee;
 import fr.polytech.vgl.model.Record;
 
+/**
+ * ModelOfCheckPanel is a view of a table 
+ * 
+ * @version VLH 09/03/24
+ */
 public class ModelOfCheckPanel extends AbstractTableModel {
 
 	/**
 	 * Nom de l'entreprise choisie par l'utilisateur
 	 */
-	private Company company = GiveCompanyView.company;
+	private Company company;
 
 	/*
 	 * Une liste d'employee
@@ -28,9 +33,10 @@ public class ModelOfCheckPanel extends AbstractTableModel {
 	 * 
 	 * @param Liste d'employee
 	 */
-	public ModelOfCheckPanel(List<Employee> listemp) {
+	public ModelOfCheckPanel(Company company) {
 		super();
-		this.listemployee = listemp;
+		this.company = company;
+		this.listemployee = company.getListEmp();
 	}
 
 	/**

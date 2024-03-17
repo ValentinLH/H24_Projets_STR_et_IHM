@@ -1,6 +1,5 @@
 package fr.polytech.vgl.centralapp.view;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +10,18 @@ import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Employee;
 import fr.polytech.vgl.model.Record;
 
+
+/**
+ * ModelOfDayCheckPanel is a view of a table 
+ * 
+ * @version VLH 09/03/24
+ */
 public class ModelOfDayCheckPanel extends AbstractTableModel {
 
 	/**
 	 * Nom de l'entreprise choisie par l'utilisateur
 	 */
-	private Company company = GiveCompanyView.company;
+	private Company company;
 
 	/*
 	 * Une liste d'employee
@@ -30,9 +35,10 @@ public class ModelOfDayCheckPanel extends AbstractTableModel {
 	 * 
 	 * @param Une liste d'employ�
 	 */
-	public ModelOfDayCheckPanel(List<Employee> listemp) {
+	public ModelOfDayCheckPanel(Company company) {
 		super();
-		this.listemployee = listemp;
+		this.company = company;
+		//this.listemployee = listemp;
 	}
 
 	/**
@@ -81,39 +87,7 @@ public class ModelOfDayCheckPanel extends AbstractTableModel {
 		
 	}
 
-	/**
-	 *C'�tait un test avant de cr�er la fonction recordsOftheDay qui permet de renvoyer tous les pointages du jour
-	 * 
-	 * @param lignes
-	 * @param colonne
-	 * @return l'object � mettre dans la bonne case
-	 */
-	public Object getValueAtTest(int row, int col) {
-
-		List<Record> records = new ArrayList<Record>();
-		for (int i = 0; i < listemployee.size(); i++) {
-			for (int j = 0; j < getListRecordofDay(listemployee.get(i)).size(); j++) {
-				records.add(getListRecordofDay(listemployee.get(i)).get(j));
-			}
-		}
-
-		switch (col) {
-		case 0:
-			return records.get(row).getEmployee();
-		// listemployee.get(row% listemployee.size());
-		case 1:
-			/*
-			 * if (getListRecordofDay(listemployee.get(row%listemployee.size())).get(row%2)
-			 * != null){ return
-			 * getListRecordofDay(listemployee.get(row%listemployee.size())).get(row%2).
-			 * getRecord(); }else { return "No Check for today"; }
-			 */
-			return records.get(row).getRecord();
-
-		default:
-			return null;
-		}
-	}
+	
 
 	/**
 	 * Permet d'avoir le nom des colonnes

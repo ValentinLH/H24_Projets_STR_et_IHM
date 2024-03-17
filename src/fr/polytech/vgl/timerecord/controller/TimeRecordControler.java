@@ -11,29 +11,36 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import fr.polytech.vgl.model.Company;
+import fr.polytech.vgl.model.Department;
 import fr.polytech.vgl.model.Employee;
 import fr.polytech.vgl.model.Record;
 import fr.polytech.vgl.network.NetworkManager;
 import fr.polytech.vgl.network.NetworkObserver;
 import fr.polytech.vgl.network.TCPClient;
 import fr.polytech.vgl.network.TCPServer;
+import fr.polytech.vgl.realtime.BufferedMemory;
 import fr.polytech.vgl.network.TCPInfo;
 import fr.polytech.vgl.serialisation.Serialisation;
 import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
+import fr.polytech.vgl.timerecord.controller.ObserverModel;
 
 /**
  * Main Controller Class of the TimeRecorder
  * 
  * @author Touret Lino - L'Hermite Valentin
- * @version VLH 06/03/24
+ * @version VLH 16/03/24
  *
  */
-
 public class TimeRecordControler implements NetworkObserver {
+	
+	private static String save = "timerecord.sav";
+	private static String recordsSave = "records.sav";
 
 	private TimeRecordMainFrame view;
 	private List<Company> listCompany;
-	private List<Record> recordsBuffer;
+	
+	//16/03 ajout de la classe BufferedMemory pour ne plus faire de new durant l'exectution
+	private BufferedMemory<Record> recordsBuffer;
 
 	private NetworkManager networkManager;
 	private File file;
@@ -55,7 +62,7 @@ public class TimeRecordControler implements NetworkObserver {
 		antiSpam = new HashMap<>();
 
 		try {
-			List<Company> deSerialize = Serialisation.deserialize("timerecord.sav");
+			List<Company> deSerialize = Serialisation.deserialize(save);
 			// listCompany = deSerialize;
 
 			for (Company newcomp : deSerialize) {
@@ -65,20 +72,19 @@ public class TimeRecordControler implements NetworkObserver {
 			listCompany = new ArrayList<>();
 		}
 
-		recordsBuffer = new ArrayList<>();
+		// recordsBuffer = new ArrayList<>();
 		try {
-			List<Record> deSerializeRec = Serialisation.deserialize("records.sav");
+			List<Record> deSerializeRec = Serialisation.deserialize(recordsSave);
 			// listCompany = deSerialize;
-			for (Record rec : deSerializeRec) {
-				recordsBuffer.add(rec);
-			}
+
+			recordsBuffer = new BufferedMemory(15, 5, () -> new Record(null), deSerializeRec);
+
 
 		} catch (Exception e) {
-			recordsBuffer = new ArrayList<>();
-		}
+			recordsBuffer = new BufferedMemory(15, 5, () -> new Record(null));
 
-		// addCompany()
-		// view.
+
+		}
 
 		sendRecordBuffer();
 
@@ -99,6 +105,12 @@ public class TimeRecordControler implements NetworkObserver {
 	 * @param listCompany
 	 */
 	public void setListCompany(List<Company> listCompany) {
+
+		for (Company comp : listCompany) {
+			// comp.setModelManager(Mm);
+			comp.addModelObservers(view);
+		}
+
 		this.listCompany = listCompany;
 	}
 
@@ -111,22 +123,15 @@ public class TimeRecordControler implements NetworkObserver {
 		// view.comboBox.addCompany(company);
 		// view.comboBox_1.addCompany(company);
 		// view.addEmployee(company.getListEmp().get(0));
-		boolean contain = false;
-		for (Company com : listCompany) {
-			if (com.getCompanyName().equals(company.getCompanyName()) == true) {
-				contain = true;
-			}
 
-		}
-
-		if (contain == false) {
+		if (listCompany.contains(company) == false) {
 			for (Employee emp : company.getListEmp()) {
 				view.addEmployee(emp);
 			}
+			company.addModelObservers(view);
 			view.addCompany(company);
 			listCompany.add(company);
 		}
-
 	}
 
 	/**
@@ -168,21 +173,19 @@ public class TimeRecordControler implements NetworkObserver {
 			}
 		}
 
-		Record newRecord = new Record(LocalDateTime.now(), employee);
+		Record newRecord = recordsBuffer.getObject();
+		newRecord.setEmployee(employee);
+		newRecord.setRecord(LocalDateTime.now());
 
 		antiSpam.put(employee, LocalDateTime.now().plusMinutes(Record.getRounded()));
 
 		if (recordsBuffer.contains(newRecord) == false) {
-			recordsBuffer.add(newRecord);
+			System.out.println(" ajouter un add au buffered memory");
+			// recordsBuffer.add(newRecord);
 		}
 		sendRecordBuffer();
 
-		if (recordsBuffer.isEmpty() == true) {
-			return 1;
-		} else {
-			return 0;
-		}
-
+		return recordsBuffer.isEmpty() ? 1 : 0;
 	}
 
 	/**
@@ -198,7 +201,7 @@ public class TimeRecordControler implements NetworkObserver {
 		/*
 		 * String patternString =
 		 * "(Localhost)| ^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +
-		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +
+		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +a
 		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\." +
 		 * "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$";
 		 */
@@ -239,22 +242,19 @@ public class TimeRecordControler implements NetworkObserver {
 	 * @return state of the sending
 	 */
 	public int sendRecordTest(Employee employee, LocalDateTime date) {
-		Record newRecord = new Record(date, employee);
-		// view.comboBox.getSelectedItem().toString();
+
+		Record newRecord = recordsBuffer.getObject();
+		newRecord.setEmployee(employee);
+		newRecord.setRecord(date);
 
 		if (recordsBuffer.contains(newRecord) == false) {
-			recordsBuffer.add(newRecord);
+			System.out.println(" ajouter un add au buffered memory");
+			// recordsBuffer.add(newRecord);
 		}
 		sendRecordBuffer();
 
-		if (recordsBuffer.isEmpty() == true) {
-			return 1;
-		} else {
-			return 0;
-		}
+		return recordsBuffer.isEmpty() ? 1 : 0;
 
-		// view.comboBox.
-		// System.out.println(newRecord);
 	}
 
 	/**
@@ -332,11 +332,11 @@ public class TimeRecordControler implements NetworkObserver {
 	 */
 	public void sendRecordBuffer() {
 
-		if (networkManager.sendObject(recordsBuffer)) {
-			System.out.println("Record  Sended : " + recordsBuffer);
+		if (networkManager.sendObject(recordsBuffer.getUsed())) {
+			System.out.println("Record  Sended : " + recordsBuffer.getUsed());
 			recordsBuffer.clear();
 		} else {
-			System.out.println("Record Not Sended : " + recordsBuffer);
+			System.out.println("Record Not Sended : " + recordsBuffer.getUsed());
 		}
 	}
 
@@ -346,12 +346,9 @@ public class TimeRecordControler implements NetworkObserver {
 	public void closeWindow() {
 
 		sendRecordBuffer();
-		if (recordsBuffer.isEmpty() == false) {
-			// System.out.println("Hey "+recordsBuffer.get(0));
-			Serialisation.serialize(recordsBuffer, "records.sav");
-		}
 
-		Serialisation.serialize(listCompany, "timerecord.sav");
+		Serialisation.serialize(recordsBuffer.getUsed(), recordsSave);
+		Serialisation.serialize(listCompany, save);
 	}
 
 	@Override
@@ -362,6 +359,7 @@ public class TimeRecordControler implements NetworkObserver {
 			// System.out.println(obj.getClass().getName());
 			if (receivedObject.getClass().getName().equals("fr.polytech.vgl.model.Company") == true) {
 				Company c = (Company) receivedObject;
+				c.addModelObservers(view);
 				addCompany(c);
 
 				System.out.println("Client TimeRecord> Company added ");
@@ -371,6 +369,7 @@ public class TimeRecordControler implements NetworkObserver {
 					ArrayList<Company> obj2 = (ArrayList<Company>) receivedObject;
 					List<Company> listc = obj2;
 					for (Company comp : listc) {
+						comp.addModelObservers(view);
 						addCompany(comp);
 					}
 					// return "Companies has been insered";

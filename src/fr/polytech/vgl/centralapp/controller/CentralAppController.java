@@ -15,7 +15,7 @@ import fr.polytech.vgl.serialisation.Serialisation;
  * CentralAppController is the main controller of the Central Application
  * 
  * @author Touret Lino - L'Hermite Valentin
- * @version VLH 06/03/24
+ * @version VLH 09/03/24
  */
 
 public class CentralAppController implements NetworkObserver {
@@ -26,55 +26,65 @@ public class CentralAppController implements NetworkObserver {
 	
 	
 	public CentralAppController(Company company) {
-		networkManager = new NetworkManager(8081, "localhost", 8080, this);
-		this.company = company;
-		this.view = new CentralApplicationView(this);
+	    // Création d'un gestionnaire de réseau avec les ports et l'observateur spécifiés
+	    // Pour simplifier, on suppose ici une approche à thread unique (single-threaded)
+	    this.networkManager = new NetworkManager(8081, "localhost", 8080, this);
+	    
+	    // Initialisation de l'objet Company associé à ce contrôleur
+	    this.company = company;
+	    
+	    
+	    // Création de la vue associée à ce contrôleur
+	    this.setView(new CentralApplicationView(this));
+	    
+	    this.company.addModelObservers(view);
 
 	}
 
-	public Company getCompany() {
+	public synchronized Company getCompany() {
 		return company;
 	}
 
-	public void setCompany(Company company) {
+	public synchronized void setCompany(Company company) {
+		company.addModelObservers(view);
 		this.company = company;
 	}
 
-	public String setIp(String ip) {
+	public synchronized String setIp(String ip) {
 		networkManager.setClientIp(ip);
 		return networkManager.getClientIp();
 
 	}
 
-	public String setPort(String port) {
+	public synchronized String setPort(String port) {
 		networkManager.setClientPort(port);
 		return "" + networkManager.getClientPort();
 
 	}
 
-	public String setMyPort(String port) {
+	public synchronized String setMyPort(String port) {
 		networkManager.setServerPort(port);
 		return "" + networkManager.getServerPort();
 
 	}
 
-	public String getMyIp() {
+	public synchronized String getMyIp() {
 		return networkManager.getServerIp();
 	}
 
-	public int getMyPort() {
+	public synchronized int getMyPort() {
 		return networkManager.getServerPort();
 	}
 
-	public int getPort() {
+	public synchronized int getPort() {
 		return networkManager.getClientPort();
 	}
 
-	public String getIp() {
+	public synchronized String getIp() {
 		return networkManager.getClientIp();
 	}
 
-	public void closeWindow() {
+	public synchronized void closeWindow() {
 		// sendRecordBuffer();
 
 		if (GiveCompanyView.getlistCompany().isEmpty() == false) {
@@ -82,6 +92,7 @@ public class CentralAppController implements NetworkObserver {
 			List<Company> listC = new ArrayList<>();
 			for (Company Comp : GiveCompanyView.getlistCompany()) {
 				if (listC.contains(Comp) == false) {
+					//Comp.addModelObservers(this.getView());
 					listC.add(Comp);
 				}
 			}
@@ -91,14 +102,14 @@ public class CentralAppController implements NetworkObserver {
 	}
 
 	@Override
-	public void onObjectReceived(Object receivedObject) {
-		// TODO Auto-generated method stub
-		System.out.println("Client TimeRecord> Object Receive ");
+	public synchronized void onObjectReceived(Object receivedObject) {
+		
+		System.out.println("Client Central app> Object Receive ");
 		if (receivedObject != null) {
 			// System.out.println(obj.getClass().getName());
 			if (receivedObject.getClass().getName().equals("fr.polytech.vgl.model.Record") == true) {
 				Record rec = (Record) receivedObject;
-
+				company.addRecord(rec);
 				// ajouter le rec
 
 				System.out.println("Client> Central app Record Receive " + rec);
@@ -107,7 +118,7 @@ public class CentralAppController implements NetworkObserver {
 				try {
 					@SuppressWarnings("unchecked")
 					ArrayList<Record> obj2 = (ArrayList<Record>) receivedObject;
-
+					
 					for (Record rec : obj2) {
 						if (rec.getEmployee().getCompany().equals(company) == true) {
 							if (company.getListEmp().contains(rec.getEmployee()) == true) {
@@ -137,6 +148,14 @@ public class CentralAppController implements NetworkObserver {
 			}
 
 		}
+	}
+
+	public synchronized CentralApplicationView getView() {
+		return view;
+	}
+
+	public synchronized void setView(CentralApplicationView view) {
+		this.view = view;
 	}
 
 }

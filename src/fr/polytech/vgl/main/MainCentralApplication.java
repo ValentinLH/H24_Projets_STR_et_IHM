@@ -32,7 +32,7 @@ public class MainCentralApplication {
 					CompanyListController window = new CompanyListController();
 					
 					try {
-						List<Company> deSerialize = Serialisation.deserialize("company.sav");
+						List<Company> deSerialize = Serialisation.deserialize("H24_Projets_STR_et_IHM/company.sav");
 						// listCompany = deSerialize;
 
 						for (Company newcomp : deSerialize) {
