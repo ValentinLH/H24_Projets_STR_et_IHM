@@ -33,8 +33,11 @@ import fr.polytech.vgl.timerecord.controller.ObserverModel;
  */
 
 public class TimeRecordControler implements NetworkObserver {
+	
+	private static String save = "timerecord.sav";
+	private static String recordsSave = "records.sav";
 
-	private transient TimeRecordMainFrame view;
+	private TimeRecordMainFrame view;
 	private List<Company> listCompany;
 	
 	//16/03 ajout de la classe BufferedMemory pour ne plus faire de new durant l'exectution
@@ -60,7 +63,7 @@ public class TimeRecordControler implements NetworkObserver {
 		antiSpam = new HashMap<>();
 
 		try {
-			List<Company> deSerialize = Serialisation.deserialize("timerecord.sav");
+			List<Company> deSerialize = Serialisation.deserialize(save);
 			// listCompany = deSerialize;
 
 			for (Company newcomp : deSerialize) {
@@ -72,7 +75,7 @@ public class TimeRecordControler implements NetworkObserver {
 
 		// recordsBuffer = new ArrayList<>();
 		try {
-			List<Record> deSerializeRec = Serialisation.deserialize("records.sav");
+			List<Record> deSerializeRec = Serialisation.deserialize(recordsSave);
 			// listCompany = deSerialize;
 
 			recordsBuffer = new BufferedMemory(15, 5, () -> new Record(null), deSerializeRec);
@@ -346,12 +349,12 @@ public class TimeRecordControler implements NetworkObserver {
 	public void closeWindow() {
 
 		sendRecordBuffer();
-		if (recordsBuffer.isEmpty() == false) {
-			// System.out.println("Hey "+recordsBuffer.get(0));
-			Serialisation.serialize(recordsBuffer.getUsed(), "records.sav");
-		}
-
-		Serialisation.serialize(listCompany, "timerecord.sav");
+//		if (recordsBuffer.isEmpty() == false) {
+//			// System.out.println("Hey "+recordsBuffer.get(0));
+//			
+//		}
+		Serialisation.serialize(recordsBuffer.getUsed(), recordsSave);
+		Serialisation.serialize(listCompany, save);
 	}
 
 	@Override
