@@ -31,7 +31,6 @@ import fr.polytech.vgl.timerecord.controller.ObserverModel;
  * @version VLH 16/03/24
  *
  */
-
 public class TimeRecordControler implements NetworkObserver {
 	
 	private static String save = "timerecord.sav";
@@ -80,12 +79,10 @@ public class TimeRecordControler implements NetworkObserver {
 
 			recordsBuffer = new BufferedMemory(15, 5, () -> new Record(null), deSerializeRec);
 
-//			for (Record rec : deSerializeRec) {
-//				recordsBuffer.add(rec);
-//			}
 
 		} catch (Exception e) {
 			recordsBuffer = new BufferedMemory(15, 5, () -> new Record(null));
+
 
 		}
 
@@ -349,10 +346,7 @@ public class TimeRecordControler implements NetworkObserver {
 	public void closeWindow() {
 
 		sendRecordBuffer();
-//		if (recordsBuffer.isEmpty() == false) {
-//			// System.out.println("Hey "+recordsBuffer.get(0));
-//			
-//		}
+
 		Serialisation.serialize(recordsBuffer.getUsed(), recordsSave);
 		Serialisation.serialize(listCompany, save);
 	}
@@ -389,13 +383,5 @@ public class TimeRecordControler implements NetworkObserver {
 		}
 
 	}
-
-//	public void addModelObservers(ObserverModel om) {
-//		Mm.addModelObservers(om);
-//	}
-//	
-//	public void removeModelObservers(ObserverModel om) {
-//		Mm.removeModelObservers(om);
-//	}
 
 }

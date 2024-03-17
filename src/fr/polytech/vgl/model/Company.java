@@ -69,7 +69,7 @@ public class Company implements java.io.Serializable {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
-		onNotifyCompanyReceived(this);
+		NotifyObserverModel(this);
 	}
 
 	public List<Employee> getListEmp() {
@@ -78,7 +78,7 @@ public class Company implements java.io.Serializable {
 
 	public void setListEmp(List<Employee> listEmp) {
 		this.listEmp = listEmp;
-		onNotifyCompanyReceived(this);
+		NotifyObserverModel(this);
 	}
 
 	public List<Record> getListRec() {
@@ -87,7 +87,7 @@ public class Company implements java.io.Serializable {
 
 	@Deprecated
 	public void setListRec(List<Record> listRec) {
-		onNotifyCompanyReceived(this);
+		NotifyObserverModel(this);
 
 		System.out.println("Il n'est plus possible d'ajouter une liste brute de record a company");
 		// this.listRec = listRec;
@@ -104,7 +104,7 @@ public class Company implements java.io.Serializable {
 			listEmp.add(emp);
 			emp.setCompany(this);
 			addDepartment(emp.getDepartement());
-			onNotifyCompanyReceived(this);
+			NotifyObserverModel(this);
 		}
 
 	}
@@ -117,7 +117,7 @@ public class Company implements java.io.Serializable {
 	public void delEmployee(Employee emp) {
 		try {
 			listEmp.remove(emp);
-			onNotifyCompanyReceived(this);
+			NotifyObserverModel(this);
 		}
 		catch (Exception exc)
 		{
@@ -134,7 +134,7 @@ public class Company implements java.io.Serializable {
 	public void delEmployee(int index) {
 		try {
 			listEmp.remove(index);
-			onNotifyCompanyReceived(this);
+			NotifyObserverModel(this);
 		}
 		catch (Exception exc)
 		{
@@ -156,7 +156,7 @@ public class Company implements java.io.Serializable {
 
 			foundEmployee.addRecord(rec);
       
-			onNotifyCompanyReceived(this);
+			NotifyObserverModel(this);
 
 		}
 	}
@@ -170,7 +170,7 @@ public class Company implements java.io.Serializable {
       
 	public void addRecord(Employee emp, LocalDateTime date) {
 		emp.addRecord(date);
-    onNotifyCompanyReceived(this);
+    NotifyObserverModel(this);
 
 	}
 
@@ -222,7 +222,7 @@ public class Company implements java.io.Serializable {
 		if (listDpt.contains(null) == true) {
 			listDpt.remove(null);
 		}
-		onNotifyCompanyReceived(this);
+		NotifyObserverModel(this);
 	}
 
 	/**
@@ -233,7 +233,7 @@ public class Company implements java.io.Serializable {
 	public void delDepartment(Department Dpt) {
 		if (listDpt.contains(Dpt)) {
 			listDpt.remove(Dpt);
-			onNotifyCompanyReceived(this);
+			NotifyObserverModel(this);
 		}
 	}
 
@@ -312,14 +312,14 @@ public class Company implements java.io.Serializable {
 			modelObservers.remove(om);
 	}
 	
-	public void onNotifyCompanyReceived(Company receivedCompany){
+	public void NotifyObserverModel(Company receivedCompany){
 		
 		if(modelObservers == null) {
 			this.modelObservers = new ArrayList<>();
 		}
 		else {
 	        for (ObserverModel observer : modelObservers) {
-	            observer.onCompanyReceived(receivedCompany);
+	            observer.AsyncNotify(receivedCompany);
 	        }
 		}
 	}	
