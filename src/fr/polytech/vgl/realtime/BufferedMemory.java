@@ -54,7 +54,7 @@ public class BufferedMemory<T> {
     /**
      * Remplit la mémoire tampon avec des objets.
      */
-    private void fillGarbagePool() {
+    private  void fillGarbagePool() {
         for (int i = used.size(); i < capacity; i++) {
             T obj = createObject();
             if (obj != null) {
@@ -66,7 +66,7 @@ public class BufferedMemory<T> {
     /**
      * Remplit la mémoire tampon avec des objets supplémentaires.
      */
-    private void fillMore() {
+    private  void fillMore() {
         capacity += more;
         fillGarbagePool();
     }
@@ -85,7 +85,7 @@ public class BufferedMemory<T> {
      *
      * @return L'objet récupéré.
      */
-    public T getObject() {
+    public synchronized T getObject() {
         if (!garbage.isEmpty()) {
             T obj = garbage.remove(0);
             used.add(obj);
