@@ -4,16 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-import fr.polytech.vgl.model.Record;
-
+/**
+ * BufferedMemory représente un pool d'objets en mémoire tampon pour une utilisation efficace et réutilisable.
+ *
+ * @param <T> Le type d'objet contenu dans le pool.
+ * @since VLH 16/03/24
+ */
 public class BufferedMemory<T> {
 
-    private int capacity;
-    private int more;
-    private List<T> garbage;
-    private List<T> used;
-    private Supplier<T> supplier; // Fonction de création personnalisée
+    private int capacity; // Capacité maximale du pool
+    private int more; // Capacité supplémentaire à ajouter si nécessaire
+    private List<T> garbage; // Liste des objets inutilisés
+    private List<T> used; // Liste des objets utilisés
+    private Supplier<T> supplier; // Fonction de création personnalisée pour les objets
 
+    /**
+     * Constructeur de BufferedMemory.
+     *
+     * @param capacity Capacité maximale du pool.
+     * @param more     Capacité supplémentaire à ajouter si nécessaire.
+     * @param supplier Fonction de création personnalisée pour les objets.
+     */
     public BufferedMemory(int capacity, int more, Supplier<T> supplier) {
         this.capacity = capacity;
         this.more = more;
@@ -22,8 +33,16 @@ public class BufferedMemory<T> {
         this.supplier = supplier;
         fillGarbagePool();
     }
-    
-    public BufferedMemory(int capacity, int more, Supplier<T> supplier,List<T> used) {
+
+    /**
+     * Constructeur de BufferedMemory avec une liste d'objets déjà utilisés.
+     *
+     * @param capacity Capacité maximale du pool.
+     * @param more     Capacité supplémentaire à ajouter si nécessaire.
+     * @param supplier Fonction de création personnalisée pour les objets.
+     * @param used     Liste des objets déjà utilisés.
+     */
+    public BufferedMemory(int capacity, int more, Supplier<T> supplier, List<T> used) {
         this.capacity = capacity;
         this.more = more;
         this.used = used;
@@ -32,8 +51,9 @@ public class BufferedMemory<T> {
         fillGarbagePool();
     }
 
-    
-
+    /**
+     * Remplit la mémoire tampon avec des objets.
+     */
     private void fillGarbagePool() {
         for (int i = used.size(); i < capacity; i++) {
             T obj = createObject();
@@ -43,31 +63,44 @@ public class BufferedMemory<T> {
         }
     }
 
+    /**
+     * Remplit la mémoire tampon avec des objets supplémentaires.
+     */
     private void fillMore() {
-    	capacity += more;
-    	fillGarbagePool(); // Utilise la fonction de création personnalisée
+        capacity += more;
+        fillGarbagePool();
     }
-    
-    
+
+    /**
+     * Crée un nouvel objet en utilisant la fonction de création personnalisée.
+     *
+     * @return Le nouvel objet créé.
+     */
     private T createObject() {
-        return supplier.get(); // Utilise la fonction de création personnalisée
+        return supplier.get();
     }
-    
-  
-    
-    public T useObject() {
+
+    /**
+     * Récupère un objet de la mémoire tampon pour une utilisation.
+     *
+     * @return L'objet récupéré.
+     */
+    public T getObject() {
         if (!garbage.isEmpty()) {
             T obj = garbage.remove(0);
             used.add(obj);
             return obj;
         } else {
-            // If no objects in garbage, create new object
-            T obj = createObject();
-            used.add(obj);
-            return obj;
+        	fillMore();
+            return getObject();
         }
     }
 
+    /**
+     * Détruit un objet et le remet dans la mémoire tampon.
+     *
+     * @param obj L'objet à détruire.
+     */
     public void destroyObject(T obj) {
         if (used.contains(obj)) {
             used.remove(obj);
@@ -75,36 +108,66 @@ public class BufferedMemory<T> {
         }
     }
 
+    /**
+     * Renvoie la liste des objets utilisés.
+     *
+     * @return La liste des objets utilisés.
+     */
     public List<T> getUsed() {
         return used;
     }
 
+    /**
+     * Renvoie la capacité maximale du pool.
+     *
+     * @return La capacité maximale du pool.
+     */
     public int getCapacity() {
         return capacity;
     }
 
+    /**
+     * Renvoie la capacité supplémentaire à ajouter si nécessaire.
+     *
+     * @return La capacité supplémentaire à ajouter.
+     */
     public int getMore() {
         return more;
     }
 
+    /**
+     * Définit la capacité supplémentaire à ajouter si nécessaire.
+     *
+     * @param more La capacité supplémentaire à ajouter.
+     */
     public void setMore(int more) {
         this.more = more;
     }
 
-	public void clear() {
-		garbage.addAll(used);
-		used.clear();
-		
-	}
+    /**
+     * Vide complètement la mémoire tampon.
+     */
+    public void clear() {
+        garbage.addAll(used);
+        used.clear();
+    }
 
-	public boolean isEmpty() {
-		return used.isEmpty();
-	}
+    /**
+     * Vérifie si la mémoire tampon est vide.
+     *
+     * @return true si la mémoire tampon est vide, false sinon.
+     */
+    public boolean isEmpty() {
+        return used.isEmpty();
+    }
 
-	public boolean contains(T obj) {
-		return used.contains(obj);
-	}
+    /**
+     * Vérifie si la mémoire tampon contient un objet spécifique.
+     *
+     * @param obj L'objet à rechercher.
+     * @return true si l'objet est présent, false sinon.
+     */
+    public boolean contains(T obj) {
+        return used.contains(obj);
+    }
 }
-
-
-

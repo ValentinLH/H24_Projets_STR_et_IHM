@@ -8,7 +8,7 @@ public class test {
 		
 		BufferedMemory<Record> test = new BufferedMemory<Record>(15, 5,() -> new Record(null));
 		
-		Record a = test.useObject();
+		Record a = test.getObject();
 		System.out.println(a.toString());
 		
 		
