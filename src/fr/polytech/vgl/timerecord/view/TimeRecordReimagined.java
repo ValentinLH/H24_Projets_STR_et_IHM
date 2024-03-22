@@ -95,7 +95,7 @@ public class TimeRecordReimagined extends Application {
 		super();
 		controler = _controler;
 		
-		//initialize();
+		initialize();
 		//initializeByJavaFx();
 		
 		//frmTimerecord.setVisible(true);
@@ -117,34 +117,6 @@ public class TimeRecordReimagined extends Application {
         primaryStage.setScene(scene);   
         primaryStage.show();
     }
-	
-	
-	
-	
-	
-	
-	private void initializeByJavaFx() {
-		
-
-	}
-	
-	private void component()
-	{
-		Button button = new Button("Mon Bouton");
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(button);
-        
-        Scene scene = new Scene(root, 200, 100);
-        
-        //scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        
-        Stage primaryStage = new Stage();
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Exemple de Bouton Stylisé");
-        primaryStage.show();
-	}
-	
 	
 
 	/**

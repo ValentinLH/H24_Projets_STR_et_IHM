@@ -17,11 +17,15 @@ import fr.polytech.vgl.network.TCPClient;
 import fr.polytech.vgl.network.TCPServer;
 import fr.polytech.vgl.network.TCPInfo;
 import fr.polytech.vgl.serialisation.Serialisation;
+
+
+
+
 import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
-
-
-
 import fr.polytech.vgl.timerecord.view.TimeRecordReimagined;
+
+
+import javafx.application.Application;
 
 /**
  *  Main Controller Class of the TimeRecorder
@@ -65,6 +69,9 @@ public class TimeRecordControler {
 		view = new TimeRecordMainFrame(this);
 		*******************/
 		view = new TimeRecordReimagined(this);
+		
+		//Application.launch(AnotherView.class, args);
+		
 		
 
 		file = null;
