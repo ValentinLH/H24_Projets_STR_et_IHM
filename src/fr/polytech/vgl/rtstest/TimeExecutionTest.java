@@ -1,7 +1,9 @@
 package fr.polytech.vgl.rtstest;
 
 import java.time.Clock;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
@@ -15,6 +17,7 @@ import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Department;
 import fr.polytech.vgl.model.Employee;
 import fr.polytech.vgl.timerecord.controller.TimeRecordControler;
+import fr.polytech.vgl.model.Record;
 
 public class TimeExecutionTest {
 		
@@ -34,60 +37,46 @@ public class TimeExecutionTest {
 
 		CentralAppController app = new CentralAppController(company);
 		
+				
+		
 		TimeRecordControler controller = new TimeRecordControler();
 		controller.addCompany(company);
 
-		// Simuler des actions simultanées de plusieurs utilisateurs
+		// Calcul des temps de traitement pour 100 pointages
+		List<Record> recordslist = new ArrayList<Record>();
+		int add =0;
 		
 		long startTime = System.nanoTime();
-		
-		simulateUserActions(controller, 5, 20); // 5 utilisateurs effectuent 20 actions chacun
-		
+		long moyenne = 0;
+		for(int i = 1; i<=100;i++) {
+			
+			Record record  = new Record(LocalDateTime.now().plusMinutes(add),company.getListEmp().get(i));
+			
+			long startTime2 = System.nanoTime();
+			app.onObjectReceived(record);
+			long endTime2 = System.nanoTime();
+	        long executionTime2 = endTime2 - startTime2;
+	        moyenne+=executionTime2;
+	        
+			add+=16;
+			recordslist.add(record);
+			
+		}		
 		long endTime = System.nanoTime();
         long executionTime = endTime - startTime;
-        System.out.println("Execution TOTAL Time pour 100 pointages: " + executionTime + " nanoseconds");
-	}
-	
-	private static void simulateUserActions(TimeRecordControler controller, int numberOfUsers, int actionsPerUser) {
-
-		CountDownLatch latch = new CountDownLatch(numberOfUsers);
-
-		for (int i = 1; i < numberOfUsers + 1; i++) {
-						
-			int userId = i;			
-			new Thread(() -> {
-				int addMin = 0;
-				List<Employee> employees = company.getListEmp();
-				Employee randomEmployee = employees.get(userId);
-				try {
-
-					if (randomEmployee != null) {
-						long startTime = System.nanoTime();
-						 
-						controller.sendRecordTest(randomEmployee,
-								LocalDateTime.now().plusMinutes(addMin));
-						
-						long endTime = System.nanoTime();
-			            long executionTime = endTime - startTime;
-			            System.out.println("Execution Time: " + executionTime + " nanoseconds");
-			            
-					}
-				} catch (Exception e) {
-				}
-				addMin += 16;
-
-				// Indiquer que le thread a terminé son exécution
-				latch.countDown();
-			}).start();
-		}
-
-		// Attendre la fin de tous les threads
-		try {
-			// Attendre que tous les threads se terminent
-			latch.await();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+        System.out.println("Temps de traitement de l'app central pour 100 pointages: " + executionTime + " nanoseconds");
+        System.out.println("Le temps moyen de traitement de l'app central pour 1 pointage est de : " + moyenne/100 + " nanoseconds");
+        
+        //Calcul du temps de traitement pour une ArrayList de 100 pointage
+        
+        startTime = System.nanoTime();
+        
+        app.onObjectReceived(recordslist);
+        
+        endTime = System.nanoTime();
+        executionTime = endTime - startTime;
+        
+        System.out.println("Temps de traitement de l'app central pour 100 pointages: " + executionTime + " nanoseconds");        
 
 	}
 }
