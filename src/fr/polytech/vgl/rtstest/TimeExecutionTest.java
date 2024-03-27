@@ -39,31 +39,42 @@ public class TimeExecutionTest {
 		
 				
 		
-		TimeRecordControler controller = new TimeRecordControler();
-		controller.addCompany(company);
+		//TimeRecordControler controller = new TimeRecordControler();
+		//controller.addCompany(company);
 
 		// Calcul des temps de traitement pour 100 pointages
 		List<Record> recordslist = new ArrayList<Record>();
 		int add =0;
 		
-		long startTime = System.nanoTime();
+		long startTime = 0;
 		long moyenne = 0;
+		
+		//Creation de la liste : 
 		for(int i = 1; i<=100;i++) {
-			
 			Record record  = new Record(LocalDateTime.now().plusMinutes(add),company.getListEmp().get(i));
-			
+			add+=16;
+			recordslist.add(record);	
+		}
+		
+		
+		//Calcul de la moyenne de traitement pour 1 pointage
+		for(int i =0; i<100;i++) {
 			long startTime2 = System.nanoTime();
-			app.onObjectReceived(record);
+			app.onObjectReceived(recordslist.get(i));
 			long endTime2 = System.nanoTime();
 	        long executionTime2 = endTime2 - startTime2;
 	        moyenne+=executionTime2;
-	        
-			add+=16;
-			recordslist.add(record);
-			
-		}		
+		}
+		
+		//Calcul du temps de traitement pour 100 pointages
+		startTime = System.nanoTime();
+		for(int i =0; i<100;i++) {
+			app.onObjectReceived(recordslist.get(i));
+		}
 		long endTime = System.nanoTime();
         long executionTime = endTime - startTime;
+        
+        
         System.out.println("Temps de traitement de l'app central pour 100 pointages: " + executionTime + " nanoseconds");
         System.out.println("Le temps moyen de traitement de l'app central pour 1 pointage est de : " + moyenne/100 + " nanoseconds");
         
