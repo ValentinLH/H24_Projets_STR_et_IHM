@@ -17,7 +17,11 @@ import fr.polytech.vgl.network.TCPClient;
 import fr.polytech.vgl.network.TCPServer;
 import fr.polytech.vgl.network.TCPInfo;
 import fr.polytech.vgl.serialisation.Serialisation;
+
+
+
 import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
+import fr.polytech.vgl.timerecord.view.TimeRecordTemp;
 
 /**
  *  Main Controller Class of the TimeRecorder
@@ -28,7 +32,14 @@ import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
 
 public class TimeRecordControler {
 
+	
+	/************************************
 	private TimeRecordMainFrame view;
+	************************************/
+	private TimeRecordTemp view;
+	
+	
+	
 	private List<Company> listCompany;
 	private List<Record> recordsBuffer;
 
@@ -47,7 +58,14 @@ public class TimeRecordControler {
 	 */
 	public TimeRecordControler() {
 		listCompany = new ArrayList<>();
+		
+		/************************************
 		view = new TimeRecordMainFrame(this);
+		************************************/
+		view = new TimeRecordTemp(this);
+		
+		
+		
 		file = null;
 		antiSpam = new HashMap<>();
 
@@ -125,6 +143,16 @@ public class TimeRecordControler {
 			listCompany.add(company);
 		}
 
+	}
+	
+	public List<Employee> getAllEmp()
+	{
+		List<Employee> list = new ArrayList<Employee>();
+		for (Company com: listCompany) {
+				list.addAll(com.getListEmp());
+		}
+		
+		return list;		
 	}
 
 	/**
