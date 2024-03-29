@@ -10,8 +10,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +40,14 @@ import fr.polytech.vgl.timerecord.controller.DateLabel;
 import fr.polytech.vgl.timerecord.controller.RoundedLabel;
 import fr.polytech.vgl.timerecord.controller.TimeRecordControler;
 
+import fr.polytech.vgl.timerecord.controller.settingsController;
+
 
 
 
 
 import javafx.application.Application;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -53,12 +58,17 @@ import javafx.scene.layout.VBox;
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.control.Label;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import javafx.util.Duration;
 
 
 /**
@@ -70,6 +80,17 @@ public class TimeRecordTemp extends Application {
 
 	@FXML
     private ComboBox<Employee> comboBoxEmp;
+	
+	@FXML
+	private Label dateLabel;
+	
+	@FXML
+	private Label timeLabel;
+	
+	@FXML
+	private Label roundedTimeLabel;
+	
+	private Stage mainStage;
 	
 	
 	private TimeRecordControler controler;
@@ -118,42 +139,12 @@ public class TimeRecordTemp extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("file\\timeRecord.fxml"));
         loader.setController(this);
         Parent root = loader.load();
-        primaryStage.setTitle("Votre Application JavaFX avec Scene Builder");
+        primaryStage.setTitle("Time Record");
         primaryStage.setScene(new Scene(root, 600, 400));
+        mainStage = primaryStage;
         //primaryStage.getScene().getStylesheets().add(getClass().getResource("file\\style.css").toExternalForm());
         primaryStage.show();
         
-        //comboBoxEmp.getItems().addAll("Chat", "Chien");
-        
-        
-        
-        /*ObservableList<String> options = FXCollections.observableArrayList(
-                "Chat", "Chien"
-            );
-
-            // Ajouter les choix à ComboBox
-            comboBoxEmp.setItems(options);*/
-		
-		
-		/*StackPane layout = new StackPane();
-	    
-		Scene scene = new Scene(layout, 300, 300);
-	    
-		Button button = new Button("Hello World");
-		
-		comboBoxFX = new ComboBox<>();
-		comboBoxFX.getItems().add("Chat");
-		comboBoxFX.getItems().addAll(this.controler.getAllEmp().toString());
-		comboBoxFX.getSelectionModel().selectFirst();
-		VBox root = new VBox();
-		
-		root.getChildren().add(comboBoxFX);
-		layout.getChildren().addAll(root, button);
-	    
-		primaryStage.setTitle("CodersLegacy");
-		primaryStage.setScene(scene);
-		primaryStage.show();
-		comboBoxFX.getItems().add("Chien");*/
 	}
 	
 	@FXML
@@ -165,7 +156,30 @@ public class TimeRecordTemp extends Application {
         	}
         } else {
             System.out.println("ComboBox not found!");
-        }        
+        }
+                
+        DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter time = DateTimeFormatter.ofPattern("HH:mm:ss");
+        DateTimeFormatter roundedTime = DateTimeFormatter.ofPattern("HH:mm");
+        
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            LocalDateTime currentLocalDate = LocalDateTime.now();
+            LocalDateTime currentRoundedTime;
+            if (currentLocalDate.getMinute()%15 < 7) {
+            	currentRoundedTime = LocalDateTime.now().minusMinutes(currentLocalDate.getMinute()%15);
+            }
+            else {
+            	currentRoundedTime = LocalDateTime.now().plusMinutes(currentLocalDate.getMinute()%15);
+            }
+            String formatedDate = currentLocalDate.format(date);
+            String formatedTime = currentLocalDate.format(time);
+            String formatedRoundedTime = currentRoundedTime.format(roundedTime);
+            dateLabel.setText(formatedDate);
+            timeLabel.setText(formatedTime);
+            roundedTimeLabel.setText("Let's says : " + formatedRoundedTime);
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 	
 	@FXML
@@ -189,12 +203,30 @@ public class TimeRecordTemp extends Application {
 				//Error						
 			}
         }
-        
-        
     }
-
 	
-	
+	@FXML
+	public void showSettings()
+	{
+		try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("file\\settings.fxml"));
+            Parent root = loader.load();
+            settingsController controllerSetting = loader.getController();
+            controllerSetting.setTimeRecordController(this.controler);
+            Stage settingsStage = new Stage();
+            settingsStage.setTitle("Settings");
+            settingsStage.setScene(new Scene(root, 600, 300));
+            settingsStage.initModality(Modality.APPLICATION_MODAL);
+            settingsStage.initOwner(mainStage);
+            controllerSetting.updateLabelIPAddress(this.controler.getMyIp());
+            controllerSetting.updateTextFieldIp("Localhost");
+            controllerSetting.updateTextFieldPort(String.valueOf(this.controler.getPort()));
+            controllerSetting.updateTextFieldMyPort(String.valueOf(this.controler.getMyPort()));
+            settingsStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}	
 
 	/**
 	 * Initialize the contents of the frame. The Tabbed pane and the others panels
