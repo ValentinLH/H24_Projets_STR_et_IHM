@@ -13,48 +13,46 @@ public class TimeExecutionPointeuse {
 
 		TimeRecordControler controller = new TimeRecordControler();
 		List<Company> listcompany = new ArrayList<Company>();
-		
+
 		long startTime = System.nanoTime();
 		long moyenne = 0;
 		long endTime = 0;
 		long executionTime = 0;
-		
-		for(int i = 0; i < 100;++i) {
+
+		for (int i = 0; i < 100; ++i) {
 			Company company = new Company("TestCompany");
 			listcompany.add(company);
 		}
-		
-        startTime = System.nanoTime();
-        
-        controller.onObjectReceived(listcompany);
-        
-        endTime = System.nanoTime();
-        executionTime = endTime - startTime;
-        
-        System.out.println("Temps de traitement de la pointeuse pour  une liste 100 company : " + executionTime + " nanoseconds");   
-        
-        
-        for(int i = 0; i < 100;++i) {
+
+		startTime = System.nanoTime();
+
+		controller.onObjectReceived(listcompany);
+
+		endTime = System.nanoTime();
+		executionTime = endTime - startTime;
+
+		System.out.println(
+				"Temps de traitement de la pointeuse pour  une liste 100 company : " + executionTime + " nanoseconds");
+
+		for (int i = 0; i < 100; ++i) {
 			startTime = System.nanoTime();
 			controller.onObjectReceived(listcompany.get(i));
 			endTime = System.nanoTime();
-		    executionTime = endTime - startTime;
-		    moyenne+= executionTime;
+			executionTime = endTime - startTime;
+			moyenne += executionTime;
 		}
-        
+
 		long startTime2 = System.nanoTime();
-		for(int i = 0; i < 100;++i) {
+		for (int i = 0; i < 100; ++i) {
 			controller.onObjectReceived(listcompany.get(i));
 		}
 		long endTime2 = System.nanoTime();
-        long executionTime2 = endTime2 - startTime2;
-        
-        System.out.println("Temps de traitement de la pointeuse pour 100 company : " + executionTime2 + " nanoseconds");
-        System.out.println("Le temps moyen de traitement de la pointeuse pour 1 company est de : " + moyenne/100 + " nanoseconds");
+		long executionTime2 = endTime2 - startTime2;
 
-        
-        
-		
+		System.out.println("Temps de traitement de la pointeuse pour 100 company : " + executionTime2 + " nanoseconds");
+		System.out.println("Le temps moyen de traitement de la pointeuse pour 1 company est de : " + moyenne / 100
+				+ " nanoseconds");
+
 	}
 
 }
