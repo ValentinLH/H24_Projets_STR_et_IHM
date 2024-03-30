@@ -111,6 +111,8 @@ public class CentralApplicationView extends JFrame implements ModelListener {
 		frame3 = new ModelOfDayCheckPanel(controler.getCompany());
 		tableau3 = new JTable(frame3);		
 		
+		
+		
 		// de retour sur la création de la fenetre
 		
 		jFrame.setMinimumSize(new Dimension(500, 500));
@@ -124,6 +126,7 @@ public class CentralApplicationView extends JFrame implements ModelListener {
 			}
 		});
 
+	
 		// D�finir la position de conteneur d'onglets
 		onglets.setBounds(10, 10, 960, 640);
 
@@ -147,6 +150,8 @@ public class CentralApplicationView extends JFrame implements ModelListener {
 		JPanel dcp = DaysCheckPanel();
 		onglets.addTab("Day's Check", null, dcp, null);
 
+		
+		
 	}
 
 	/**
@@ -544,8 +549,11 @@ public class CentralApplicationView extends JFrame implements ModelListener {
 
 	@Override
 	public void update(Company receivedCompany) {
-		// TODO Auto-generated method stub
-		System.out.println("APP CENTRAL NOTIFY");
+		
+		frame.fireTableDataChanged();
+		frame2.fireTableDataChanged();
+		frame3.fireTableDataChanged();
+		//System.out.println("APP CENTRAL NOTIFY");
 	}
 
 }
