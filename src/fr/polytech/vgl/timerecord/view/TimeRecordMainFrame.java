@@ -28,13 +28,13 @@ import javax.swing.JTextPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.MaskFormatter;
 
+import fr.polytech.vgl.misc.ModelListener;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Employee;
 import fr.polytech.vgl.model.Record;
 import fr.polytech.vgl.timerecord.controller.DateLabel;
 import fr.polytech.vgl.timerecord.controller.RoundedLabel;
 import fr.polytech.vgl.timerecord.controller.TimeRecordControler;
-import fr.polytech.vgl.timerecord.controller.ObserverModel;
 
 /**
  * TimeRecordMainFrame is the main Frame of the Time Record
@@ -42,7 +42,7 @@ import fr.polytech.vgl.timerecord.controller.ObserverModel;
  * @author Lino Touret - Valentin L'Hermite
  *
  */
-public class TimeRecordMainFrame implements ObserverModel {
+public class TimeRecordMainFrame implements ModelListener {
 
 //	/**
 //	 * 
@@ -690,7 +690,7 @@ public class TimeRecordMainFrame implements ObserverModel {
 	}
 
 
-	public void Update(Company receivedCompany) {
+	public void update(Company receivedCompany) {
 
 		if (receivedCompany != null) {
 			comboBox_2.removeItem(receivedCompany);

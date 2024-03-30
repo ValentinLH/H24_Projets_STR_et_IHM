@@ -1,20 +1,20 @@
-package fr.polytech.vgl.timerecord.controller;
+package fr.polytech.vgl.misc;
 
 import fr.polytech.vgl.model.Company;
 
 import javax.realtime.*;
 
 
-public interface ObserverModel {
-	void Update(Company receivedCompany);
+public interface ModelListener {
+	void update(Company receivedCompany);
 			
-	default void AsyncNotify(Company receivedCompany) {		
+	default void asyncNotify(Company receivedCompany) {		
 		
 		try {
 			RealtimeThread rt2 = new RealtimeThread() {
 				@Override
 				public void run() {
-					Update(receivedCompany);
+					update(receivedCompany);
 				}
 			};
 			rt2.run();

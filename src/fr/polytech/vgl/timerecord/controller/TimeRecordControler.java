@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import fr.polytech.vgl.misc.ModelListener;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Department;
 import fr.polytech.vgl.model.Employee;
@@ -22,7 +23,6 @@ import fr.polytech.vgl.realtime.BufferedMemory;
 import fr.polytech.vgl.network.TCPInfo;
 import fr.polytech.vgl.serialisation.Serialisation;
 import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
-import fr.polytech.vgl.timerecord.controller.ObserverModel;
 
 /**
  * Main Controller Class of the TimeRecorder

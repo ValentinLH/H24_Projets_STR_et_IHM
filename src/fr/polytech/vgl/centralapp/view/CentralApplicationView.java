@@ -32,10 +32,10 @@ import fr.polytech.vgl.centralapp.controller.DelEmployeeController;
 import fr.polytech.vgl.centralapp.controller.FilterEmployeeController;
 import fr.polytech.vgl.centralapp.controller.OpenAddEmployeeController;
 import fr.polytech.vgl.centralapp.controller.SeeCheckEmployeeController;
+import fr.polytech.vgl.misc.ModelListener;
 import fr.polytech.vgl.model.Company;
-import fr.polytech.vgl.timerecord.controller.ObserverModel;
 
-public class CentralApplicationView extends JFrame implements ObserverModel {
+public class CentralApplicationView extends JFrame implements ModelListener {
 
 	final static Color[] colors = { Color.decode("#C8DDF2"), Color.decode("#9CB5E1"), Color.decode("#DFF5E9"),
 			Color.decode("#F0D0D0") };
@@ -543,7 +543,7 @@ public class CentralApplicationView extends JFrame implements ObserverModel {
 	}
 
 	@Override
-	public void Update(Company receivedCompany) {
+	public void update(Company receivedCompany) {
 		// TODO Auto-generated method stub
 		System.out.println("APP CENTRAL NOTIFY");
 	}

@@ -5,8 +5,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import fr.polytech.vgl.timerecord.controller.ObserverModel;
 import java.util.stream.Collectors;
+
+import fr.polytech.vgl.misc.ModelListener;
 
 /**
  * Company represent the company
@@ -22,7 +23,7 @@ public class Company implements java.io.Serializable {
 	private List<Employee> listEmp;
 	private List<Department> listDpt;
 
-	private transient List<ObserverModel> modelObservers;
+	private transient List<ModelListener> modelObservers;
 		
 
 	/**
@@ -293,7 +294,7 @@ public class Company implements java.io.Serializable {
 	
 	
 	//Gestion des observers
-	public void addModelObservers(ObserverModel om) {
+	public void addModelObservers(ModelListener om) {
 		if(modelObservers == null) {
 			this.modelObservers = new ArrayList<>();
 		}
@@ -302,7 +303,7 @@ public class Company implements java.io.Serializable {
 			modelObservers.add(om);
 	}
 	
-	public void removeModelObservers(ObserverModel om) {
+	public void removeModelObservers(ModelListener om) {
 		if(modelObservers == null) {
 			this.modelObservers = new ArrayList<>();
 			return;
@@ -318,8 +319,8 @@ public class Company implements java.io.Serializable {
 			this.modelObservers = new ArrayList<>();
 		}
 		else {
-	        for (ObserverModel observer : modelObservers) {
-	            observer.AsyncNotify(receivedCompany);
+	        for (ModelListener observer : modelObservers) {
+	            observer.asyncNotify(receivedCompany);
 	        }
 		}
 	}	
