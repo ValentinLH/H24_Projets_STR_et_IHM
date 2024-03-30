@@ -2,6 +2,7 @@ package fr.polytech.vgl.realtime;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Supplier;
 
 /**
@@ -28,8 +29,8 @@ public class BufferedMemory<T> {
     public BufferedMemory(int capacity, int more, Supplier<T> supplier) {
         this.capacity = capacity;
         this.more = more;
-        this.used = new ArrayList<>();
-        this.garbage = new ArrayList<>();
+        this.used = new CopyOnWriteArrayList<>();
+        this.garbage = new CopyOnWriteArrayList<>();
         this.supplier = supplier;
         fillGarbagePool();
     }
