@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.bson.types.ObjectId;
+
 import fr.polytech.vgl.misc.ModelListener;
 
 /**
@@ -19,12 +21,12 @@ public class Company implements java.io.Serializable {
 
 	private static final long serialVersionUID = 8140981971700902890L;
 
+	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
 	private String companyName;
 	private List<Employee> listEmp;
 	private List<Department> listDpt;
 
 	private transient List<ModelListener> modelObservers;
-		
 
 	/**
 	 * Default Constructor
@@ -32,7 +34,7 @@ public class Company implements java.io.Serializable {
 	public Company() {
 		companyName = "Not Defined";
 		this.listEmp = new ArrayList<>();
-		this.listDpt = new ArrayList<>(); 
+		this.listDpt = new ArrayList<>();
 		this.modelObservers = new ArrayList<>();
 
 	}
@@ -45,7 +47,7 @@ public class Company implements java.io.Serializable {
 	public Company(String _companyName) {
 		companyName = _companyName;
 		this.listEmp = new ArrayList<>();
-		this.listDpt =new ArrayList<>(); 
+		this.listDpt = new ArrayList<>();
 		this.modelObservers = new ArrayList<>();
 
 	}
@@ -119,10 +121,8 @@ public class Company implements java.io.Serializable {
 		try {
 			listEmp.remove(emp);
 			NotifyObserverModel(this);
-		}
-		catch (Exception exc)
-		{
-			//nothing here to del
+		} catch (Exception exc) {
+			// nothing here to del
 
 		}
 	}
@@ -136,10 +136,8 @@ public class Company implements java.io.Serializable {
 		try {
 			listEmp.remove(index);
 			NotifyObserverModel(this);
-		}
-		catch (Exception exc)
-		{
-			//nothing here to del
+		} catch (Exception exc) {
+			// nothing here to del
 		}
 	}
 
@@ -156,7 +154,7 @@ public class Company implements java.io.Serializable {
 			Employee foundEmployee = listEmp.get(listEmp.indexOf(rec.getEmployee()));
 
 			foundEmployee.addRecord(rec);
-      
+
 			NotifyObserverModel(this);
 
 		}
@@ -168,10 +166,10 @@ public class Company implements java.io.Serializable {
 	 * @param emp
 	 * @param date
 	 */
-      
+
 	public void addRecord(Employee emp, LocalDateTime date) {
 		emp.addRecord(date);
-    NotifyObserverModel(this);
+		NotifyObserverModel(this);
 
 	}
 
@@ -261,7 +259,7 @@ public class Company implements java.io.Serializable {
 	 * @param rec
 	 */
 	public void delRecord(Record rec) {
-		
+
 		try {
 			if (listEmp.contains(rec.getEmployee())) {
 
@@ -291,38 +289,35 @@ public class Company implements java.io.Serializable {
 		return listRec;
 	}
 
-	
-	
-	//Gestion des observers
+	// Gestion des observers
 	public void addModelObservers(ModelListener om) {
-		if(modelObservers == null) {
+		if (modelObservers == null) {
 			this.modelObservers = new ArrayList<>();
 		}
-		
-		if(om != null && modelObservers.contains(om) == false)
+
+		if (om != null && modelObservers.contains(om) == false)
 			modelObservers.add(om);
 	}
-	
+
 	public void removeModelObservers(ModelListener om) {
-		if(modelObservers == null) {
+		if (modelObservers == null) {
 			this.modelObservers = new ArrayList<>();
 			return;
 		}
-		
-		if(om != null && modelObservers.contains(om) == true)
+
+		if (om != null && modelObservers.contains(om) == true)
 			modelObservers.remove(om);
 	}
-	
-	public void NotifyObserverModel(Company receivedCompany){
-		
-		if(modelObservers == null) {
+
+	public void NotifyObserverModel(Company receivedCompany) {
+
+		if (modelObservers == null) {
 			this.modelObservers = new ArrayList<>();
+		} else {
+			for (ModelListener observer : modelObservers) {
+				observer.asyncNotify(receivedCompany);
+			}
 		}
-		else {
-	        for (ModelListener observer : modelObservers) {
-	            observer.asyncNotify(receivedCompany);
-	        }
-		}
-	}	
+	}
 
 }

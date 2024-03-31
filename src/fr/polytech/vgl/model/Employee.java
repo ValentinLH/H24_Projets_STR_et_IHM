@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.*;
 
+import org.bson.types.ObjectId;
+
 import fr.polytech.vgl.centralapp.view.GiveCompanyView;
 
 /**
@@ -23,6 +25,7 @@ import fr.polytech.vgl.centralapp.view.GiveCompanyView;
  */
 public class Employee implements java.io.Serializable {
 
+	private ObjectId id_bson; // Utilisation de ObjectId comme type pour l'identifiant
 	private static final long serialVersionUID = 1L;
 	private static int id_auto = 0;
 	private String name;
