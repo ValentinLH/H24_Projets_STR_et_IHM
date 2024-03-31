@@ -35,7 +35,7 @@ public class Employee implements java.io.Serializable {
 	private Schedule schedule;
 	private Integer overtimePortfolio;
 
-	private Department departement;
+	private transient  Department departement;
 	private List<Record> records;
 	
     public Employee(String _name, String _surname ) {

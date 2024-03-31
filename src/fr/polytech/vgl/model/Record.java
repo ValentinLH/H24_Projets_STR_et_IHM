@@ -23,7 +23,7 @@ public class Record implements Comparable<Record>,java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private final static int rounded = 15;
 	private LocalDateTime record;
-	private Employee employee;
+	private transient Employee employee;
 	
 	
 	public Record(LocalDateTime record, Employee emp) {

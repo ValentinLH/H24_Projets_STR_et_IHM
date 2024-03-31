@@ -24,7 +24,7 @@ public class  Department implements java.io.Serializable {
 	private int departementId;
 	private String departmentName;
 
-	private Company company;
+	private transient  Company company;
 	private List<Employee> listEmp;
 
 	public Department(String name) {
