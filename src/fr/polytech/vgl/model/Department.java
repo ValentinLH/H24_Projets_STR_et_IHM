@@ -8,14 +8,17 @@ package fr.polytech.vgl.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 /**
  * Department represent the department of a company
  * 
  * @author Touret Lino - L'Hermite Valentin
  * @version VLH 09/03/24
  */
-public class Department implements java.io.Serializable {
-
+public class  Department implements java.io.Serializable {
+	
+	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
 	private static final long serialVersionUID = 1L;
 	private static int listId = 0;
 	private int departementId;

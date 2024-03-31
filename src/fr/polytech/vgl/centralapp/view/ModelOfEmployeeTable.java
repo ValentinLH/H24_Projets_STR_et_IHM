@@ -1,5 +1,6 @@
 package fr.polytech.vgl.centralapp.view;
 
+
 import java.util.ArrayList;
 import java.util.List;
 

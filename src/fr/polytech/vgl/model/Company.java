@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.bson.types.ObjectId;
+
+import fr.polytech.vgl.misc.ModelListener;
+
 /**
  * Company represent the company
  * 
@@ -18,8 +22,11 @@ public class Company implements java.io.Serializable {
 
 	private static final long serialVersionUID = 8140981971700902890L;
 
+	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
 	private String companyName;
 	private List<Department> listDpt;
+
+	private transient List<ModelListener> modelObservers;
 
 	/**
 	 * Default Constructor
@@ -27,6 +34,8 @@ public class Company implements java.io.Serializable {
 	public Company() {
 		companyName = "Not Defined";
 		this.listDpt = new ArrayList<>();
+		this.modelObservers = new ArrayList<>();
+
 	}
 
 	/**
@@ -37,6 +46,8 @@ public class Company implements java.io.Serializable {
 	public Company(String _companyName) {
 		companyName = _companyName;
 		this.listDpt = new ArrayList<>();
+		this.modelObservers = new ArrayList<>();
+
 	}
 
 	/**
@@ -50,6 +61,7 @@ public class Company implements java.io.Serializable {
 		super();
 		companyName = _companyName;
 		this.listDpt = new ArrayList<>();
+		this.modelObservers = new ArrayList<>();
 	}
 
 	public String getCompanyName() {
@@ -58,6 +70,7 @@ public class Company implements java.io.Serializable {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+		NotifyObserverModel(this);
 	}
 
 	public List<Employee> getListEmp() {
@@ -67,6 +80,7 @@ public class Company implements java.io.Serializable {
 	public void setListEmp(List<Employee> listEmp) {
 		System.out.println("Il n'est plus possible d'ajouter une liste brute d'employee a company");
 		// this.listEmp = listEmp;
+		NotifyObserverModel(this);
 	}
 
 	public List<Record> getListRec() {
@@ -75,8 +89,11 @@ public class Company implements java.io.Serializable {
 
 	@Deprecated
 	public void setListRec(List<Record> listRec) {
+		NotifyObserverModel(this);
+
 		System.out.println("Il n'est plus possible d'ajouter une liste brute de record a company");
 		// this.listRec = listRec;
+
 	}
 
 	/**
@@ -88,6 +105,7 @@ public class Company implements java.io.Serializable {
 
 		if (emp.getDepartement() != null) {
 			addDepartment(emp.getDepartement());
+			NotifyObserverModel(this);
 		}
 		
 	}
@@ -101,6 +119,7 @@ public class Company implements java.io.Serializable {
 		if (listDpt.contains(emp.getDepartement())) {
 			// System.out.println("Heu : " +Dpt);
 			emp.getDepartement().delEmployee(emp);
+			NotifyObserverModel(this);
 		}
 
 	}
@@ -125,6 +144,7 @@ public class Company implements java.io.Serializable {
 	 * 
 	 * @param rec
 	 */
+
 	public void addRecord(Record rec) {
 
 		if (getListEmp().contains(rec.getEmployee())) {
@@ -132,6 +152,8 @@ public class Company implements java.io.Serializable {
 			Employee foundEmployee = getListEmp().get(getListEmp().indexOf(rec.getEmployee()));
 
 			foundEmployee.addRecord(rec);
+
+			NotifyObserverModel(this);
 
 		}
 	}
@@ -142,8 +164,11 @@ public class Company implements java.io.Serializable {
 	 * @param emp
 	 * @param date
 	 */
+
 	public void addRecord(Employee emp, LocalDateTime date) {
 		emp.addRecord(date);
+		NotifyObserverModel(this);
+
 	}
 
 	/**
@@ -193,6 +218,7 @@ public class Company implements java.io.Serializable {
 			listDpt.add(Dpt);
 			Dpt.setCompany(this);
 		}
+		NotifyObserverModel(this);
 	}
 
 	/**
@@ -204,6 +230,7 @@ public class Company implements java.io.Serializable {
 		if (listDpt.contains(Dpt)) {
 			listDpt.remove(Dpt);
 			Dpt.setCompany(null);
+			NotifyObserverModel(this);
 		}
 	}
 
@@ -257,6 +284,37 @@ public class Company implements java.io.Serializable {
 		List<Record> listRec = getListEmp().stream().flatMap(employee -> employee.getRecords().stream()).collect(Collectors.toList());
 		java.util.Collections.sort(listRec);
 		return listRec;
+	}
+
+	// Gestion des observers
+	public void addModelObservers(ModelListener om) {
+		if (modelObservers == null) {
+			this.modelObservers = new ArrayList<>();
+		}
+
+		if (om != null && modelObservers.contains(om) == false)
+			modelObservers.add(om);
+	}
+
+	public void removeModelObservers(ModelListener om) {
+		if (modelObservers == null) {
+			this.modelObservers = new ArrayList<>();
+			return;
+		}
+
+		if (om != null && modelObservers.contains(om) == true)
+			modelObservers.remove(om);
+	}
+
+	public void NotifyObserverModel(Company receivedCompany) {
+
+		if (modelObservers == null) {
+			this.modelObservers = new ArrayList<>();
+		} else {
+			for (ModelListener observer : modelObservers) {
+				observer.asyncNotify(receivedCompany);
+			}
+		}
 	}
 
 }

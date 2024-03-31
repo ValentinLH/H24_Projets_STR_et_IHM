@@ -33,8 +33,12 @@ public class CentralAppController implements NetworkObserver {
 	    // Initialisation de l'objet Company associé à ce contrôleur
 	    this.company = company;
 	    
+	    
 	    // Création de la vue associée à ce contrôleur
 	    this.setView(new CentralApplicationView(this));
+	    
+	    this.company.addModelObservers(view);
+
 	}
 
 	public synchronized Company getCompany() {
@@ -42,6 +46,7 @@ public class CentralAppController implements NetworkObserver {
 	}
 
 	public synchronized void setCompany(Company company) {
+		company.addModelObservers(view);
 		this.company = company;
 	}
 
@@ -87,6 +92,7 @@ public class CentralAppController implements NetworkObserver {
 			List<Company> listC = new ArrayList<>();
 			for (Company Comp : GiveCompanyView.getlistCompany()) {
 				if (listC.contains(Comp) == false) {
+					//Comp.addModelObservers(this.getView());
 					listC.add(Comp);
 				}
 			}
@@ -103,7 +109,7 @@ public class CentralAppController implements NetworkObserver {
 			// System.out.println(obj.getClass().getName());
 			if (receivedObject.getClass().getName().equals("fr.polytech.vgl.model.Record") == true) {
 				Record rec = (Record) receivedObject;
-
+				company.addRecord(rec);
 				// ajouter le rec
 
 				System.out.println("Client> Central app Record Receive " + rec);

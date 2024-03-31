@@ -172,15 +172,15 @@ public class StubMain {
 	}
 
 	public static Company miniStubCompany() {
-		Company c = new Company("Juanito Futuristics");
+		Company c = new Company("Aeroposta Argentina");
 
 		List<LocalDateTime> listDate = new ArrayList<>();
 		listDate.add(LocalDateTime.of(2022, 5, 23, 8, 12));
 
 		List<Department> listD = new ArrayList<>();
-		listD.add(new Department("Administration"));
-		listD.add(new Department("Research and Developement"));
-		listD.add(new Department("Production"));
+		listD.add(new Department("Chef"));
+		listD.add(new Department("Mécanicien"));
+		listD.add(new Department("Pilote"));
 
 
 		Collections.shuffle(listD);

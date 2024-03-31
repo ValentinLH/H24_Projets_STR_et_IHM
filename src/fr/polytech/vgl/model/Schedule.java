@@ -2,6 +2,9 @@ package fr.polytech.vgl.model;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.bson.types.ObjectId;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.DayOfWeek;
@@ -17,6 +20,7 @@ public class Schedule implements java.io.Serializable {
 	/**
 	 * 
 	 */
+	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
 	private static final long serialVersionUID = 1L;
 	private static int generic_day_start[] = {8,30};
 	private static int generic_day_end[] = {17,0};

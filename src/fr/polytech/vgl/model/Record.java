@@ -3,6 +3,9 @@ package fr.polytech.vgl.model;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import org.bson.types.ObjectId;
+
 import java.time.format.DateTimeFormatter;
 
 
@@ -16,6 +19,7 @@ public class Record implements Comparable<Record>,java.io.Serializable {
 	/**
 	 * 
 	 */
+	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
 	private static final long serialVersionUID = 1L;
 	private final static int rounded = 15;
 	private LocalDateTime record;
@@ -24,13 +28,23 @@ public class Record implements Comparable<Record>,java.io.Serializable {
 	
 	public Record(LocalDateTime record, Employee emp) {
 		super();
-		this.record = record ;
+			
+		if (record == null)
+		{
+			record = LocalDateTime.now();
+		}
+		this.record = record ;	
 		setHoursMinutes(record.getHour(),record.getMinute());
 		this.employee = emp;
 		emp.addRecord(this);
 	}
 	public Record(LocalDateTime record) {
 		super();
+		
+		if (record == null)
+		{
+			record = LocalDateTime.now();
+		}
 		this.record = record;
 		setHoursMinutes(record.getHour(),record.getMinute());
 		employee= null;
