@@ -60,9 +60,9 @@ public class TestSping implements CommandLineRunner {
     
     void createCompany() {
     	
-      Company comp = new Company("TestComp2");
-  	  Department dep = new Department("Info2");
-      Employee e1 = new Employee("Alice","Bob",comp,dep);
+      Company comp = new Company("TestComp3");
+  	  Department dep = new Department("Info3");
+      Employee e1 = new Employee("Aliceeee","Bobeeee",comp,dep);
       Record record = new Record(LocalDateTime.now(),e1);
       
       e1.addRecord(record);
