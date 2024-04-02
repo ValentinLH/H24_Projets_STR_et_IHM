@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 import fr.polytech.vgl.model.*;
 
+
 public interface EmployeeRepository extends MongoRepository<Employee, ObjectId> {
     
 	@Query("{name:'?0'}")

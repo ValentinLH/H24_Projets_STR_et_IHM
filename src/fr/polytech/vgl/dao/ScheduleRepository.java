@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import fr.polytech.vgl.model.Schedule;
 
+
 public interface ScheduleRepository extends MongoRepository<Schedule, ObjectId>  {
 
 }

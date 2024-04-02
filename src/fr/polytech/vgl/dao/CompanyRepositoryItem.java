@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import fr.polytech.vgl.model.Company;
 
+
 public interface CompanyRepositoryItem extends MongoRepository<Company, ObjectId> {
 
 }

@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import fr.polytech.vgl.model.Department;
 
+
 public interface DepartmentRepositoryItem extends MongoRepository<Department, ObjectId> {
 
 }
