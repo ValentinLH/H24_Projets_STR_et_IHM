@@ -8,6 +8,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import fr.polytech.vgl.misc.ModelListener;
 
@@ -17,13 +20,18 @@ import fr.polytech.vgl.misc.ModelListener;
  * @author Touret Lino - L'Hermite Valentin
  */
 
+@Document("company")
 public class Company implements java.io.Serializable {
 
 	private static final long serialVersionUID = 8140981971700902890L;
 
+	@Id
 	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
+	
 	private String companyName;
+	
 	private List<Employee> listEmp;
+
 	private List<Department> listDpt;
 
 	private transient List<ModelListener> modelObservers;
@@ -32,6 +40,7 @@ public class Company implements java.io.Serializable {
 	 * Default Constructor
 	 */
 	public Company() {
+		this.id = new ObjectId();
 		companyName = "Not Defined";
 		this.listEmp = new ArrayList<>();
 		this.listDpt = new ArrayList<>();
@@ -45,6 +54,7 @@ public class Company implements java.io.Serializable {
 	 * @param _companyName
 	 */
 	public Company(String _companyName) {
+		this.id = new ObjectId();
 		companyName = _companyName;
 		this.listEmp = new ArrayList<>();
 		this.listDpt = new ArrayList<>();
@@ -61,6 +71,7 @@ public class Company implements java.io.Serializable {
 	 */
 	public Company(String _companyName, List<Employee> listEmp) {
 		super();
+		this.id = new ObjectId();
 		companyName = _companyName;
 		this.listEmp = listEmp;
 		this.modelObservers = new ArrayList<>();

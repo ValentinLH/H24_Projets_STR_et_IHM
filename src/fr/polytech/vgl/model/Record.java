@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.format.DateTimeFormatter;
 
@@ -14,15 +17,20 @@ import java.time.format.DateTimeFormatter;
  * @author Touret Lino - L'Hermite Valentin
  *
  */
+@Document("record")
 public class Record implements Comparable<Record>,java.io.Serializable {
 	
 	/**
 	 * 
 	 */
+	@Id
 	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
+	
 	private static final long serialVersionUID = 1L;
 	private final static int rounded = 15;
 	private LocalDateTime record;
+	
+	@DBRef(lazy = true)
 	private Employee employee;
 	
 	

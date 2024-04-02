@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -15,12 +17,16 @@ import java.time.DayOfWeek;
 *  Schedule represent the schedule of an employee
  * @author Touret Lino - L'Hermite Valentin
  */
+
+@Document("schedule")
 public class Schedule implements java.io.Serializable {
 
 	/**
 	 * 
 	 */
+	@Id
 	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
+	
 	private static final long serialVersionUID = 1L;
 	private static int generic_day_start[] = {8,30};
 	private static int generic_day_end[] = {17,0};

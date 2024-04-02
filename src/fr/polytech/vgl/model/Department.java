@@ -9,25 +9,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *  Department represent the department of a company
  * @author Touret Lino - L'Hermite Valentin
  *
  */
+
+@Document("department")
 public class  Department implements java.io.Serializable {
 	
+	@Id
 	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
+	
 	private static final long serialVersionUID = 1L;
 	private static int listId = 0; 
 	private int departementId;
     private String departmentName;
+    
+    @DBRef(lazy = true)
     private List<Employee> listEmp;
     
     
     
     
     public  Department(String name) {
+    	this.id = new ObjectId();
         this.departmentName = name;
         departementId = listId;
         listId++;

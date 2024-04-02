@@ -8,6 +8,9 @@ import java.util.Objects;
 import java.util.concurrent.*;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import fr.polytech.vgl.centralapp.view.GiveCompanyView;
 
@@ -23,22 +26,32 @@ import fr.polytech.vgl.centralapp.view.GiveCompanyView;
  * @since 02/03/24 
  * VLH
  */
+
+@Document("employee")
 public class Employee implements java.io.Serializable {
 
+	@Id
 	private ObjectId id_bson; // Utilisation de ObjectId comme type pour l'identifiant
+	
 	private static final long serialVersionUID = 1L;
 	private static int id_auto = 0;
 	private String name;
 	private String surname;
 	private int id;
+	
+	@DBRef(lazy = true)
 	private Company company;
+	
+	@DBRef(lazy = true)
 	private Department departement;
+	
 	private List<Record> records;
 	private Schedule schedule;
 	private Integer overtimePortfolio;
 
     public Employee(String _name, String _surname, Company _company, Department _departement) {
-        name = _name;
+    	this.id_bson = new ObjectId();
+    	name = _name;
         surname = _surname;
         id = id_auto;
         id_auto++;
@@ -53,7 +66,8 @@ public class Employee implements java.io.Serializable {
 
     public Employee(String _name, String _surname, int _id, Company _company, Department _departement,
             List<Record> _records) {
-        name = _name;
+    	this.id_bson = new ObjectId();
+    	name = _name;
         surname = _surname;
         id = _id;
         setCompany(_company);
