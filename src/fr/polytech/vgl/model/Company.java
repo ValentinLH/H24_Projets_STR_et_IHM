@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -34,6 +35,7 @@ public class Company implements java.io.Serializable {
 
 	private List<Department> listDpt;
 
+	@Transient
 	private transient List<ModelListener> modelObservers;
 
 	/**
