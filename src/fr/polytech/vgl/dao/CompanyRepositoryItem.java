@@ -24,5 +24,5 @@ public interface CompanyRepositoryItem extends MongoRepository<Company, ObjectId
    
 //    public long count();
 	
-	List<Company> findAll();
+//	List<Company> findAll();
 }

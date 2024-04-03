@@ -33,7 +33,9 @@ public class Record implements Comparable<Record>,java.io.Serializable {
 	@DBRef(lazy = true)
 	private Employee employee;
 	
-	public Record(){};
+	public Record(){
+		super();
+	};
 	
 	public Record(LocalDateTime record, Employee emp) {
 		super();

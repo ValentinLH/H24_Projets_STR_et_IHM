@@ -36,7 +36,11 @@ public class  Department implements java.io.Serializable {
     
     
     
-    public  Department(String name) {
+    public Department() {
+		super();
+	}
+
+	public  Department(String name) {
     	this.id = new ObjectId();
         this.departmentName = name;
         departementId = listId;

@@ -38,8 +38,32 @@ public class TestSping implements CommandLineRunner {
 		//createEmployeeItems();
 		//cc.findAll();
 		
+//		List<Schedule> l = ff.findAll();
+//		System.out.println(l.get(0));
 		readCompany();
 		
+		
+		
+	}
+	
+	//READ : 
+	
+	void readCompany() {
+		//Company company = cc.findByCompanyName("TestComp4");
+		
+		//company.toString();
+		
+		List<Company> test = cc.findAll();
+		
+		cc.findAll().forEach(item -> System.out.println(item.getCompanyName()));
+		//Company com = cc.findByCompanyId(new ObjectId("660c546dce06cb6b7a762215"));
+		
+		//com.toString();
+		
+//		Optional<Company> c = cc.findById(new ObjectId("660d5b90e9fc8648eaf93a47"));
+//		
+//		c.toString();
+//		
 	}
 
 	// CREATE
@@ -90,23 +114,6 @@ public class TestSping implements CommandLineRunner {
 		System.out.println("Campany creation complete...");
 	}
 	
-	//READ : 
-	
-	void readCompany() {
-		//Company company = cc.findByCompanyName("TestComp4");
-		
-		//company.toString();
-		
-		List<Company> test = cc.findAll();
-		
-		//Company com = cc.findByCompanyId(new ObjectId("660c546dce06cb6b7a762215"));
-		
-		//com.toString();
-		
-//		Optional<Company> c = cc.findById(new ObjectId("660d5b90e9fc8648eaf93a47"));
-//		
-//		c.toString();
-//		
-	}
+
 	
 }
