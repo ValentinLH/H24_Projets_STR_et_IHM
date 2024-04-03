@@ -48,6 +48,8 @@ public class Employee implements java.io.Serializable {
 	private List<Record> records;
 	private Schedule schedule;
 	private Integer overtimePortfolio;
+	
+	public Employee() {};
 
     public Employee(String _name, String _surname, Company _company, Department _departement) {
     	this.id_bson = new ObjectId();

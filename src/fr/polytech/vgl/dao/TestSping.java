@@ -1,7 +1,10 @@
 package fr.polytech.vgl.dao;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,19 +33,23 @@ public class TestSping implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// TODO Auto-generated method stub
 		// createSchesule();
-		createCompany();
+		//createCompany();
+		//createEmployeeItems();
+		//cc.findAll();
+		
+		readCompany();
+		
 	}
 
 	// CREATE
 	void createEmployeeItems() {
 
 		Company comp = new Company();
-		Department dep = new Department("Info");
+		Department dep = new Department("Infooooooooooeeeeeeee");
 
 		System.out.println("Data creation started...");
-		er.save(new Employee("Alice", "Bob", comp, dep));
+		er.save(new Employee("Aliceeeeee", "Bobbbbbb", comp, dep));
 //        er.save(new Employee("Max","Alex",comp,dep));
 //        er.save(new Employee("Nico","Val",comp,dep));
 //        EmployeeRepository.save(new Employee("Kodo Millet", "XYZ Kodo Millet healthy", 2, "millets"));
@@ -62,9 +69,9 @@ public class TestSping implements CommandLineRunner {
 
 	void createCompany() {
 
-		Company comp = new Company("TestComp3");
-		Department dep = new Department("Info3");
-		Employee e1 = new Employee("Aliceeee", "Bobeeee", comp, dep);
+		Company comp = new Company("TestComp5");
+		Department dep = new Department("Info5");
+		Employee e1 = new Employee("Aliceeeeuu", "Bobeeeeuu", comp, dep);
 		Record record = new Record(LocalDateTime.now(), e1);
 
 		e1.addRecord(record);
@@ -82,4 +89,24 @@ public class TestSping implements CommandLineRunner {
 
 		System.out.println("Campany creation complete...");
 	}
+	
+	//READ : 
+	
+	void readCompany() {
+		//Company company = cc.findByCompanyName("TestComp4");
+		
+		//company.toString();
+		
+		List<Company> test = cc.findAll();
+		
+		//Company com = cc.findByCompanyId(new ObjectId("660c546dce06cb6b7a762215"));
+		
+		//com.toString();
+		
+//		Optional<Company> c = cc.findById(new ObjectId("660d5b90e9fc8648eaf93a47"));
+//		
+//		c.toString();
+//		
+	}
+	
 }
