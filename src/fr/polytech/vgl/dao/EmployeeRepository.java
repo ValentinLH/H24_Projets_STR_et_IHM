@@ -12,10 +12,17 @@ import fr.polytech.vgl.model.*;
 public interface EmployeeRepository extends MongoRepository<Employee, ObjectId> {
     
 	@Query("{name:'?0'}")
-	Employee findItemByName(String name);
+	List<Employee> findEmployeeByName(String name);
+	
+	@Query("{surname:'?0'}")
+	List<Employee> findEmployeeBySurname(String surname);
+	
+	@Query("{name:'?0', surname '?0'}")
+	List<Employee> findEmployeeByNameAndSurname(String name, String surname);
     
-    @Query(value="{category:'?0'}", fields="{'name' : 1, 'quantity' : 1}")
-    List<Employee> findAll(String company);
+	List<Employee> findByCompany(Company company);
+	
+	List<Employee> findByDepartement(Department department);
     
     public long count();
 }

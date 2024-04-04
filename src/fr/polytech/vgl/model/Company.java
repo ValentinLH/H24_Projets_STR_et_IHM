@@ -12,6 +12,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import fr.polytech.vgl.misc.ModelListener;
 
@@ -29,10 +30,13 @@ public class Company implements java.io.Serializable {
 	@Id
 	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
 	
+    @Field("companyName")
 	private String companyName;
-	
+
+    @Field("listEmp")
 	private List<Employee> listEmp;
 
+    @Field("listDpt")
 	private List<Department> listDpt;
 
 	@Transient
@@ -42,6 +46,7 @@ public class Company implements java.io.Serializable {
 	 * Default Constructor
 	 */
 	public Company() {
+		super();
 		this.id = new ObjectId();
 		companyName = "Not Defined";
 		this.listEmp = new ArrayList<>();
@@ -77,6 +82,16 @@ public class Company implements java.io.Serializable {
 		companyName = _companyName;
 		this.listEmp = listEmp;
 		this.modelObservers = new ArrayList<>();
+	}
+	
+	
+
+	public Company(ObjectId id, String companyName, List<Employee> listEmp, List<Department> listDpt) {
+		super();
+		this.id = id;
+		this.companyName = companyName;
+		this.listEmp = listEmp;
+		this.listDpt = listDpt;
 	}
 
 	public String getCompanyName() {
