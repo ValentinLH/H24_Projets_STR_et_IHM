@@ -8,12 +8,14 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import fr.polytech.vgl.dao.CompanyRepositoryItem;
 import fr.polytech.vgl.misc.ModelListener;
 
 /**
@@ -41,7 +43,7 @@ public class Company implements java.io.Serializable {
 
 	@Transient
 	private transient List<ModelListener> modelObservers;
-
+	
 	/**
 	 * Default Constructor
 	 */
@@ -52,7 +54,6 @@ public class Company implements java.io.Serializable {
 		this.listEmp = new ArrayList<>();
 		this.listDpt = new ArrayList<>();
 		this.modelObservers = new ArrayList<>();
-
 	}
 
 	/**
@@ -122,7 +123,10 @@ public class Company implements java.io.Serializable {
 
 		System.out.println("Il n'est plus possible d'ajouter une liste brute de record a company");
 		// this.listRec = listRec;
-
+	}
+	
+	public ObjectId getId() {
+		return id;
 	}
 
 	/**
