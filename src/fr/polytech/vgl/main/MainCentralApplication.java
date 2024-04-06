@@ -7,6 +7,7 @@ import java.util.List;
 import fr.polytech.vgl.centralapp.controller.CompanyListController;
 import fr.polytech.vgl.dao.*;
 import fr.polytech.vgl.dao.repository.CompanyRepository;
+import fr.polytech.vgl.dao.service.CompanyService;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.serialisation.Serialisation;
 
@@ -54,14 +55,15 @@ public class MainCentralApplication {
 
 					try {
 						
-						CompanyRepository cr = DAO.getCompanyRepository();
+//						CompanyRepository cr = DAO.getCompanyRepository();
+						CompanyService cs = DAO.getCompanyService();
 						List<Company> deSerialize = Serialisation.deserialize("company.sav");
 						// listCompany = deSerialize;
 
 						for (Company newcomp : deSerialize) {
 							newcomp.setId();
 							
-							cr.save(newcomp);
+							cs.saveCompany(newcomp);
 							window.addCompany(newcomp);
 						}
 					} catch (Exception e) {

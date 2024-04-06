@@ -47,7 +47,7 @@ public class TestSpring implements CommandLineRunner {
 	public void run(String... args) throws Exception {		
 		//CRUD COMPANY : 
 		
-		//createCompany();
+//		createCompany();
 		//readCompany();
 		//deleteCompany();
 		
