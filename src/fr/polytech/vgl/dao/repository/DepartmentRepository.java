@@ -13,6 +13,9 @@ import fr.polytech.vgl.model.Employee;
 public interface DepartmentRepository extends MongoRepository<Department, ObjectId> {
 
 	@Query("{departmentName:'?0'}")
-	Department findDepartmentByName(String departmentName);
+	List<Department> findDepartmentByName(String departmentName);
+	
+	@Query("{'id' : ?0}")
+	Department findDepartmentById(ObjectId id);
 
 }
