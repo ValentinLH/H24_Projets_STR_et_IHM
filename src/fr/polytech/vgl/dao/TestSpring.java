@@ -372,12 +372,7 @@ public class TestSpring implements CommandLineRunner {
 		System.out.println("Department delete complete...");
 	}
 
-	@Override
-	public int compareTo(Employee o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
+
 	
 	
 
