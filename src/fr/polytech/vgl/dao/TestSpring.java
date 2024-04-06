@@ -34,7 +34,7 @@ public class TestSpring implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-		readCompany();
+//		readCompany();
 		
 	}
 	
