@@ -12,6 +12,8 @@ import fr.polytech.vgl.model.Company;
 
 public interface CompanyRepositoryItem extends MongoRepository<Company, ObjectId> {
 
+//	void delete(Company c);
+
 //     @Query("{companyName: '?#{#companyName2}'}")
 //     Company findByCompanyName(String companyName2);
 //    

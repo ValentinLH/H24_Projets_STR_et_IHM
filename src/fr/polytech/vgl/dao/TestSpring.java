@@ -16,7 +16,7 @@ import fr.polytech.vgl.model.Record;
 
 @SpringBootApplication
 @EnableMongoRepositories
-public class TestSping implements CommandLineRunner {
+public class TestSpring implements CommandLineRunner {
 
 	@Autowired
 	EmployeeRepository er;
@@ -28,21 +28,13 @@ public class TestSping implements CommandLineRunner {
 	CompanyRepositoryItem cc;
 
 	public static void main(String[] args) {
-		SpringApplication.run(TestSping.class, args);
+		SpringApplication.run(TestSpring.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		// createSchesule();
-		//createCompany();
-		//createEmployeeItems();
-		//cc.findAll();
 		
-//		List<Schedule> l = ff.findAll();
-//		System.out.println(l.get(0));
 		readCompany();
-		
-		
 		
 	}
 	
@@ -64,6 +56,15 @@ public class TestSping implements CommandLineRunner {
 //		
 //		c.toString();
 //		
+	}
+	
+	
+	List<Company> getCompanies() {
+	
+		
+		List<Company> companies = cc.findAll();
+		return companies;
+			
 	}
 
 	// CREATE

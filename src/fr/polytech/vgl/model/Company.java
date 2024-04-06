@@ -103,6 +103,15 @@ public class Company implements java.io.Serializable {
 		NotifyObserverModel(this);
 	}
 
+	
+	
+	/**
+	 * @return the id
+	 */
+	public ObjectId getId() {
+		return id;
+	}
+
 	public List<Employee> getListEmp() {
 		return listEmp;
 	}
