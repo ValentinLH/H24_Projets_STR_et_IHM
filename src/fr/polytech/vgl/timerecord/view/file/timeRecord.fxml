@@ -39,6 +39,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -49,14 +50,14 @@
         <Menu mnemonicParsing="false" text="File">
           <items>
             <MenuItem mnemonicParsing="false" text="New Check" />
-            <MenuItem mnemonicParsing="false" text="Update Companies" />
+            <MenuItem mnemonicParsing="false" onAction="#showCompanies" text="Update Companies" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#showSettings" text="Settings" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Test">
           <items>
-            <MenuItem mnemonicParsing="false" text="Simulate a Check" />
+            <MenuItem mnemonicParsing="false" onAction="#selectTestMode" text="Simulate a Check" />
           </items>
         </Menu>
       </menus>
@@ -68,6 +69,7 @@
             <Label fx:id="timeLabel" layoutX="363.0" layoutY="82.0" prefHeight="46.0" prefWidth="200.0" text="Label" />
             <Label fx:id="dateLabel" layoutX="363.0" layoutY="41.0" prefHeight="26.0" prefWidth="174.0" text="Label" />
             <Label fx:id="roundedTimeLabel" layoutX="155.0" layoutY="129.0" prefHeight="35.0" prefWidth="229.0" text="Label" />
+            <TextField fx:id="testTextField" layoutX="169.0" layoutY="230.0" prefHeight="26.0" prefWidth="270.0" />
       </children>
     </AnchorPane>
   </children>

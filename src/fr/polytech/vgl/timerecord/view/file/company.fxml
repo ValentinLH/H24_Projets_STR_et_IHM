@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.polytech.vgl.timerecord.controller.companyController">
+   <children>
+      <Button layoutX="67.0" layoutY="123.0" mnemonicParsing="false" onAction="#selectCompanyFile" prefHeight="25.0" prefWidth="147.0" text="Select company file" />
+      <Button layoutX="464.0" layoutY="157.0" mnemonicParsing="false" onAction="#addCompany" text="Add Company" />
+      <TextField fx:id="repositoryTextField" layoutX="66.0" layoutY="157.0" prefHeight="25.0" prefWidth="373.0" />
+      <ComboBox fx:id="comboBoxCompany" layoutX="66.0" layoutY="308.0" prefHeight="25.0" prefWidth="235.0" />
+      <Separator layoutY="196.0" prefHeight="9.0" prefWidth="600.0" />
+      <Label layoutX="186.0" layoutY="36.0" prefHeight="36.0" prefWidth="219.0" text="Adding a Company" />
+      <Label layoutX="205.0" layoutY="216.0" prefHeight="36.0" prefWidth="170.0" text="Deleting a company" />
+      <Label layoutX="64.0" layoutY="281.0" prefHeight="17.0" prefWidth="141.0" text="Choose a company : " />
+      <Button layoutX="324.0" layoutY="308.0" mnemonicParsing="false" onAction="#deleteCompany" prefHeight="25.0" prefWidth="61.0" text="Delete" />
+   </children>
+</Pane>

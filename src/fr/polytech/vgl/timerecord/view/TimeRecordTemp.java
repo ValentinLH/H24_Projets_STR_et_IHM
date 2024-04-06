@@ -41,6 +41,7 @@ import fr.polytech.vgl.timerecord.controller.RoundedLabel;
 import fr.polytech.vgl.timerecord.controller.TimeRecordControler;
 
 import fr.polytech.vgl.timerecord.controller.settingsController;
+import fr.polytech.vgl.timerecord.controller.companyController;
 
 
 
@@ -66,6 +67,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.util.Duration;
@@ -90,8 +92,13 @@ public class TimeRecordTemp extends Application {
 	@FXML
 	private Label roundedTimeLabel;
 	
-	private Stage mainStage;
+	@FXML
+	private TextField testTextField;
 	
+	
+	
+	private Stage mainStage;
+	private boolean testMode;
 	
 	private TimeRecordControler controler;
 
@@ -149,15 +156,9 @@ public class TimeRecordTemp extends Application {
 	
 	@FXML
     public void initialize() {
-        if (comboBoxEmp != null) {
-        	for (Employee emp : this.controler.getAllEmp())
-        	{
-        		comboBoxEmp.getItems().add(emp);
-        	}
-        } else {
-            System.out.println("ComboBox not found!");
-        }
-                
+		this.updateComboBox();
+		this.testTextField.setVisible(false);
+		this.testMode = false;
         DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter time = DateTimeFormatter.ofPattern("HH:mm:ss");
         DateTimeFormatter roundedTime = DateTimeFormatter.ofPattern("HH:mm");
@@ -181,6 +182,15 @@ public class TimeRecordTemp extends Application {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
+	
+	public void updateComboBox()
+	{
+		this.comboBoxEmp.getItems().clear();
+		for (Employee emp : this.controler.getAllEmp())
+    	{
+    		comboBoxEmp.getItems().add(emp);
+    	}
+	}
 	
 	@FXML
     public void click() {
@@ -226,7 +236,47 @@ public class TimeRecordTemp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-	}	
+	}
+	
+	@FXML
+	public void showCompanies()
+	{
+		try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("file\\company.fxml"));
+            Parent root = loader.load();
+            companyController controllerCompany = loader.getController();
+            controllerCompany.setControler(this.controler);
+            Stage companyStage = new Stage();
+            companyStage.setTitle("companies update");
+            companyStage.setScene(new Scene(root, 600, 400));
+            companyStage.initModality(Modality.APPLICATION_MODAL);
+            companyStage.initOwner(mainStage);
+            controllerCompany.updateComboBoxElement(this.controler.getListCompany());
+            companyStage.showAndWait();
+            this.updateComboBox();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	@FXML
+	public void selectTestMode()
+	{
+		this.switchTestMode();
+	}
+	
+	private void switchTestMode()
+	{
+		if (!this.testMode)
+		{
+			this.testMode = true;
+			this.testTextField.setVisible(true);
+			LocalDateTime currentLocalDate = LocalDateTime.now();
+			DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+			this.testTextField.setText(currentLocalDate.format(dateTime));
+			return;
+		}
+	}
 
 	/**
 	 * Initialize the contents of the frame. The Tabbed pane and the others panels
