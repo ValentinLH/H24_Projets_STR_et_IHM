@@ -25,7 +25,7 @@ public class Schedule implements java.io.Serializable {
 	 * 
 	 */
 	@Id
-	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
+	private ObjectId id ; // Utilisation de ObjectId comme type pour l'identifiant
 	
 	private static final long serialVersionUID = 1L;
 	private static int generic_day_start[] = {8,30};
@@ -69,5 +69,11 @@ public class Schedule implements java.io.Serializable {
 		Integer eveningH  = schedule.get(day)[1].getHour()*60 + schedule.get(day)[1].getMinute(); 
 		i = eveningH - morningH;
 		return i;
+	}
+
+
+	public void setId() {
+		id = new ObjectId();
+		
 	}
 }

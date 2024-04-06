@@ -12,12 +12,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import fr.polytech.vgl.dao.repository.CompanyRepository;
+import fr.polytech.vgl.dao.repository.DepartmentRepository;
+import fr.polytech.vgl.dao.repository.EmployeeRepository;
+import fr.polytech.vgl.dao.repository.ScheduleRepository;
+import fr.polytech.vgl.dao.repository.UpdateRepositoryImpl;
 import fr.polytech.vgl.model.*;
 import fr.polytech.vgl.model.Record;
 
 @SpringBootApplication
 @EnableMongoRepositories
-public class TestSping implements CommandLineRunner, Comparable<Employee>{
+public class TestSpring implements CommandLineRunner {
 
 	@Autowired
 	EmployeeRepository er;
@@ -26,23 +31,23 @@ public class TestSping implements CommandLineRunner, Comparable<Employee>{
 	ScheduleRepository ff;
 
 	@Autowired
-	CompanyRepositoryItem cc;
+	CompanyRepository cc;
 	
 	@Autowired
-	DepartmentRepositoryItem dd;
+	DepartmentRepository dd;
 	
 	@Autowired
 	UpdateRepositoryImpl up;
 
 	public static void main(String[] args) {
-		SpringApplication.run(TestSping.class, args);
+		SpringApplication.run(TestSpring.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {		
 		//CRUD COMPANY : 
 		
-		//createCompany();
+//		createCompany();
 		//readCompany();
 		//deleteCompany();
 		
@@ -176,6 +181,14 @@ public class TestSping implements CommandLineRunner, Comparable<Employee>{
 		compa.forEach(item -> System.out.println(item.getCompanyName()));
 	}
 	
+	
+	List<Company> getCompanies() {
+	
+		
+		List<Company> companies = cc.findAll();
+		return companies;
+			
+	}
 	void readEmployee() {
 		
 		List<Employee> listEmp = er.findEmployeeByName("Aliceeeeee");
@@ -359,12 +372,7 @@ public class TestSping implements CommandLineRunner, Comparable<Employee>{
 		System.out.println("Department delete complete...");
 	}
 
-	@Override
-	public int compareTo(Employee o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
+
 	
 	
 

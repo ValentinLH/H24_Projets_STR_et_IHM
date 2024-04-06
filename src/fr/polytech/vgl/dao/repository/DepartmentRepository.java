@@ -1,4 +1,4 @@
-package fr.polytech.vgl.dao;
+package fr.polytech.vgl.dao.repository;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import fr.polytech.vgl.model.Department;
 import fr.polytech.vgl.model.Employee;
 
 
-public interface DepartmentRepositoryItem extends MongoRepository<Department, ObjectId> {
+public interface DepartmentRepository extends MongoRepository<Department, ObjectId> {
 
 	@Query("{departmentName:'?0'}")
 	List<Department> findDepartmentByName(String departmentName);

@@ -30,7 +30,7 @@ import fr.polytech.vgl.centralapp.view.GiveCompanyView;
 public class Employee implements java.io.Serializable {
 
 	@Id
-	private ObjectId id_bson; // Utilisation de ObjectId comme type pour l'identifiant
+	private ObjectId id_bson ; // Utilisation de ObjectId comme type pour l'identifiant
 
 	private static final long serialVersionUID = 1L;
 	private static int id_auto = 0;
@@ -265,6 +265,14 @@ public class Employee implements java.io.Serializable {
 		return Objects.equals(company.getCompanyName(), other.company.getCompanyName())
 				&& Objects.equals(departement, other.departement) && id == other.id && Objects.equals(name, other.name)
 				&& Objects.equals(surname, other.surname);
+	}
+
+	public void setId() {
+		this.id_bson = new ObjectId();
+		for(Record rec : records)
+			rec.setId();
+		schedule.setId();
+		
 	}
 
 }

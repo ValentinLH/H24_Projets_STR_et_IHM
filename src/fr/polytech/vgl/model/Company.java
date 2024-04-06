@@ -15,7 +15,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import fr.polytech.vgl.dao.CompanyRepositoryItem;
 import fr.polytech.vgl.misc.ModelListener;
 
 /**
@@ -31,8 +30,8 @@ public class Company implements java.io.Serializable {
 
 	@Id
 	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
-	
-    @Field("companyName")
+
+	@Field("companyName")
 	private String companyName;
 
     @Field("listEmp")
@@ -86,8 +85,6 @@ public class Company implements java.io.Serializable {
 		this.listEmp = listEmp;
 		this.modelObservers = new ArrayList<>();
 	}
-	
-	
 
 	public Company(ObjectId id, String companyName, List<Employee> listEmp, List<Department> listDpt) {
 		super();
@@ -104,6 +101,24 @@ public class Company implements java.io.Serializable {
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 		NotifyObserverModel(this);
+	}
+
+	@Deprecated
+	public void setId() {
+		if (id == null) {
+			this.id = new ObjectId();
+			for (Employee emp : listEmp)
+				emp.setId();
+			for (Department dpt : listDpt)
+				dpt.setId();
+		}
+	}
+
+	/**
+	 * @return the id
+	 */
+	public ObjectId getId() {
+		return id;
 	}
 
 	public List<Employee> getListEmp() {
@@ -127,10 +142,6 @@ public class Company implements java.io.Serializable {
 		// this.listRec = listRec;
 	}
 	
-	public ObjectId getId() {
-		return id;
-	}
-
 	/**
 	 * addEmployee
 	 * 

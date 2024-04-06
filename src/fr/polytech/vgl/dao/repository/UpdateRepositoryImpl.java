@@ -1,4 +1,4 @@
-package fr.polytech.vgl.dao;
+package fr.polytech.vgl.dao.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

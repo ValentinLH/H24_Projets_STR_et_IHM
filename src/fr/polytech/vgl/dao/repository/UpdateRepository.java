@@ -1,4 +1,4 @@
-package fr.polytech.vgl.dao;
+package fr.polytech.vgl.dao.repository;
 
 import java.util.List;
 
