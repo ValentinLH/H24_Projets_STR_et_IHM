@@ -15,7 +15,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import fr.polytech.vgl.dao.CompanyRepositoryItem;
 import fr.polytech.vgl.misc.ModelListener;
 
 /**
@@ -141,10 +140,6 @@ public class Company implements java.io.Serializable {
 		// this.listRec = listRec;
 	}
 	
-	public ObjectId getId() {
-		return id;
-	}
-
 	/**
 	 * addEmployee
 	 * 

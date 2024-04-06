@@ -13,8 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import fr.polytech.vgl.dao.repository.CompanyRepository;
+import fr.polytech.vgl.dao.repository.DepartmentRepository;
 import fr.polytech.vgl.dao.repository.EmployeeRepository;
 import fr.polytech.vgl.dao.repository.ScheduleRepository;
+import fr.polytech.vgl.dao.repository.UpdateRepositoryImpl;
 import fr.polytech.vgl.model.*;
 import fr.polytech.vgl.model.Record;
 
@@ -29,10 +31,10 @@ public class TestSpring implements CommandLineRunner {
 	ScheduleRepository ff;
 
 	@Autowired
-	CompanyRepositoryItem cc;
+	CompanyRepository cc;
 	
 	@Autowired
-	DepartmentRepositoryItem dd;
+	DepartmentRepository dd;
 	
 	@Autowired
 	UpdateRepositoryImpl up;
