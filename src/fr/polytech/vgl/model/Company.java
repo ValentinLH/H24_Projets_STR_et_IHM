@@ -36,9 +36,11 @@ public class Company implements java.io.Serializable {
 	private String companyName;
 
     @Field("listEmp")
+    @DBRef
 	private List<Employee> listEmp;
 
     @Field("listDpt")
+    @DBRef
 	private List<Department> listDpt;
 
 	@Transient
