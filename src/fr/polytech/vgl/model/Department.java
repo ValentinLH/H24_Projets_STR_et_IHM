@@ -36,7 +36,14 @@ public class  Department implements java.io.Serializable {
     
     
     
-    public Department() {
+    /**
+	 * @param id the id to set
+	 */
+	public void setId() {
+		this.id = new ObjectId();
+	}
+
+	public Department() {
 		super();
 	}
 

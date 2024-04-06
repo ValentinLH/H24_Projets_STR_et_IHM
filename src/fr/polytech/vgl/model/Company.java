@@ -29,14 +29,14 @@ public class Company implements java.io.Serializable {
 
 	@Id
 	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
-	
-    @Field("companyName")
+
+	@Field("companyName")
 	private String companyName;
 
-    @Field("listEmp")
+	@Field("listEmp")
 	private List<Employee> listEmp;
 
-    @Field("listDpt")
+	@Field("listDpt")
 	private List<Department> listDpt;
 
 	@Transient
@@ -83,8 +83,6 @@ public class Company implements java.io.Serializable {
 		this.listEmp = listEmp;
 		this.modelObservers = new ArrayList<>();
 	}
-	
-	
 
 	public Company(ObjectId id, String companyName, List<Employee> listEmp, List<Department> listDpt) {
 		super();
@@ -103,8 +101,17 @@ public class Company implements java.io.Serializable {
 		NotifyObserverModel(this);
 	}
 
-	
-	
+	@Deprecated
+	public void setId() {
+		if (id == null) {
+			this.id = new ObjectId();
+			for (Employee emp : listEmp)
+				emp.setId();
+			for (Department dpt : listDpt)
+				dpt.setId();
+		}
+	}
+
 	/**
 	 * @return the id
 	 */

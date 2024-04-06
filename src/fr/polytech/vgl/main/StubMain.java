@@ -106,6 +106,10 @@ public class StubMain {
 		Company c = Serialisation.deserialize("company.sav");
 		
 		System.out.println(c);
+		
+		
+		
+		
 
 		
 	}

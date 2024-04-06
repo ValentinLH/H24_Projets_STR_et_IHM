@@ -1,4 +1,4 @@
-package fr.polytech.vgl.dao;
+package fr.polytech.vgl.dao.repository;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import fr.polytech.vgl.model.Company;
 
 
-public interface CompanyRepositoryItem extends MongoRepository<Company, ObjectId> {
+public interface CompanyRepository extends MongoRepository<Company, ObjectId> {
 
 //	void delete(Company c);
 

@@ -5,6 +5,9 @@ import java.util.List;
 
 import fr.polytech.vgl.centralapp.view.CentralApplicationView;
 import fr.polytech.vgl.centralapp.view.GiveCompanyView;
+import fr.polytech.vgl.dao.DAO;
+import fr.polytech.vgl.dao.repository.CompanyRepository;
+import fr.polytech.vgl.main.MainCentralApplication;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Record;
 import fr.polytech.vgl.network.NetworkManager;
@@ -103,6 +106,13 @@ public class CentralAppController implements NetworkObserver {
 
 	@Override
 	public synchronized void onObjectReceived(Object receivedObject) {
+		
+		
+		CompanyRepository cc = DAO.getCompanyRepository();
+		
+		List<Company> l = cc.findAll();
+		l.forEach(item -> System.out.println(item.getCompanyName()));
+		System.out.println(l.size());
 		
 		System.out.println("Client Central app> Object Receive ");
 		if (receivedObject != null) {

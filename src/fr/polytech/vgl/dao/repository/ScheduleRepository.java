@@ -1,4 +1,4 @@
-package fr.polytech.vgl.dao;
+package fr.polytech.vgl.dao.repository;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
