@@ -71,7 +71,7 @@ public class TestSpring implements CommandLineRunner {
 		//updateTest();
 		
 		//TEST REFERENCE : 
-		testReference();
+		//testReference();
 		
 	}
 	
@@ -105,8 +105,17 @@ public class TestSpring implements CommandLineRunner {
 		
 		Employee testEmp = er.findEmployeeById(new ObjectId("6610b1190abaa769d03beeb4"));
 		
-		//System.out.println("feur = " + testEmp.getCompany().getCompanyName() + " " + );
+		testEmp.setName("STR");
+		testEmp.setSurname("IT'S A LIE");
+		testEmp.getCompany().setCompanyName("Comany Changed Name");
+		
+		er.save(testEmp);
+		
+		Company company = cc.findByCompanyId(new ObjectId("6610b1190abaa769d03beeb1"));
 
+		//System.out.println("feur = " + testEmp.getCompany().getCompanyName() + " " + );
+		company.getListEmp().forEach(item -> System.out.println("Name : " + item.getName() + " Surname : " + item.getSurname()));
+		System.out.println("Company has changed ? : " + company.getCompanyName());
 		
 
 	}
@@ -156,9 +165,10 @@ public class TestSpring implements CommandLineRunner {
 		System.out.println("All Company : ");
 		cc.findAll().forEach(item -> System.out.println(item.getCompanyName()));
 		
-		Company com = cc.findByCompanyId(new ObjectId("660dfe9c27a2c35ce23c54f0"));
+		Company com = cc.findByCompanyId(new ObjectId("6611af9f9cfa740b038b75fb"));
 		
-		System.out.println("com = " + com.toString());
+//		System.out.println("com = " + com.toString());
+//		System.out.println("employee = " + com.getListEmp().get(0).getName());
 		
 		List<Company> compa = cc.findCompaniesByEmployee(com.getListEmp().get(0));
 		
@@ -268,10 +278,10 @@ public class TestSpring implements CommandLineRunner {
 
 	void createCompany() {
 
-		Company comp = new Company("Company n°6");
-		Department dep = new Department("Info6");
+		Company comp = new Company("Company n°7 REF");
+		Department dep = new Department("Info7");
 		Employee e1 = new Employee("Aliceeeeuu", "Bobeeeeuu", comp, dep);
-		Employee e2 = new Employee("AOO", "ALED", comp, dep);
+		Employee e2 = new Employee("STR", "ALED", comp, dep);
 		Record record = new Record(LocalDateTime.now(), e1);
 		Record record2 = new Record(LocalDateTime.now(), e2);
 
@@ -361,6 +371,14 @@ public class TestSpring implements CommandLineRunner {
 		
 		System.out.println("Department delete complete...");
 	}
+
+	@Override
+	public int compareTo(Employee o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
 	
 
 	
