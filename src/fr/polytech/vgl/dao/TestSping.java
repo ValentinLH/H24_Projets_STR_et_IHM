@@ -55,7 +55,7 @@ public class TestSping implements CommandLineRunner {
 		//CRUD DEPARTEMENT :
 		//createDepartment();
 		//readDepartment();
-		deleteDepartment();
+		//deleteDepartment();
 		
 		//CRUD SCHEDULE : 
 		//createSchesule();
@@ -65,6 +65,45 @@ public class TestSping implements CommandLineRunner {
 		//UPDATE with mongoTemplate: 
 		//updateTest();
 		
+		//TEST REFERENCE : 
+		testReference();
+		
+	}
+	
+	
+	void testReference() {
+//		Company comp = new Company("Company n°6");
+//		Department dep = new Department("Info6");
+//		Employee e1 = new Employee("Aliceeeeuu", "Bobeeeeuu", comp, dep);
+//		Employee e2 = new Employee("AOO", "ALED", comp, dep);
+//		Record record = new Record(LocalDateTime.now(), e1);
+//		Record record2 = new Record(LocalDateTime.now(), e2);
+//
+//		e1.addRecord(record);
+//		e2.addRecord(record2);
+//
+//		comp.addDepartment(dep);
+//		comp.addEmployee(e1);
+//		dep.addEmployee(e1);
+//		comp.addEmployee(e2);
+//		dep.addEmployee(e2);
+//
+//		comp.addRecord(record);
+//		comp.addRecord(record2);
+//		
+//		System.out.println("Test Start");
+//		cc.save(comp);
+//		er.save(e1);
+//		er.save(e2);
+//		dd.save(dep);
+//		System.out.println("Test End");
+		
+		Employee testEmp = er.findEmployeeById(new ObjectId("6610b1190abaa769d03beeb4"));
+		
+		//System.out.println("feur = " + testEmp.getCompany().getCompanyName() + " " + );
+
+		
+
 	}
 	
 	//UPDATE : 
