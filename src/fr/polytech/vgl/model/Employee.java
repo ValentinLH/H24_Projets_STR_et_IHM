@@ -32,6 +32,7 @@ public class Employee implements java.io.Serializable {
 	@Id
 	private ObjectId id_bson ; // Utilisation de ObjectId comme type pour l'identifiant
 
+
 	private static final long serialVersionUID = 1L;
 	private static int id_auto = 0;
 	private String name;
@@ -96,13 +97,23 @@ public class Employee implements java.io.Serializable {
 		this.surname = surname;
 	}
 
-	public int getId() {
+
+	/**
+	 * @return the id_bson
+	 */
+	public ObjectId getId() {
+		return id_bson;
+	}
+	
+	
+	public int getIdEmp() {
 		return id;
 	}
 
+	@Deprecated
 	public static Employee getById(int idEmployee) {
 		for (Employee E : GiveCompanyView.company.getListEmp()) {
-			if (E.getId() == idEmployee) {
+			if (E.getIdEmp() == idEmployee) {
 				return E;
 			}
 		}

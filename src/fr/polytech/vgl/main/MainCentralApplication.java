@@ -57,13 +57,16 @@ public class MainCentralApplication {
 						
 //						CompanyRepository cr = DAO.getCompanyRepository();
 						CompanyService cs = DAO.getCompanyService();
-						List<Company> deSerialize = Serialisation.deserialize("company.sav");
+//						List<Company> deSerialize = Serialisation.deserialize("company.sav");
 						// listCompany = deSerialize;
+						
+						List<Company> deSerialize = cs.getAllCompanies();
+						
 
 						for (Company newcomp : deSerialize) {
-							newcomp.setId();
+//							newcomp.setId();
 							
-							cs.saveCompany(newcomp);
+//							cs.saveCompany(newcomp);
 							window.addCompany(newcomp);
 						}
 					} catch (Exception e) {
