@@ -197,7 +197,7 @@ public class TimeRecordTemp extends Application {
         System.out.println(comboBoxEmp.getSelectionModel().getSelectedItem().toString() + " " + 
     comboBoxEmp.getSelectionModel().getSelectedItem().getId());
         
-        if (comboBoxEmp.getSelectionModel().getSelectedItem() != null)
+        if (comboBoxEmp.getSelectionModel().getSelectedItem() != null && !this.testMode)
         {
         	int ret = controler.sendRecord(comboBoxEmp.getSelectionModel().getSelectedItem());
 			if (ret == 1)
@@ -207,6 +207,25 @@ public class TimeRecordTemp extends Application {
 			else if (ret == 0)
 			{
 				//Attente de connection;							
+			}
+			else if (ret == -1)
+			{
+				//Error						
+			}
+        }
+        
+        if (comboBoxEmp.getSelectionModel().getSelectedItem() != null && this.testMode)
+        {
+        	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        	LocalDateTime time = LocalDateTime.parse(this.testTextField.getText(), formatter);
+        	int ret = controler.sendRecordTest(comboBoxEmp.getSelectionModel().getSelectedItem(), time);
+			if (ret == 1)
+			{
+				//Validation							
+			}
+			else if (ret == 0)
+			{
+				//Attente de connexion;							
 			}
 			else if (ret == -1)
 			{
@@ -265,6 +284,12 @@ public class TimeRecordTemp extends Application {
 		this.switchTestMode();
 	}
 	
+	@FXML
+	public void newCheck()
+	{
+		this.switchTestMode();
+	}
+	
 	private void switchTestMode()
 	{
 		if (!this.testMode)
@@ -274,6 +299,12 @@ public class TimeRecordTemp extends Application {
 			LocalDateTime currentLocalDate = LocalDateTime.now();
 			DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 			this.testTextField.setText(currentLocalDate.format(dateTime));
+			return;
+		}
+		if (this.testMode)
+		{
+			this.testMode = false;
+			this.testTextField.setVisible(false);
 			return;
 		}
 	}
