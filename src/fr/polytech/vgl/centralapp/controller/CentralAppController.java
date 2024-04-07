@@ -114,7 +114,7 @@ public class CentralAppController implements NetworkObserver {
 	@Override
 	public synchronized void onObjectReceived(Object receivedObject) {
 
-		System.out.println("Client Central app> Object Receive ");
+System.out.println("Client Central app> Object Receive ");
 		
 		if (receivedObject == null)
 			return;
