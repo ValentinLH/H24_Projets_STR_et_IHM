@@ -22,20 +22,50 @@ public class CompanyService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    //CREATE AND UPDATE : 
+    
     public void saveCompany(Company company) {
     	companyRepository.save(company);
-    	for (Employee emp : company.getListEmp())
-    		employeeRepository.save(emp);
-    	for (Department dep : company.getListDpt())
-    		departmentRepository.save(dep);
+    	employeeRepository.saveAll(company.getListEmp());
+    	departmentRepository.saveAll(company.getListDpt());
     }
-//    public User getUser(String id) {
-//        return repository.findById(id).orElse(null);
-//    }
+    
+    public void saveEmployee(Employee employee) {
+    	employeeRepository.save(employee);
+    }
+    
+    public void saveListEmployee(List<Employee> employeeList) {
+    	employeeRepository.saveAll(employeeList);
+    }
+    
+    public void saveDepartment(Department department) {
+    	departmentRepository.save(department);
+    }
+    
+    public void saveListDepartment(List<Department> departmentList) {
+    	departmentRepository.saveAll(departmentList);
+    }
+    
+    //READ : 
     public List<Company> getAllCompanies(){
         return companyRepository.findAll();
     }
-//    public void deleteCompany(Company c) {
-//        repository.delete(c);
-//    }
+    
+    public List<Employee> getAllEmployee(){
+    	return employeeRepository.findAll();
+    }
+        
+    //DELETE : 
+        
+    public void deleteCompany(Company company) {
+        companyRepository.delete(company);
+    }
+    
+    public void deleteEmployee(Employee employee) {
+    	employeeRepository.delete(employee);
+    }
+    
+    public void deleteDepartment(Department department) {
+    	departmentRepository.delete(department);
+    }
 }
