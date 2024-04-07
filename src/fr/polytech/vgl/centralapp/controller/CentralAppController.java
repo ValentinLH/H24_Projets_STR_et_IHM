@@ -2,16 +2,22 @@ package fr.polytech.vgl.centralapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import fr.polytech.vgl.centralapp.view.CentralApplicationView;
 import fr.polytech.vgl.centralapp.view.GiveCompanyView;
 import fr.polytech.vgl.dao.DAO;
 import fr.polytech.vgl.dao.repository.CompanyRepository;
+import fr.polytech.vgl.dao.repository.EmployeeRepository;
+import fr.polytech.vgl.dao.service.CompanyService;
 import fr.polytech.vgl.main.MainCentralApplication;
 import fr.polytech.vgl.model.Company;
+import fr.polytech.vgl.model.Employee;
 import fr.polytech.vgl.model.Record;
 import fr.polytech.vgl.network.NetworkManager;
 import fr.polytech.vgl.network.NetworkObserver;
+import fr.polytech.vgl.realtime.BufferedMemory;
 import fr.polytech.vgl.serialisation.Serialisation;
 
 /**
@@ -26,21 +32,21 @@ public class CentralAppController implements NetworkObserver {
 	private Company company;
 	private CentralApplicationView view;
 	private NetworkManager networkManager;
-	
-	
+
 	public CentralAppController(Company company) {
-	    // Création d'un gestionnaire de réseau avec les ports et l'observateur spécifiés
-	    // Pour simplifier, on suppose ici une approche à thread unique (single-threaded)
-	    this.networkManager = new NetworkManager(8081, "localhost", 8080, this);
-	    
-	    // Initialisation de l'objet Company associé à ce contrôleur
-	    this.company = company;
-	    
-	    
-	    // Création de la vue associée à ce contrôleur
-	    this.setView(new CentralApplicationView(this));
-	    
-	    this.company.addModelObservers(view);
+		// Création d'un gestionnaire de réseau avec les ports et l'observateur
+		// spécifiés
+		// Pour simplifier, on suppose ici une approche à thread unique
+		// (single-threaded)
+		this.networkManager = new NetworkManager(8081, "localhost", 8080, this);
+
+		// Initialisation de l'objet Company associé à ce contrôleur
+		this.company = company;
+
+		// Création de la vue associée à ce contrôleur
+		this.setView(new CentralApplicationView(this));
+
+		this.company.addModelObservers(view);
 
 	}
 
@@ -95,7 +101,7 @@ public class CentralAppController implements NetworkObserver {
 			List<Company> listC = new ArrayList<>();
 			for (Company Comp : GiveCompanyView.getlistCompany()) {
 				if (listC.contains(Comp) == false) {
-					//Comp.addModelObservers(this.getView());
+					// Comp.addModelObservers(this.getView());
 					listC.add(Comp);
 				}
 			}
@@ -104,60 +110,87 @@ public class CentralAppController implements NetworkObserver {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public synchronized void onObjectReceived(Object receivedObject) {
-		
-		
-		CompanyRepository cc = DAO.getCompanyRepository();
-		
-		List<Company> l = cc.findAll();
-		l.forEach(item -> System.out.println(item.getCompanyName()));
-		System.out.println(l.size());
-		
+
 		System.out.println("Client Central app> Object Receive ");
-		if (receivedObject != null) {
-			// System.out.println(obj.getClass().getName());
-			if (receivedObject.getClass().getName().equals("fr.polytech.vgl.model.Record") == true) {
-				Record rec = (Record) receivedObject;
-				company.addRecord(rec);
-				// ajouter le rec
+		
+		if (receivedObject == null)
+			return;
 
-				System.out.println("Client> Central app Record Receive " + rec);
-				// return "Company : " + c.getCompanyName() + " added";
-			} else if (receivedObject.getClass().getName().equals("java.util.ArrayList") == true) {
-				try {
-					@SuppressWarnings("unchecked")
-					ArrayList<Record> obj2 = (ArrayList<Record>) receivedObject;
-					
-					for (Record rec : obj2) {
-						if (rec.getEmployee().getCompany().equals(company) == true) {
-							if (company.getListEmp().contains(rec.getEmployee()) == true) {
-								company.addRecord(rec);
-								System.out.println("CA> Record  Added");
-							} else {
-								company.addEmployee(rec.getEmployee());
-								company.addRecord(rec);
-								System.out.println("CA> Record and Employee  Added");
-							}
-						} else {
-							if (GiveCompanyView.getlistCompany().contains(rec.getEmployee().getCompany()) == false) {
-								GiveCompanyView.comboBox.addItem(rec.getEmployee().getCompany());
-							} else {
-								int i = GiveCompanyView.getlistCompany().indexOf(rec.getEmployee().getCompany());
-								GiveCompanyView.getlistCompany().get(i).addRecord(rec);
-							}
+		CompanyService cs = DAO.getCompanyService();
 
-							System.out.println("CA> Company Added");
-						}
-					}
+//		List<Company> l = cc.findAll();
+//		l.forEach(item -> System.out.println(item.getCompanyName()));
+//		System.out.println(l.size());
 
-					System.out.println("Client> Central app Record Receive " + obj2);
-				} catch (Exception exc) {
-					// return "No company found in the file";
-				}
+		ArrayList<Record> records = new ArrayList<>();
+
+//		BufferedMemory<Record> bufferedMemory = new BufferedMemory(10, 5, () -> new Record(null));
+
+	
+
+		// System.out.println(obj.getClass().getName());
+		if (receivedObject instanceof Record) {
+			records.add((Record) receivedObject);
+
+		} else if (receivedObject instanceof ArrayList) {
+			try {
+				records.addAll((ArrayList<Record>) receivedObject);
+//				ArrayList<Record> records = ;
+
+			} catch (Exception exc) {
+				// return "No company found in the file";
 			}
 
+		} else if (receivedObject instanceof CopyOnWriteArrayList) {
+			try {
+				records.addAll((CopyOnWriteArrayList<Record>) receivedObject);
+//				ArrayList<Record> records = ;
+
+			} catch (Exception exc) {
+				// return "No company found in the file";
+			}
 		}
+
+		System.out.println("Client Central app> Records receive :" + records);
+		EmployeeRepository empRepo = DAO.getEmployeeRepository();
+		Optional<Employee> emp;
+		for (Record rec : records) {
+			emp = empRepo.findById(rec.getEmployee().getId());
+
+			if (emp.isPresent()) {
+				emp.get().addRecord(rec);
+				empRepo.save(emp.get());
+				
+				if(company.getListEmp().contains(emp.get()))
+					company.addRecord(rec);
+			}
+		}
+//			if (rec.getEmployee().getCompany().equals(company) == true) {
+//				
+//				
+//				
+//				if (company.getListEmp().contains(rec.getEmployee()) == true) {
+//					company.addRecord(rec);
+//				} else {
+//					company.addEmployee(rec.getEmployee());
+//					company.addRecord(rec);
+//				}
+//			} else {
+//				if (GiveCompanyView.getlistCompany().contains(rec.getEmployee().getCompany()) == false) {
+//					GiveCompanyView.comboBox.addItem(rec.getEmployee().getCompany());
+//				} else {
+//					int i = GiveCompanyView.getlistCompany().indexOf(rec.getEmployee().getCompany());
+//					GiveCompanyView.getlistCompany().get(i).addRecord(rec);
+//				}
+//
+//			}
+//		}
+
+		company.notifyAll();
+		System.out.println("Client Central app> Records added");
 	}
 
 	public synchronized CentralApplicationView getView() {
