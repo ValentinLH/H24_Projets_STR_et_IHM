@@ -52,6 +52,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
@@ -69,8 +71,16 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.animation.Timeline;
+import javafx.animation.Transition;
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.animation.FillTransition;
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.PauseTransition;
 import javafx.util.Duration;
+
+
 
 
 /**
@@ -93,8 +103,13 @@ public class TimeRecordTemp extends Application {
 	private Label roundedTimeLabel;
 	
 	@FXML
+	private Label responseLabel;
+	
+	@FXML
 	private TextField testTextField;
 	
+	@FXML
+    private VBox mainPageContainer;
 	
 	
 	private Stage mainStage;
@@ -149,7 +164,7 @@ public class TimeRecordTemp extends Application {
         primaryStage.setTitle("Time Record");
         primaryStage.setScene(new Scene(root, 600, 400));
         mainStage = primaryStage;
-        //primaryStage.getScene().getStylesheets().add(getClass().getResource("file\\style.css").toExternalForm());
+        primaryStage.getScene().getStylesheets().add(getClass().getResource("file\\style.css").toExternalForm());
         primaryStage.show();
         
 	}
@@ -158,11 +173,12 @@ public class TimeRecordTemp extends Application {
     public void initialize() {
 		this.updateComboBox();
 		this.testTextField.setVisible(false);
+		this.responseLabel.setVisible(false);
 		this.testMode = false;
         DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter time = DateTimeFormatter.ofPattern("HH:mm:ss");
         DateTimeFormatter roundedTime = DateTimeFormatter.ofPattern("HH:mm");
-        
+                
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             LocalDateTime currentLocalDate = LocalDateTime.now();
             LocalDateTime currentRoundedTime;
@@ -170,7 +186,7 @@ public class TimeRecordTemp extends Application {
             	currentRoundedTime = LocalDateTime.now().minusMinutes(currentLocalDate.getMinute()%15);
             }
             else {
-            	currentRoundedTime = LocalDateTime.now().plusMinutes(currentLocalDate.getMinute()%15);
+            	currentRoundedTime = LocalDateTime.now().plusMinutes(15-(currentLocalDate.getMinute()%15));
             }
             String formatedDate = currentLocalDate.format(date);
             String formatedTime = currentLocalDate.format(time);
@@ -183,6 +199,7 @@ public class TimeRecordTemp extends Application {
         timeline.play();
     }
 	
+	
 	public void updateComboBox()
 	{
 		this.comboBoxEmp.getItems().clear();
@@ -194,45 +211,56 @@ public class TimeRecordTemp extends Application {
 	
 	@FXML
     public void click() {
-        System.out.println(comboBoxEmp.getSelectionModel().getSelectedItem().toString() + " " + 
-    comboBoxEmp.getSelectionModel().getSelectedItem().getId());
-        
         if (comboBoxEmp.getSelectionModel().getSelectedItem() != null && !this.testMode)
         {
         	int ret = controler.sendRecord(comboBoxEmp.getSelectionModel().getSelectedItem());
 			if (ret == 1)
 			{
-				//Validation							
+				this.responseLabel.setText("Record Sended");
+				this.responseLabel.setVisible(true);
+				this.changeBackground("7EA1C9");
 			}
 			else if (ret == 0)
 			{
-				//Attente de connection;							
+				this.responseLabel.setText("Waiting connexion to send");
+				this.responseLabel.setVisible(true);
+				this.changeBackground("7EA1C9");
 			}
 			else if (ret == -1)
 			{
-				//Error						
+				this.responseLabel.setText("Already sended record in the last "+ Record.getRounded() + " min");
+				this.responseLabel.setVisible(true);
+				this.changeBackground("FF7070");
 			}
         }
         
         if (comboBoxEmp.getSelectionModel().getSelectedItem() != null && this.testMode)
         {
+        	
         	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         	LocalDateTime time = LocalDateTime.parse(this.testTextField.getText(), formatter);
         	int ret = controler.sendRecordTest(comboBoxEmp.getSelectionModel().getSelectedItem(), time);
 			if (ret == 1)
 			{
-				//Validation							
+				this.responseLabel.setText("Record Sended");
+				this.responseLabel.setVisible(true);
+				this.changeBackground("7EA1C9");		
 			}
 			else if (ret == 0)
 			{
-				//Attente de connexion;							
+				this.responseLabel.setText("Waiting connexion to send");
+				this.responseLabel.setVisible(true);
+				this.changeBackground("7EA1C9");						
 			}
 			else if (ret == -1)
 			{
-				//Error						
+				this.responseLabel.setText("Already sended record in the last "+ Record.getRounded() + " min");
+				this.responseLabel.setVisible(true);
+				this.changeBackground("FF7070");						
 			}
         }
     }
+	
 	
 	@FXML
 	public void showSettings()
@@ -242,6 +270,7 @@ public class TimeRecordTemp extends Application {
             Parent root = loader.load();
             settingsController controllerSetting = loader.getController();
             controllerSetting.setTimeRecordController(this.controler);
+            controllerSetting.hideLabel();
             Stage settingsStage = new Stage();
             settingsStage.setTitle("Settings");
             settingsStage.setScene(new Scene(root, 600, 300));
@@ -251,6 +280,7 @@ public class TimeRecordTemp extends Application {
             controllerSetting.updateTextFieldIp("Localhost");
             controllerSetting.updateTextFieldPort(String.valueOf(this.controler.getPort()));
             controllerSetting.updateTextFieldMyPort(String.valueOf(this.controler.getMyPort()));
+            settingsStage.getScene().getStylesheets().add(getClass().getResource("file\\style.css").toExternalForm());
             settingsStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
@@ -265,12 +295,14 @@ public class TimeRecordTemp extends Application {
             Parent root = loader.load();
             companyController controllerCompany = loader.getController();
             controllerCompany.setControler(this.controler);
+            controllerCompany.hideLabel();
             Stage companyStage = new Stage();
             companyStage.setTitle("companies update");
-            companyStage.setScene(new Scene(root, 600, 400));
+            companyStage.setScene(new Scene(root, 600, 350));
             companyStage.initModality(Modality.APPLICATION_MODAL);
             companyStage.initOwner(mainStage);
             controllerCompany.updateComboBoxElement(this.controler.getListCompany());
+            companyStage.getScene().getStylesheets().add(getClass().getResource("file\\style.css").toExternalForm());
             companyStage.showAndWait();
             this.updateComboBox();
         } catch (IOException e) {
@@ -281,18 +313,18 @@ public class TimeRecordTemp extends Application {
 	@FXML
 	public void selectTestMode()
 	{
-		this.switchTestMode();
+		this.switchTestMode(false);
 	}
 	
 	@FXML
 	public void newCheck()
 	{
-		this.switchTestMode();
+		this.switchTestMode(true);
 	}
 	
-	private void switchTestMode()
+	private void switchTestMode(boolean switchMode)
 	{
-		if (!this.testMode)
+		if (!switchMode)
 		{
 			this.testMode = true;
 			this.testTextField.setVisible(true);
@@ -301,7 +333,7 @@ public class TimeRecordTemp extends Application {
 			this.testTextField.setText(currentLocalDate.format(dateTime));
 			return;
 		}
-		if (this.testMode)
+		if (switchMode)
 		{
 			this.testMode = false;
 			this.testTextField.setVisible(false);
@@ -309,6 +341,16 @@ public class TimeRecordTemp extends Application {
 		}
 	}
 
+	public void changeBackground(String color)
+	{
+		
+		this.mainPageContainer.setStyle("-fx-background-color: #" + color + ";");
+
+        /*PauseTransition pauseTransition = new PauseTransition(Duration.seconds(4));
+        pauseTransition.setOnFinished(event -> mainPageContainer.setStyle("-fx-background-color: linear-gradient(to right, #E2EAF3, #F1F5F9);"));
+        pauseTransition.play();*/
+	}
+	
 	/**
 	 * Initialize the contents of the frame. The Tabbed pane and the others panels
 	 */

@@ -1,0 +1,39 @@
+#paneCompany,
+#paneSetting,
+#mainPageContainer {
+	-fx-background-color: linear-gradient(to right, #E2EAF3, #F1F5F9);
+}
+
+.button {
+    -fx-background-color: #294153;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+    -fx-padding: 5px 5px;
+}
+ 
+.button:hover {
+    -fx-background-color: #223544;
+}
+
+#ipLabel,
+#portLabel,
+#myPortLabel,
+#myAdressLabel,
+#responseLabel,
+#addingLabel,
+#deletingLabel,
+#chooseLabel,
+#dateLabel,
+#timeLabel,
+#roundedTimeLabel,
+#responseLabel {
+    -fx-text-fill: #294153;
+}
+
+#comboBoxEmp {
+    -fx-pref-height: 30px;
+    -fx-background-radius: 8px;
+    -fx-border-width: 0px;
+    -fx-padding: 0px 10px; 
+}

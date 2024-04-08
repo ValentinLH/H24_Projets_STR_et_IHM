@@ -3,10 +3,14 @@ package fr.polytech.vgl.timerecord.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 public class settingsController {
 	@FXML
 	private Label myAdressLabel;
+	
+	@FXML
+	private Label responseLabel;
 	
 	@FXML
 	private TextField IpAdressTextField;
@@ -16,6 +20,9 @@ public class settingsController {
 	
 	@FXML
 	private TextField myPortTextField;
+	
+	@FXML
+	private Pane paneSetting;
 	
 	private TimeRecordControler controler;
 	
@@ -46,12 +53,16 @@ public class settingsController {
 		
 		if (text.equals(ret))
 		{
-			//Ip réussi à être modifié
+			this.responseLabel.setText("New Ip selected");
+			this.responseLabel.setVisible(true);
+			this.changeBackground("7EA1C9");
 		}
 		else
 		{
 			myAdressLabel.setText(ret);
-			//Erreur de l'ip entré
+			this.responseLabel.setText("Error with the port selected");
+			this.responseLabel.setVisible(true);
+			this.changeBackground("FF7070");
 		}
 	}
 	
@@ -61,12 +72,16 @@ public class settingsController {
 		String ret = controler.setPort(port);
 		if (port.equals(ret))
 		{
-			//Port réussi à être modifié
+			this.responseLabel.setText("New port selected");
+			this.responseLabel.setVisible(true);
+			this.changeBackground("7EA1C9");
 		}
 		else
 		{
 			portTextField.setText(ret);
-			//Erreur du port entré
+			this.responseLabel.setText("Error with the port selected");
+			this.responseLabel.setVisible(true);
+			this.changeBackground("FF7070");
 		}
 	}
 	
@@ -76,15 +91,28 @@ public class settingsController {
 		String ret = controler.setMyPort(port);
 		if (port.equals(ret))
 		{
-			//My port réussi à être modifié
+			this.responseLabel.setText("New port selected");
+			this.responseLabel.setVisible(true);
+			this.changeBackground("7EA1C9");
 		}
 		else
 		{
 			myPortTextField.setText(ret);
-			//Erreur de my port entré
+			this.responseLabel.setText("Error with the port selected");
+			this.responseLabel.setVisible(true);
+			this.changeBackground("FF7070");
 		}
 	}
 	
+	public void hideLabel()
+	{
+		this.responseLabel.setVisible(false);
+	}
+	
+	public void changeBackground(String color)
+	{
+		this.paneSetting.setStyle("-fx-background-color: #" + color + ";");
+	}
 	
 
 }

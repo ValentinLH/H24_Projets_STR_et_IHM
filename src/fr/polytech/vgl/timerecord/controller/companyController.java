@@ -9,7 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -19,6 +21,12 @@ public class companyController {
 	
 	@FXML
 	private TextField repositoryTextField;
+	
+	@FXML
+	private Label responseLabel;
+	
+	@FXML
+	private Pane paneCompany;
 	
 	private TimeRecordControler controler;
 	
@@ -35,12 +43,23 @@ public class companyController {
 	public void addCompany()
 	{
 		String a = this.controler.deserialiseCompany();
-		if (a.equals("No company found in the file")) {
-			//Pas de compagnie trouvé
-		} else if (a.equals("File not found")) {
-			//Pas de fichier trouvé
-		} else {
-			//Tout est bon, la compagnie est crée
+		if (a.equals("No company found in the file"))
+		{
+			this.responseLabel.setText(a);
+			this.responseLabel.setVisible(true);
+			this.changeBackground("FF7070");
+		}
+		else if (a.equals("File not found"))
+		{
+			this.responseLabel.setText(a);
+			this.responseLabel.setVisible(true);
+			this.changeBackground("FF7070");
+		}
+		else
+		{
+			this.responseLabel.setText(a);
+			this.responseLabel.setVisible(true);
+			this.changeBackground("7EA1C9");
 		}
 	}
 	
@@ -67,12 +86,16 @@ public class companyController {
         	boolean delete = this.controler.delCompany(this.comboBoxCompany.getSelectionModel().getSelectedItem());
         	if (delete)
         	{
-        		//Supression valide
+        		this.responseLabel.setText("Company Successfully Deleted");
+    			this.responseLabel.setVisible(true);
         		this.updateComboBoxElement(this.controler.getListCompany());
+        		this.changeBackground("7EA1C9");
         	}
         	else
         	{
-        		//Erreur lors de la suppression
+        		this.responseLabel.setText("Error During Deletion");
+    			this.responseLabel.setVisible(true);
+    			this.changeBackground("FF7070");
         	}
         }
 	}
@@ -90,6 +113,11 @@ public class companyController {
             this.repositoryTextField.setText(selectedFile.getAbsolutePath());
         }
 	}
+	
+	public void changeBackground(String color)
+	{
+		this.paneCompany.setStyle("-fx-background-color: #" + color + ";");
+	}
 
 	public TimeRecordControler getControler() {
 		return controler;
@@ -97,5 +125,10 @@ public class companyController {
 
 	public void setControler(TimeRecordControler controler) {
 		this.controler = controler;
+	}
+	
+	public void hideLabel()
+	{
+		this.responseLabel.setVisible(false);
 	}
 }

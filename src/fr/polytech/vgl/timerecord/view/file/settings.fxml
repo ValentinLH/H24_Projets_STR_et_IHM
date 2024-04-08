@@ -4,19 +4,36 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="322.0" prefWidth="564.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.polytech.vgl.timerecord.controller.settingsController">
+<Pane fx:id="paneSetting" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="322.0" prefWidth="564.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.polytech.vgl.timerecord.controller.settingsController">
    <children>
-      <TextField fx:id="IpAdressTextField" layoutX="197.0" layoutY="77.0" />
-      <TextField fx:id="portTextField" layoutX="197.0" layoutY="158.0" />
-      <TextField fx:id="myPortTextField" layoutX="197.0" layoutY="259.0" />
-      <Label layoutX="58.0" layoutY="71.0" prefHeight="25.0" prefWidth="139.0" text="Ip Adress" />
-      <Label layoutX="58.0" layoutY="147.0" prefHeight="17.0" prefWidth="100.0" text="Port" />
-      <Label layoutX="58.0" layoutY="253.0" prefHeight="25.0" prefWidth="100.0" text="My Port" />
-      <Button layoutX="415.0" layoutY="75.0" mnemonicParsing="false" onAction="#setIp" prefHeight="25.0" prefWidth="129.0" text="Set Ip Adress" />
-      <Button layoutX="415.0" layoutY="156.0" mnemonicParsing="false" onAction="#setPort" prefHeight="25.0" prefWidth="129.0" text="Set Port" />
-      <Button layoutX="415.0" layoutY="257.0" mnemonicParsing="false" onAction="#setMyPort" prefHeight="25.0" prefWidth="129.0" text="Set My port" />
-      <Label fx:id="myAdressLabel" layoutX="158.0" layoutY="212.0" prefHeight="17.0" prefWidth="231.0" text="Test :" />
+      <TextField fx:id="IpAdressTextField" layoutX="171.0" layoutY="41.0" prefHeight="25.0" prefWidth="198.0" />
+      <TextField fx:id="portTextField" layoutX="171.0" layoutY="98.0" prefHeight="25.0" prefWidth="198.0" />
+      <TextField fx:id="myPortTextField" layoutX="171.0" layoutY="190.0" prefHeight="25.0" prefWidth="198.0" />
+      <Label fx:id="ipLabel" layoutX="58.0" layoutY="41.0" prefHeight="25.0" prefWidth="139.0" text="Ip Adress">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font></Label>
+      <Label fx:id="portLabel" layoutX="58.0" layoutY="102.0" prefHeight="17.0" prefWidth="100.0" text="Port">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font></Label>
+      <Label fx:id="myPortLabel" layoutX="58.0" layoutY="190.0" prefHeight="25.0" prefWidth="100.0" text="My Port">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Button layoutX="415.0" layoutY="41.0" mnemonicParsing="false" onAction="#setIp" prefHeight="25.0" prefWidth="129.0" text="Set Ip Adress" />
+      <Button layoutX="415.0" layoutY="98.0" mnemonicParsing="false" onAction="#setPort" prefHeight="25.0" prefWidth="129.0" text="Set Port" />
+      <Button layoutX="415.0" layoutY="190.0" mnemonicParsing="false" onAction="#setMyPort" prefHeight="25.0" prefWidth="129.0" text="Set My port" />
+      <Label fx:id="myAdressLabel" layoutX="156.0" layoutY="153.0" prefHeight="17.0" prefWidth="231.0" text="Label">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font></Label>
+      <Label fx:id="responseLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="135.0" layoutY="249.0" prefHeight="17.0" prefWidth="321.0" text="Label">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
