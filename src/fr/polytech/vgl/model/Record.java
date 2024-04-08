@@ -30,7 +30,7 @@ public class Record implements Comparable<Record>,java.io.Serializable {
 	private final static int rounded = 15;
 	private LocalDateTime record;
 	
-	@DBRef(lazy = true)
+	@DBRef
 	private Employee employee;
 	
 	public Record(){

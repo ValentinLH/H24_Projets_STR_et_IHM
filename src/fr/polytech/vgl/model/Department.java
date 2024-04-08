@@ -30,7 +30,7 @@ public class  Department implements java.io.Serializable {
 	private int departementId;
     private String departmentName;
     
-    @DBRef(lazy = true)
+    @DBRef
     private List<Employee> listEmp;
     
     

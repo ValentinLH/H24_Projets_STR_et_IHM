@@ -39,10 +39,10 @@ public class Employee implements java.io.Serializable {
 	private String surname;
 	private int id;
 
-	@DBRef(lazy = true)
+	@DBRef
 	private Company company;
 
-	@DBRef(lazy = true)
+	@DBRef
 	private Department departement;
 
 	private List<Record> records;
