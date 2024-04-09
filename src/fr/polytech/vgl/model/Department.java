@@ -7,6 +7,7 @@ package fr.polytech.vgl.model;
 */
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -109,7 +110,22 @@ public class  Department implements java.io.Serializable {
 		{
 			//nothing here to del
 		}
+		
+		
+		
 	}
 
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Department other = (Department) obj;
+		return Objects.equals(departmentName, other.departmentName);
+	}
     
 }

@@ -159,7 +159,7 @@ public class CentralAppController implements NetworkObserver {
 			
 			if( emp.getCompany().equals(company))
 			{
-				company.updateEmployeeRecord(emp);
+				company.addRecord(rec);
 				cs.saveCompany(company);
 			}
 			else
@@ -209,7 +209,7 @@ public class CentralAppController implements NetworkObserver {
 
 		
 		
-		company.notifyObserverModel(company);;
+		company.notifyObserverModel(company);
 		System.out.println("Client Central app> Records added");
 	}
 

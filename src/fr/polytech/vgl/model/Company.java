@@ -365,14 +365,4 @@ public class Company implements java.io.Serializable {
 		}
 	}
 
-	public void updateEmployeeRecord(Employee emp) {
-		if (listEmp.contains(emp) == true) {
-			Employee myEmp = listEmp.get(listEmp.indexOf(emp));
-			for(Record rec: emp.getRecords())
-				myEmp.addRecord(rec);
-			notifyObserverModel(this);
-		}
-		
-	}
-
 }

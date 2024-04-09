@@ -126,36 +126,44 @@ public class Employee implements java.io.Serializable {
 		return company;
 	}
 
+//	public void setCompany(Company company) {
+//	    if (company == null || this.company == company) {
+//	        return;
+//	    }
+//
+//	    if (this.company != null) {
+//	        this.company.delEmployee(this);
+//	    }
+//
+//	    this.company = company;
+//	    company.addEmployee(this);
+//	}
+
 	public void setCompany(Company company) {
-	    if (company == null || this.company == company) {
-	        return;
-	    }
+		if (this.company != null) {
+			if (this.company != company) {
+				this.company.delEmployee(this);
+				this.company = company;
+				company.addEmployee(this);
+			}
 
-	    if (this.company != null) {
-	        this.company.delEmployee(this);
-	    }
+		} else {
+			this.company = company;
+			if (company.getListEmp().contains(this) == false) {
+				company.addEmployee(this);
+			}
+		}
 
-	    this.company = company;
-	    company.addEmployee(this);
 	}
-
-
+	
 	public Department getDepartement() {
 		return departement;
 	}
 
 	public void setDepartement(Department departement) {
-		
-	    if (departement == null || this.departement == departement) {
-	        return;
-	    }
-
-	    if (this.departement != null) {
-	        this.departement.delEmployee(this);
-	    }
-
-	    this.departement = departement;
+		this.departement = departement;
 		departement.addEmployee(this);
+		company.addDepartment(departement);
 	}
 
 	// Add synchronization for thread safety
@@ -176,14 +184,28 @@ public class Employee implements java.io.Serializable {
 	}
 
 	public synchronized void addRecord(Record record) {
-		if (record.getEmployee() != null) {
-			record.getEmployee().delRecord(record);
-			record.setEmployee(this);
-		}
+		  if (record == null) {
+		        return;
+		    }
 
-		if (!records.contains(record)) {
-			records.add(record);
-		}
+		    Employee employee = record.getEmployee();
+		    if (employee != null && !employee.equals(employee)) {
+		        employee.delRecord(record);
+		        record.setEmployee(this);
+		    }
+
+		    if (!records.contains(record)) {
+		        records.add(record);
+		    }
+		
+		//		if (record.getEmployee() != null) {
+//			record.getEmployee().delRecord(record);
+//			record.setEmployee(this);
+//		}
+//
+//		if (!records.contains(record)) {
+//			records.add(record);
+//		}
 
 	}
 
