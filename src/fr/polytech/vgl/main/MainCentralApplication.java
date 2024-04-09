@@ -55,13 +55,8 @@ public class MainCentralApplication {
 
 					try {
 						
-//						CompanyRepository cr = DAO.getCompanyRepository();
 						CompanyService cs = DAO.getCompanyService();
-//						List<Company> deSerialize = Serialisation.deserialize("company.sav");
-						// listCompany = deSerialize;
-//						for (Company c : deSerializePourvrai)
-//							cs.saveListEmployee(c.getListEmp());
-							
+
 						List<Company> deSerialize = cs.getAllCompanies();
 						
 

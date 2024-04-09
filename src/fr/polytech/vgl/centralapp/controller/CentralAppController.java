@@ -123,35 +123,25 @@ public class CentralAppController implements NetworkObserver {
 		
 		CompanyService cs = DAO.getCompanyService();
 		
-		EmployeeRepository empRepo = DAO.getEmployeeRepository();
-//		EmployeeRepository empRepo = DAO.getEmployeeRepository();
-//		List<Company> l = cc.findAll();
-//		l.forEach(item -> System.out.println(item.getCompanyName()));
-//		System.out.println(l.size());
 
 	
 		ArrayList<Record> records = new ArrayList<>();
 
-//		BufferedMemory<Record> bufferedMemory = new BufferedMemory(10, 5, () -> new Record(null));
-
-		// System.out.println(obj.getClass().getName());
 		if (receivedObject instanceof Record) {
 			records.add((Record) receivedObject);
 
 		} else if (receivedObject instanceof ArrayList) {
 			try {
 				records.addAll((ArrayList<Record>) receivedObject);
-//				ArrayList<Record> records = ;
 
 			} catch (Exception exc) {
-				// return "No company found in the file";
+
 			}
 
 		} else if (receivedObject instanceof CopyOnWriteArrayList) {
 			try {
 				records.addAll((CopyOnWriteArrayList<Record>) receivedObject);
-//				ArrayList<Record> records = ;
-
+//			
 			} catch (Exception exc) {
 				// return "No company found in the file";
 			}
@@ -162,17 +152,9 @@ public class CentralAppController implements NetworkObserver {
 //		List<Employee> listEmp = cs.getAllEmployee();
 		Employee emp;
 		for (Record rec : records) {
-//			emp = empRepo.findEmployeeById(rec.getEmployee().getId());
-
 			emp = rec.getEmployee();
 			
-			
-//			empRepo.existsById(emp.getId())
-			
-//			System.out.println(emp);
 			System.out.println(rec.getEmployee());
-			
-			
 			
 			
 			if( emp.getCompany().equals(company))
