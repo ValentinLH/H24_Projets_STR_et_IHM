@@ -173,10 +173,18 @@ public class CentralAppController implements NetworkObserver {
 			System.out.println(rec.getEmployee());
 			
 			
-			emp.addRecord(rec);
-			cs.saveEmployee(emp);
 			
 			
+			if( emp.getCompany().equals(company))
+			{
+				company.updateEmployeeRecord(emp);
+				cs.saveCompany(company);
+			}
+			else
+			{
+				emp.addRecord(rec);
+				cs.saveEmployee(emp);
+			}
 			
 //			
 			
