@@ -127,30 +127,35 @@ public class Employee implements java.io.Serializable {
 	}
 
 	public void setCompany(Company company) {
-		if (this.company != null) {
-			if (this.company != company) {
-				this.company.delEmployee(this);
-				this.company = company;
-				company.addEmployee(this);
-			}
+	    if (company == null || this.company == company) {
+	        return;
+	    }
 
-		} else {
-			this.company = company;
-			if (company.getListEmp().contains(this) == false) {
-				company.addEmployee(this);
-			}
-		}
+	    if (this.company != null) {
+	        this.company.delEmployee(this);
+	    }
 
+	    this.company = company;
+	    company.addEmployee(this);
 	}
+
 
 	public Department getDepartement() {
 		return departement;
 	}
 
 	public void setDepartement(Department departement) {
-		this.departement = departement;
+		
+	    if (departement == null || this.departement == departement) {
+	        return;
+	    }
+
+	    if (this.departement != null) {
+	        this.departement.delEmployee(this);
+	    }
+
+	    this.departement = departement;
 		departement.addEmployee(this);
-		company.addDepartment(departement);
 	}
 
 	// Add synchronization for thread safety
