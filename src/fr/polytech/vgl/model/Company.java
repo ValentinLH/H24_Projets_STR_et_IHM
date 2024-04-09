@@ -100,7 +100,7 @@ public class Company implements java.io.Serializable {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
-		NotifyObserverModel(this);
+		notifyObserverModel(this);
 	}
 
 	@Deprecated
@@ -127,7 +127,7 @@ public class Company implements java.io.Serializable {
 
 	public void setListEmp(List<Employee> listEmp) {
 		this.listEmp = listEmp;
-		NotifyObserverModel(this);
+		notifyObserverModel(this);
 	}
 
 	public List<Record> getListRec() {
@@ -136,7 +136,7 @@ public class Company implements java.io.Serializable {
 
 	@Deprecated
 	public void setListRec(List<Record> listRec) {
-		NotifyObserverModel(this);
+		notifyObserverModel(this);
 
 		System.out.println("Il n'est plus possible d'ajouter une liste brute de record a company");
 		// this.listRec = listRec;
@@ -152,7 +152,7 @@ public class Company implements java.io.Serializable {
 			listEmp.add(emp);
 			emp.setCompany(this);
 			addDepartment(emp.getDepartement());
-			NotifyObserverModel(this);
+			notifyObserverModel(this);
 		}
 
 	}
@@ -165,7 +165,7 @@ public class Company implements java.io.Serializable {
 	public void delEmployee(Employee emp) {
 		try {
 			listEmp.remove(emp);
-			NotifyObserverModel(this);
+			notifyObserverModel(this);
 		} catch (Exception exc) {
 			// nothing here to del
 
@@ -180,7 +180,7 @@ public class Company implements java.io.Serializable {
 	public void delEmployee(int index) {
 		try {
 			listEmp.remove(index);
-			NotifyObserverModel(this);
+			notifyObserverModel(this);
 		} catch (Exception exc) {
 			// nothing here to del
 		}
@@ -200,7 +200,7 @@ public class Company implements java.io.Serializable {
 
 			foundEmployee.addRecord(rec);
 
-			NotifyObserverModel(this);
+			notifyObserverModel(this);
 
 		}
 	}
@@ -214,7 +214,7 @@ public class Company implements java.io.Serializable {
 
 	public void addRecord(Employee emp, LocalDateTime date) {
 		emp.addRecord(date);
-		NotifyObserverModel(this);
+		notifyObserverModel(this);
 
 	}
 
@@ -266,7 +266,7 @@ public class Company implements java.io.Serializable {
 		if (listDpt.contains(null) == true) {
 			listDpt.remove(null);
 		}
-		NotifyObserverModel(this);
+		notifyObserverModel(this);
 	}
 
 	/**
@@ -277,7 +277,7 @@ public class Company implements java.io.Serializable {
 	public void delDepartment(Department Dpt) {
 		if (listDpt.contains(Dpt)) {
 			listDpt.remove(Dpt);
-			NotifyObserverModel(this);
+			notifyObserverModel(this);
 		}
 	}
 
@@ -354,7 +354,7 @@ public class Company implements java.io.Serializable {
 			modelObservers.remove(om);
 	}
 
-	public void NotifyObserverModel(Company receivedCompany) {
+	public void notifyObserverModel(Company receivedCompany) {
 
 		if (modelObservers == null) {
 			this.modelObservers = new ArrayList<>();

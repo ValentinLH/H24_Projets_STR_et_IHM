@@ -24,7 +24,7 @@ public class Record implements Comparable<Record>,java.io.Serializable {
 	 * 
 	 */
 	@Id
-	private ObjectId id = new ObjectId(); // Utilisation de ObjectId comme type pour l'identifiant
+	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
 	
 	private static final long serialVersionUID = 1L;
 	private final static int rounded = 15;

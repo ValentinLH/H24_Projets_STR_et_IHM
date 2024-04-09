@@ -114,22 +114,25 @@ public class CentralAppController implements NetworkObserver {
 	@Override
 	public synchronized void onObjectReceived(Object receivedObject) {
 
-System.out.println("Client Central app> Object Receive ");
-		
+		System.out.println("Client Central app> Object Receive ");
+
 		if (receivedObject == null)
 			return;
 
+		
+		
 		CompanyService cs = DAO.getCompanyService();
-
+		
+		EmployeeRepository empRepo = DAO.getEmployeeRepository();
+//		EmployeeRepository empRepo = DAO.getEmployeeRepository();
 //		List<Company> l = cc.findAll();
 //		l.forEach(item -> System.out.println(item.getCompanyName()));
 //		System.out.println(l.size());
 
+	
 		ArrayList<Record> records = new ArrayList<>();
 
 //		BufferedMemory<Record> bufferedMemory = new BufferedMemory(10, 5, () -> new Record(null));
-
-	
 
 		// System.out.println(obj.getClass().getName());
 		if (receivedObject instanceof Record) {
@@ -155,19 +158,44 @@ System.out.println("Client Central app> Object Receive ");
 		}
 
 		System.out.println("Client Central app> Records receive :" + records);
-		EmployeeRepository empRepo = DAO.getEmployeeRepository();
-		Optional<Employee> emp;
-		for (Record rec : records) {
-			emp = empRepo.findById(rec.getEmployee().getId());
 
-			if (emp.isPresent()) {
-				emp.get().addRecord(rec);
-				empRepo.save(emp.get());
-				
-				if(company.getListEmp().contains(emp.get()))
-					company.addRecord(rec);
-			}
+//		List<Employee> listEmp = cs.getAllEmployee();
+		Employee emp;
+		for (Record rec : records) {
+//			emp = empRepo.findEmployeeById(rec.getEmployee().getId());
+
+			emp = rec.getEmployee();
+			
+			
+//			empRepo.existsById(emp.getId())
+			
+//			System.out.println(emp);
+			System.out.println(rec.getEmployee());
+			
+			
+			emp.addRecord(rec);
+			cs.saveEmployee(emp);
+			
+			
+			
+//			
+			
+//			if (company.getListEmp().contains(emp)) {
+//				company.addRecord(rec);
+//				cs.saveCompany(company);
+//			}
+//			else
+//			{
+//				emp.addRecord(rec);				
+//				empRepo.save(emp);
+//			}
+			
+
 		}
+		
+		
+		
+//		cs.saveListEmployee(listEmp);
 //			if (rec.getEmployee().getCompany().equals(company) == true) {
 //				
 //				
@@ -189,7 +217,9 @@ System.out.println("Client Central app> Object Receive ");
 //			}
 //		}
 
-		company.notifyAll();
+		
+		
+		company.notifyObserverModel(company);;
 		System.out.println("Client Central app> Records added");
 	}
 

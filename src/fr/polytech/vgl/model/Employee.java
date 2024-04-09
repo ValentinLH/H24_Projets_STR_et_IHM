@@ -39,10 +39,11 @@ public class Employee implements java.io.Serializable {
 	private String surname;
 	private int id;
 
+//	@DBRef(lazy = true)
 	@DBRef
 	private Company company;
 
-	@DBRef
+//	@DBRef(lazy = true)
 	private Department departement;
 
 	private List<Record> records;
@@ -179,9 +180,6 @@ public class Employee implements java.io.Serializable {
 			records.add(record);
 		}
 
-		if (!company.getListRec().contains(record)) {
-			company.addRecord(record);
-		}
 	}
 
 	public void delRecord(Record record) {
@@ -273,6 +271,8 @@ public class Employee implements java.io.Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
+		if (this.id_bson == other.getId())
+			return true;
 		return Objects.equals(company.getCompanyName(), other.company.getCompanyName())
 				&& Objects.equals(departement, other.departement) && id == other.id && Objects.equals(name, other.name)
 				&& Objects.equals(surname, other.surname);
