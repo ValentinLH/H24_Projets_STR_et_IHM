@@ -17,8 +17,7 @@ public interface CompanyRepository extends MongoRepository<Company, ObjectId> {
 //	void delete(Company c);
 
 	//Read
-	 @Query("{companyName: ?0}")
-	 Company findByCompanyName(String companyName);
+	 Company findFirstByCompanyName(String companyName);
 	
 	 @Query("{'id' : ?0}")
 	 Company findByCompanyId(ObjectId id);
