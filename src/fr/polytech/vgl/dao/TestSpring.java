@@ -58,7 +58,7 @@ public class TestSpring /*implements CommandLineRunner*/ {
 
 						//Test pour 1 seul resultat : 
 						
-						Company compFirst = cs.findByCompanyName("Juanito Futuristics");
+						Company compFirst = cs.findFirstByCompanyName("Juanito Futuristics");
 						
 						System.out.println("compFirst Name = " + compFirst.getCompanyName());
 						
