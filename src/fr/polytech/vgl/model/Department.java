@@ -7,24 +7,49 @@ package fr.polytech.vgl.model;
 */
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *  Department represent the department of a company
  * @author Touret Lino - L'Hermite Valentin
  *
  */
+
+@Document("department")
 public class  Department implements java.io.Serializable {
+	
+	@Id
+	private ObjectId id; // Utilisation de ObjectId comme type pour l'identifiant
 	
 	private static final long serialVersionUID = 1L;
 	private static int listId = 0; 
 	private int departementId;
     private String departmentName;
+    
+    @DBRef
     private List<Employee> listEmp;
     
     
     
     
-    public  Department(String name) {
+    /**
+	 * @param id the id to set
+	 */
+	public void setId() {
+		this.id = new ObjectId();
+	}
+
+	public Department() {
+		super();
+	}
+
+	public  Department(String name) {
+    	this.id = new ObjectId();
         this.departmentName = name;
         departementId = listId;
         listId++;
@@ -85,7 +110,22 @@ public class  Department implements java.io.Serializable {
 		{
 			//nothing here to del
 		}
+		
+		
+		
 	}
 
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Department other = (Department) obj;
+		return Objects.equals(departmentName, other.departmentName);
+	}
     
 }

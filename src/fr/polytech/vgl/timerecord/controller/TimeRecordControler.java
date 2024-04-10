@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import fr.polytech.vgl.dao.DAO;
+import fr.polytech.vgl.dao.service.CompanyService;
 import fr.polytech.vgl.misc.ModelListener;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Department;
@@ -56,19 +58,26 @@ public class TimeRecordControler implements NetworkObserver {
 	public TimeRecordControler() {
 		networkManager = new NetworkManager(this);
 
+		DAO.start();
 		listCompany = new ArrayList<>();
 		view = new TimeRecordMainFrame(this);
 		file = null;
 		antiSpam = new HashMap<>();
 
 		try {
-			List<Company> deSerialize = Serialisation.deserialize(save);
+			CompanyService cs = DAO.getCompanyService();
+//			List<Company> deSerialize = Serialisation.deserialize("company.sav");
+			// listCompany = deSerialize;
+			
+			List<Company> deSerialize = cs.getAllCompanies();
+//			List<Company> deSerialize = Serialisation.deserialize(save);
 			// listCompany = deSerialize;
 
 			for (Company newcomp : deSerialize) {
 				addCompany(newcomp);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			listCompany = new ArrayList<>();
 		}
 
@@ -174,6 +183,7 @@ public class TimeRecordControler implements NetworkObserver {
 		}
 
 		Record newRecord = recordsBuffer.getObject();
+		newRecord.setId();
 		newRecord.setEmployee(employee);
 		newRecord.setRecord(LocalDateTime.now());
 
