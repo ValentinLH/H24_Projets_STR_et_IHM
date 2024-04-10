@@ -168,46 +168,11 @@ public class CentralAppController implements NetworkObserver {
 				cs.saveEmployee(emp);
 			}
 			
-//			
-			
-//			if (company.getListEmp().contains(emp)) {
-//				company.addRecord(rec);
-//				cs.saveCompany(company);
-//			}
-//			else
-//			{
-//				emp.addRecord(rec);				
-//				empRepo.save(emp);
-//			}
 			
 
 		}
 		
-		
-		
-//		cs.saveListEmployee(listEmp);
-//			if (rec.getEmployee().getCompany().equals(company) == true) {
-//				
-//				
-//				
-//				if (company.getListEmp().contains(rec.getEmployee()) == true) {
-//					company.addRecord(rec);
-//				} else {
-//					company.addEmployee(rec.getEmployee());
-//					company.addRecord(rec);
-//				}
-//			} else {
-//				if (GiveCompanyView.getlistCompany().contains(rec.getEmployee().getCompany()) == false) {
-//					GiveCompanyView.comboBox.addItem(rec.getEmployee().getCompany());
-//				} else {
-//					int i = GiveCompanyView.getlistCompany().indexOf(rec.getEmployee().getCompany());
-//					GiveCompanyView.getlistCompany().get(i).addRecord(rec);
-//				}
-//
-//			}
-//		}
 
-		
 		
 		company.notifyObserverModel(company);
 		System.out.println("Client Central app> Records added");
