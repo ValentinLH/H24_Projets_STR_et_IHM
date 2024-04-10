@@ -31,10 +31,6 @@ public class CompanyService {
     	departmentRepository.saveAll(company.getListDpt());
     }
     
-    public void TestsaveComp(Company com){
-    	companyRepository.save(com);
-    }
-    
     public void saveEmployee(Employee employee) {
     	employeeRepository.save(employee);
     }
@@ -66,6 +62,11 @@ public class CompanyService {
     
     public Company getCompanyById(ObjectId Id) {
     	return companyRepository.findByCompanyId(Id);
+    }
+    
+    public Company findByCompanyName(String companyName)
+    {
+    	return companyRepository.findByCompanyName(companyName);
     }
         
     //DELETE : 

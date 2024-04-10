@@ -18,7 +18,7 @@ public interface CompanyRepository extends MongoRepository<Company, ObjectId> {
 
 	//Read
 	 @Query("{companyName: ?0}")
-	 Company findByCompanyName(String companyName2);
+	 Company findByCompanyName(String companyName);
 	
 	 @Query("{'id' : ?0}")
 	 Company findByCompanyId(ObjectId id);
