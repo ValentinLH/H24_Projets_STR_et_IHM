@@ -1,5 +1,6 @@
 package fr.polytech.vgl.dao;
 
+import java.awt.EventQueue;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +13,19 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import fr.polytech.vgl.centralapp.controller.CompanyListController;
 import fr.polytech.vgl.dao.repository.CompanyRepository;
 import fr.polytech.vgl.dao.repository.DepartmentRepository;
 import fr.polytech.vgl.dao.repository.EmployeeRepository;
 import fr.polytech.vgl.dao.repository.ScheduleRepository;
 import fr.polytech.vgl.dao.repository.UpdateRepositoryImpl;
+import fr.polytech.vgl.dao.service.CompanyService;
 import fr.polytech.vgl.model.*;
 import fr.polytech.vgl.model.Record;
 
 @SpringBootApplication
 @EnableMongoRepositories
-public class TestSpring implements CommandLineRunner {
+public class TestSpring /*implements CommandLineRunner*/ {
 
 	@Autowired
 	EmployeeRepository er;
@@ -41,40 +44,98 @@ public class TestSpring implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TestSpring.class, args);
-	}
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
 
-	@Override
-	public void run(String... args) throws Exception {		
-		//CRUD COMPANY : 
-		
-//		createCompany();
-		//readCompany();
-		//deleteCompany();
-		
-		//CRUD EMPLOYEE : 
-		
-		//createEmployeeItems();
-		//readEmployee();
-		//deleteEmployee();
-		
-		//CRUD DEPARTEMENT :
-		//createDepartment();
-		//readDepartment();
-		//deleteDepartment();
-		
-		//CRUD SCHEDULE : 
-		//createSchesule();
-		//readSchedule();
-		//deleteSchedule();
-		
-		//UPDATE with mongoTemplate: 
-		//updateTest();
-		
-		//TEST REFERENCE : 
-		//testReference();
-		
+					DAO.start();
+
+					try {
+						
+						
+						//TEST pour l'update : 
+						CompanyService cs = DAO.getCompanyService();
+
+//						List<Company> deSerialize = cs.getAllCompanies();
+						
+						Company comp = cs.getCompanyById(new ObjectId("6612ada0db49fd36d3cbf682"));
+												
+						Employee e = comp.getListEmp().get(0);
+						e.setName("JEUX");
+						e.setSurname("DESOCIETE");
+						
+						comp.getListEmp().set(0, e);
+						//cs.saveCompany(comp);
+						
+						System.out.println("fini!!!!");
+						
+						//TEST pour le delete  : 
+						
+						cs.deleteCompanyById(new ObjectId("6612ada0db49fd36d3cbf643"));
+						
+						e = cs.getEmployeeById(new ObjectId("6612ada0db49fd36d3cbf644"));
+						
+						System.out.println("fini pour le 1er test de delete !!!!");	
+						
+						comp = cs.getCompanyById(new ObjectId("6612adf42d7d021d3df56f5c"));
+						
+						cs.deleteCompany(comp);
+						
+						e = cs.getEmployeeById(new ObjectId("6612adf42d7d021d3df56f5d"));
+						
+						System.out.println("fini pour le 2nd test de delete !!!!");
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	
+	
+
+//	@Override
+//	public void run(String... args) throws Exception {		
+//		//CRUD COMPANY : 
+//		
+////		createCompany();
+//		//readCompany();
+//		//deleteCompany();
+//		
+//		//CRUD EMPLOYEE : 
+//		
+//		//createEmployeeItems();
+//		//readEmployee();
+//		//deleteEmployee();
+//		
+//		//CRUD DEPARTEMENT :
+//		//createDepartment();
+//		//readDepartment();
+//		//deleteDepartment();
+//		
+//		//CRUD SCHEDULE : 
+//		//createSchesule();
+//		//readSchedule();
+//		//deleteSchedule();
+//		
+//		//UPDATE with mongoTemplate: 
+//		//updateTest();
+//		
+//		//TEST REFERENCE : 
+//		//testReference();
+//		
+//		
+//	}
+	
+	void testSynchro() {
+		CompanyService cs = DAO.getCompanyService();
+		List<Company> test = cs.getAllCompanies();
+		
+	}
 	
 	void testReference() {
 //		Company comp = new Company("Company n°6");

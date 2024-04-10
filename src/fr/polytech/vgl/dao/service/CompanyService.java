@@ -2,6 +2,7 @@ package fr.polytech.vgl.dao.service;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,10 @@ public class CompanyService {
     	departmentRepository.saveAll(company.getListDpt());
     }
     
+    public void TestsaveComp(Company com){
+    	companyRepository.save(com);
+    }
+    
     public void saveEmployee(Employee employee) {
     	employeeRepository.save(employee);
     }
@@ -54,6 +59,14 @@ public class CompanyService {
     public List<Employee> getAllEmployee(){
     	return employeeRepository.findAll();
     }
+    
+    public Employee getEmployeeById(ObjectId Id) {
+    	return employeeRepository.findEmployeeById(Id);
+    }
+    
+    public Company getCompanyById(ObjectId Id) {
+    	return companyRepository.findByCompanyId(Id);
+    }
         
     //DELETE : 
         
@@ -61,11 +74,23 @@ public class CompanyService {
         companyRepository.delete(company);
     }
     
+    public void deleteCompanyById(ObjectId id) {
+    	companyRepository.deleteById(id);
+    }
+    
     public void deleteEmployee(Employee employee) {
     	employeeRepository.delete(employee);
     }
     
+    public void deleteEmployeeById(ObjectId id) {
+    	employeeRepository.deleteById(id);
+    }
+    
     public void deleteDepartment(Department department) {
     	departmentRepository.delete(department);
+    }
+    
+    public void deleteDepartmentById(ObjectId id) {
+    	departmentRepository.deleteById(id);
     }
 }
