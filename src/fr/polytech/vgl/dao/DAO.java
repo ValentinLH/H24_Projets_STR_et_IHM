@@ -11,9 +11,9 @@ public class DAO {
 
 	private static ConfigurableApplicationContext springApplicationContext = null;
 
-	private static CompanyRepository companyRepository = null;
+//	private static CompanyRepository companyRepository = null;
 
-	private static EmployeeRepository employeeRepository = null;
+//	private static EmployeeRepository employeeRepository = null;
 
 	
 	private static CompanyService companyService = null;
@@ -29,31 +29,31 @@ public class DAO {
 		if (springApplicationContext == null)
 			springApplicationContext = SpringApplication.run(SpringApp.class);
 
-		if (companyRepository == null)
-			companyRepository = springApplicationContext.getBean(CompanyRepository.class);
-		
-		if (employeeRepository == null)
-			employeeRepository = springApplicationContext.getBean(EmployeeRepository.class);
+//		if (companyRepository == null)
+//			companyRepository = springApplicationContext.getBean(CompanyRepository.class);
+//		
+//		if (employeeRepository == null)
+//			employeeRepository = springApplicationContext.getBean(EmployeeRepository.class);
 
 		if (companyService == null)
 			companyService = springApplicationContext.getBean(CompanyService.class);
 	}
 
-	/**
-	 * @return the companyRepository
-	 */
-	public static CompanyRepository getCompanyRepository() {
-		start();
-		return companyRepository;
-	}
-
-	/**
-	 * @return the employeeRepository
-	 */
-	public static EmployeeRepository getEmployeeRepository() {
-		start();
-		return employeeRepository;
-	}
+//	/**
+//	 * @return the companyRepository
+//	 */
+//	public static CompanyRepository getCompanyRepository() {
+//		start();
+//		return companyRepository;
+//	}
+//
+//	/**
+//	 * @return the employeeRepository
+//	 */
+//	public static EmployeeRepository getEmployeeRepository() {
+//		start();
+//		return employeeRepository;
+//	}
 
 	/**
 	 * @return the companyService
