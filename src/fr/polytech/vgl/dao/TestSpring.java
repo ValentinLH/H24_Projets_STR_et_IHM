@@ -54,37 +54,45 @@ public class TestSpring /*implements CommandLineRunner*/ {
 					try {
 						
 						
-						//TEST pour l'update : 
 						CompanyService cs = DAO.getCompanyService();
 
-//						List<Company> deSerialize = cs.getAllCompanies();
+						//Test pour 1 seul resultat : 
 						
-						Company comp = cs.getCompanyById(new ObjectId("6612ada0db49fd36d3cbf682"));
-												
-						Employee e = comp.getListEmp().get(0);
-						e.setName("JEUX");
-						e.setSurname("DESOCIETE");
+						Company compFirst = cs.findFirstByCompanyName("Juanito Futuristics");
 						
-						comp.getListEmp().set(0, e);
-						//cs.saveCompany(comp);
+						System.out.println("compFirst Name = " + compFirst.getCompanyName());
 						
-						System.out.println("fini!!!!");
 						
-						//TEST pour le delete  : 
 						
-						cs.deleteCompanyById(new ObjectId("6612ada0db49fd36d3cbf643"));
-						
-						e = cs.getEmployeeById(new ObjectId("6612ada0db49fd36d3cbf644"));
-						
-						System.out.println("fini pour le 1er test de delete !!!!");	
-						
-						comp = cs.getCompanyById(new ObjectId("6612adf42d7d021d3df56f5c"));
-						
-						cs.deleteCompany(comp);
-						
-						e = cs.getEmployeeById(new ObjectId("6612adf42d7d021d3df56f5d"));
-						
-						System.out.println("fini pour le 2nd test de delete !!!!");
+						//TEST Pour l'update : 
+////						List<Company> deSerialize = cs.getAllCompanies();
+//						
+//						Company comp = cs.getCompanyById(new ObjectId("6612ada0db49fd36d3cbf682"));
+//												
+//						Employee e = comp.getListEmp().get(0);
+//						e.setName("JEUX");
+//						e.setSurname("DESOCIETE");
+//						
+//						comp.getListEmp().set(0, e);
+//						//cs.saveCompany(comp);
+//						
+//						System.out.println("fini!!!!");
+//						
+//						//TEST pour le delete  : 
+//						
+//						cs.deleteCompanyById(new ObjectId("6612ada0db49fd36d3cbf643"));
+//						
+//						e = cs.getEmployeeById(new ObjectId("6612ada0db49fd36d3cbf644"));
+//						
+//						System.out.println("fini pour le 1er test de delete !!!!");	
+//						
+//						comp = cs.getCompanyById(new ObjectId("6612adf42d7d021d3df56f5c"));
+//						
+//						cs.deleteCompany(comp);
+//						
+//						e = cs.getEmployeeById(new ObjectId("6612adf42d7d021d3df56f5d"));
+//						
+//						System.out.println("fini pour le 2nd test de delete !!!!");
 						
 					} catch (Exception e) {
 						e.printStackTrace();

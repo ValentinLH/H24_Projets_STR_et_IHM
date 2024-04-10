@@ -64,9 +64,9 @@ public class CompanyService {
     	return companyRepository.findByCompanyId(Id);
     }
     
-    public Company findByCompanyName(String companyName)
+    public Company findFirstByCompanyName(String companyName)
     {
-    	return companyRepository.findByCompanyName(companyName);
+    	return companyRepository.findFirstByCompanyName(companyName);
     }
         
     //DELETE : 
