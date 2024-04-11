@@ -67,7 +67,7 @@ public class Schedule implements java.io.Serializable {
 		Integer i = 0;
 		Integer morningH  = schedule.get(day)[0].getHour()*60 + schedule.get(day)[0].getMinute(); 
 		Integer eveningH  = schedule.get(day)[1].getHour()*60 + schedule.get(day)[1].getMinute(); 
-		i = eveningH - morningH;
+		i = (eveningH - morningH);
 		return i;
 	}
 

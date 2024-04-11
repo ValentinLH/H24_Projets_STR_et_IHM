@@ -61,8 +61,10 @@ public class Employee implements java.io.Serializable {
 		id = id_auto;
 		id_auto++;
 		company = null;
-		setCompany(_company);
-		setDepartement(_departement);
+		if (_company != null)
+			setCompany(_company);
+		if (_departement != null)
+			setDepartement(_departement);
 		// Using CopyOnWriteArrayList for thread safety
 		records = new CopyOnWriteArrayList<>();
 		schedule = new Schedule();
@@ -75,8 +77,10 @@ public class Employee implements java.io.Serializable {
 		name = _name;
 		surname = _surname;
 		id = _id;
-		setCompany(_company);
-		setDepartement(_departement);
+		if (_company != null)
+			setCompany(_company);
+		if (_departement != null)
+			setDepartement(_departement);
 		// Using CopyOnWriteArrayList for thread safety
 		records = new CopyOnWriteArrayList<>(_records);
 		overtimePortfolio = 0;
