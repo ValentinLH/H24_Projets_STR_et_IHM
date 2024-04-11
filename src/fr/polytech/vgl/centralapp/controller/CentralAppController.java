@@ -98,18 +98,10 @@ public class CentralAppController implements NetworkObserver {
 		CompanyService cs = DAO.getCompanyService();
 	
 		if (GiveCompanyView.getlistCompany().isEmpty() == false) {
-			// System.out.println("Hey "+recordsBuffer.get(0));
-			List<Company> listC = new ArrayList<>();
-			for (Company Comp : GiveCompanyView.getlistCompany()) {
-				if (listC.contains(Comp) == false) {
-					// Comp.addModelObservers(this.getView());
-					listC.add(Comp);
-				}
+			for (Company Comp : GiveCompanyView.getlistCompany()) {	
 				cs.saveCompany(Comp);
 			}
-			Serialisation.serialize(listC, "centralAppCompanies.sav");
 		}
-
 	}
 
 	@SuppressWarnings("unchecked")

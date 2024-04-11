@@ -46,9 +46,8 @@ public class SeeCheckEmployeeController implements ActionListener {
 					int selected = table.getSelectedRow();
 					ObjectId id = (ObjectId) table.getValueAt(selected, 2);
 
-					emp = Employee.getById(id);
-					// System.out.print(emp.getRecords());
-					// panel = EmployeeCheck(emp);
+					emp = CompanyListController.getById(id);
+
 					CheckOfOneEmployeeView view = new CheckOfOneEmployeeView(emp);
 				}
 			}).start();

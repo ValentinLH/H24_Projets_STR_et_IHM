@@ -28,23 +28,8 @@ public class ValidationAddEmployeeController implements ActionListener{
 	 */
 	public ValidationAddEmployeeController(AddEmployeeView frame)
 	{
-		CompanyService cs = DAO.getCompanyService();
-
 		this.addEmployeeFrame = frame;
 		this.table = ((AddEmployeeView)addEmployeeFrame).getEmployeeTable();
-		
-		//Pour serialisation
-		try {
-			@SuppressWarnings("unchecked")
-			List<Employee> deSerialize = (List<Employee>) Serialisation.deserialize("timerecord.sav");
-			// listCompany = deSerialize;
-
-			for (Employee newemp : deSerialize) {
-				GiveCompanyView.company.addEmployee(newemp);
-			}
-		} catch (Exception e) {
-			System.out.println("Heys");
-		}
 	}
 	
 	/**

@@ -10,6 +10,8 @@ import org.bson.types.ObjectId;
 
 import fr.polytech.vgl.centralapp.view.GiveCompanyView;
 import fr.polytech.vgl.centralapp.view.ModelOfEmployeeTable;
+import fr.polytech.vgl.dao.DAO;
+import fr.polytech.vgl.dao.service.CompanyService;
 import fr.polytech.vgl.model.Employee;
 
 public class DelEmployeeController implements ActionListener {
@@ -48,12 +50,11 @@ public class DelEmployeeController implements ActionListener {
 				new Thread(new Runnable() {
 					public void run() {
 						int selected = table.getSelectedRow();
-						ObjectId id = (ObjectId) table.getValueAt(selected, 2);
 
 						((ModelOfEmployeeTable) table.getModel()).removeRow(selected);
-						//GiveCompanyView.company.delEmployee(Employee.getById(id));
-
-						// System.out.println(Company.EmployeesList);
+						
+						CompanyService cs = DAO.getCompanyService();
+						cs.saveCompany(GiveCompanyView.company);
 					}
 				}).start();
 			}

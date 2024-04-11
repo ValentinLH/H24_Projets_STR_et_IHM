@@ -111,17 +111,6 @@ public class Employee implements java.io.Serializable {
 		return id;
 	}
 
-	@Deprecated
-	public static Employee getById(ObjectId idEmployee) {
-		for (Employee E : GiveCompanyView.company.getListEmp()) {
-			if (E.getId() == idEmployee) {
-				return E;
-			}
-		}
-		System.out.println("There is a problem. There is no employee with the id " + idEmployee + "\n");
-		return null;
-	}
-
 	public Company getCompany() {
 		return company;
 	}

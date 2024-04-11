@@ -3,11 +3,14 @@ package fr.polytech.vgl.centralapp.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 import fr.polytech.vgl.centralapp.view.CentralApplicationView;
 import fr.polytech.vgl.centralapp.view.GiveCompanyView;
 import fr.polytech.vgl.dao.DAO;
 import fr.polytech.vgl.dao.service.CompanyService;
 import fr.polytech.vgl.model.Company;
+import fr.polytech.vgl.model.Employee;
 
 public class CompanyListController {
 
@@ -83,5 +86,15 @@ public class CompanyListController {
 				cs.saveCompany(Comp);
 			}
 		}
+	}
+	
+	public static Employee getById(ObjectId idEmployee) {
+		for (Employee E : GiveCompanyView.company.getListEmp()) {
+			if (E.getId() == idEmployee) {
+				return E;
+			}
+		}
+		System.out.println("There is a problem. There is no employee with the id " + idEmployee + "\n");
+		return null;
 	}
 }
