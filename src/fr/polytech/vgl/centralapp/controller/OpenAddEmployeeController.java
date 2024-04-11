@@ -29,6 +29,7 @@ public class OpenAddEmployeeController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		AddEmployeeView view = new AddEmployeeView(table);
 		List<Department> listDpt = GiveCompanyView.company.getListDpt();
 

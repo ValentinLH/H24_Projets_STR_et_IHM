@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
+import org.bson.types.ObjectId;
+
 import fr.polytech.vgl.centralapp.view.GiveCompanyView;
 import fr.polytech.vgl.centralapp.view.ModelOfEmployeeTable;
 import fr.polytech.vgl.model.Employee;
@@ -35,7 +37,7 @@ public class DelEmployeeController implements ActionListener {
 	}
 
 	/**
-	 * Active le controller. Il prend en compte la ligne cliquée et permet ensuite
+	 * Active le controller. Il prend en compte la ligne cliquï¿½e et permet ensuite
 	 * de la supprimer
 	 */
 	public void actionPerformed(ActionEvent event) {
@@ -46,12 +48,10 @@ public class DelEmployeeController implements ActionListener {
 				new Thread(new Runnable() {
 					public void run() {
 						int selected = table.getSelectedRow();
-						int id = (int) table.getValueAt(selected, 2);
+						ObjectId id = (ObjectId) table.getValueAt(selected, 2);
 
 						((ModelOfEmployeeTable) table.getModel()).removeRow(selected);
-						//GiveCompanyView.c.delEmployee(Employee.getById(id));
-
-					
+						//GiveCompanyView.company.delEmployee(Employee.getById(id));
 
 						// System.out.println(Company.EmployeesList);
 					}
@@ -63,7 +63,7 @@ public class DelEmployeeController implements ActionListener {
 	/**
 	 * Message de confirmation
 	 * 
-	 * @return une boîte message avec deux chois
+	 * @return une boï¿½te message avec deux chois
 	 */
 	static int ConfirmDel() {
 		return JOptionPane.showConfirmDialog(null, "Do you really want to remove this employee ?", "Confirmation ?",

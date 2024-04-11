@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
+import org.bson.types.ObjectId;
+
 import fr.polytech.vgl.centralapp.view.CheckOfOneEmployeeView;
 import fr.polytech.vgl.centralapp.view.ModelOfOneEmployeeCheck;
 import fr.polytech.vgl.model.Employee;
@@ -16,7 +18,7 @@ public class SeeCheckEmployeeController implements ActionListener {
 	private JPanel panel;
 	private Employee emp;
 	/*
-	 * Création de la fenêtre comportant le panel
+	 * Crï¿½ation de la fenï¿½tre comportant le panel
 	 */
 	private ModelOfOneEmployeeCheck frame = new ModelOfOneEmployeeCheck();
 	private JTable tableau = new JTable(frame);
@@ -33,8 +35,8 @@ public class SeeCheckEmployeeController implements ActionListener {
 	}
 
 	/**
-	 * Permet de voir les pointages d'un employee. Il faut tout d'abord sélectionner
-	 * la ligne eet ensuite le controller emmène faire la vue correspondante
+	 * Permet de voir les pointages d'un employee. Il faut tout d'abord sï¿½lectionner
+	 * la ligne eet ensuite le controller emmï¿½ne faire la vue correspondante
 	 */
 	public void actionPerformed(ActionEvent event) {
 		int selected = table.getSelectedRow();
@@ -42,7 +44,7 @@ public class SeeCheckEmployeeController implements ActionListener {
 			new Thread(new Runnable() {
 				public void run() {
 					int selected = table.getSelectedRow();
-					int id = (int) table.getValueAt(selected, 2);
+					ObjectId id = (ObjectId) table.getValueAt(selected, 2);
 
 					emp = Employee.getById(id);
 					// System.out.print(emp.getRecords());

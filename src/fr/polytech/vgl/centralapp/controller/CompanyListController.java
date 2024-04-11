@@ -5,6 +5,8 @@ import java.util.List;
 
 import fr.polytech.vgl.centralapp.view.CentralApplicationView;
 import fr.polytech.vgl.centralapp.view.GiveCompanyView;
+import fr.polytech.vgl.dao.DAO;
+import fr.polytech.vgl.dao.service.CompanyService;
 import fr.polytech.vgl.model.Company;
 
 public class CompanyListController {
@@ -70,5 +72,16 @@ public class CompanyListController {
 	public void selected(Company company) {
 		// TODO Auto-generated method stub
 		CentralAppController centralController = new CentralAppController(company);
+	}
+	
+	public synchronized void closeWindow() {
+
+		CompanyService cs = DAO.getCompanyService();
+	
+		if (listCompany.isEmpty() == false) {
+			for (Company Comp : listCompany) {
+				cs.saveCompany(Comp);
+			}
+		}
 	}
 }

@@ -3,6 +3,8 @@ package fr.polytech.vgl.centralapp.view;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
 import fr.polytech.vgl.centralapp.controller.CompanyListController;
+import fr.polytech.vgl.dao.DAO;
+import fr.polytech.vgl.dao.service.CompanyService;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Record;
 import fr.polytech.vgl.serialisation.Serialisation;
@@ -146,6 +150,13 @@ public class GiveCompanyView extends JFrame {
 				
 			}
 
+		});
+		
+		jFrame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				// System.out.println("Hey");
+				controler.closeWindow();
+			}
 		});
 
 		return company;

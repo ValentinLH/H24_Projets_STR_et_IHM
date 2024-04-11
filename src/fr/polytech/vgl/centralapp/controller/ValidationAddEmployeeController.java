@@ -10,6 +10,8 @@ import javax.swing.JTable;
 import fr.polytech.vgl.centralapp.view.AddEmployeeView;
 import fr.polytech.vgl.centralapp.view.GiveCompanyView;
 import fr.polytech.vgl.centralapp.view.ModelOfEmployeeTable;
+import fr.polytech.vgl.dao.DAO;
+import fr.polytech.vgl.dao.service.CompanyService;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Department;
 import fr.polytech.vgl.model.Employee;
@@ -26,6 +28,8 @@ public class ValidationAddEmployeeController implements ActionListener{
 	 */
 	public ValidationAddEmployeeController(AddEmployeeView frame)
 	{
+		CompanyService cs = DAO.getCompanyService();
+
 		this.addEmployeeFrame = frame;
 		this.table = ((AddEmployeeView)addEmployeeFrame).getEmployeeTable();
 		
@@ -48,6 +52,8 @@ public class ValidationAddEmployeeController implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent event)
 	{
+		CompanyService cs = DAO.getCompanyService();
+
 		String nameEmp = ((AddEmployeeView)addEmployeeFrame).getNameEmployee().getText();
 		String surnameEmp = ((AddEmployeeView)addEmployeeFrame).getSurname().getText();
 		Department departmentEmp = ((AddEmployeeView)addEmployeeFrame).getDepartment();
@@ -55,7 +61,11 @@ public class ValidationAddEmployeeController implements ActionListener{
 		//En attendant d'avoir bien r�gl� le probl�me des entreprises
 		Company c1 = GiveCompanyView.company;
 		
-		((ModelOfEmployeeTable)table.getModel()).addRow(new Employee(nameEmp, surnameEmp,c1, departmentEmp));
+		Employee e1 = new Employee(nameEmp, surnameEmp,c1, departmentEmp);
+		
+		((ModelOfEmployeeTable)table.getModel()).addRow(e1);
+		
+		cs.saveCompany(c1);
 	}
 	
 	/*public void closeWindow()
