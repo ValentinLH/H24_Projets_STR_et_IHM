@@ -59,6 +59,7 @@ public class DAO {
 	 * @return the companyService
 	 */
 	public static CompanyService getCompanyService() {
+		start();
 		return companyService;
 	}
 

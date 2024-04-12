@@ -10,6 +10,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.realtime.RealtimeThread;
+
 /**
  *  TCPClient is a Class for the encapsulation of a TCP client
  *  @version 03/03/24
@@ -117,7 +119,18 @@ public class TCPClient extends TCPInfo
 
     public void notifyObjectReceived(Object receivedObject) {
         for (NetworkObserver observer : observers) {
-            observer.onObjectReceived(receivedObject);
+        	try {
+    			RealtimeThread rt = new RealtimeThread() {
+    				@Override
+    				public void run() {
+    					observer.onObjectReceived(receivedObject);
+    				}
+    			};
+    			rt.run();
+    		}catch(Exception e) {
+    			System.out.println(e);
+    		};
+        	
         }
     }
 

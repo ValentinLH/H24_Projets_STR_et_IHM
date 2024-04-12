@@ -1,5 +1,6 @@
 package fr.polytech.vgl.rtstest;
 
+import java.awt.EventQueue;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
@@ -8,6 +9,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import fr.polytech.vgl.centralapp.controller.CentralAppController;
+import fr.polytech.vgl.dao.DAO;
+import fr.polytech.vgl.dao.service.CompanyService;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Department;
 import fr.polytech.vgl.model.Employee;
@@ -15,32 +18,52 @@ import fr.polytech.vgl.timerecord.controller.TimeRecordControler;
 
 public class LoadTestTimeRecord {
 
-	static Company company = new Company("TestCompany");
+	static Company company; // = new Company("TestCompany");
 
 	public static void main(String[] args) {
 		// Création d'un contrôleur
 
 		// Ajout d'une entreprise
 
-		Department department = new Department("Admin");
+//		Department department = new Department("Admin");
+//
+//		// Simuler 100 employés
+//		for (int i = 1; i <= 100; i++) {
+//			Employee employee = new Employee("Employee", "n°" + i, company, department);
+//			company.addEmployee(employee);
+//		}
 
-		// Simuler 100 employés
-		for (int i = 1; i <= 100; i++) {
-			Employee employee = new Employee("Employee", "n°" + i, company, department);
-			company.addEmployee(employee);
-		}
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
 
-		CentralAppController app = new CentralAppController(company);
+					CompanyService cs = DAO.getCompanyService();
 
-		TimeRecordControler controller = new TimeRecordControler();
-		controller.addCompany(company);
+					company = cs.findFirstByCompanyName("TestCompany");
 
-		// Simuler des actions simultanées de plusieurs utilisateurs
-		simulateUserActions(controller, 5, 20); // 10 utilisateurs effectuent 20 actions chacun
+					for (Employee emp : company.getListEmp())
+						emp.getRecords().clear();
+					
+					cs.saveCompany(company);
 
-		System.out.println(
-				"Nombre total de pointage reçu par l'application central : " + app.getCompany().getListRec().size());
+					CentralAppController app = new CentralAppController(company);
 
+					TimeRecordControler controller = new TimeRecordControler();
+//					controller.addCompany(company);
+
+					// Simuler des actions simultanées de plusieurs utilisateurs
+//					simulateUserActions(controller, 5, 20); // 10 utilisateurs effectuent 20 actions chacun
+					simulateOneUserActions(controller, 20);
+
+					System.out.println("Nombre total de pointage reçu par l'application central : "
+							+ app.getCompany().getListRec().size());
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+		});
 	}
 
 	private static void simulateRandomUserActions(TimeRecordControler controller, int numberOfUsers,
@@ -50,16 +73,17 @@ public class LoadTestTimeRecord {
 
 		CountDownLatch latch = new CountDownLatch(numberOfUsers);
 
+//		ne met pas les nombre normaux pour CountDownLatch
 		for (int i = 1; i < numberOfUsers + 1; i++) {
 			new Thread(() -> {
 				int addMin = 0;
 				int goodResult = 0;
 				int badResult = 0;
 
-				for (int j = 1; j <= actionsPerUser; j++) {
-					try {
-						Employee randomEmployee = getRandomEmployee(controller);
-						if (randomEmployee != null) {
+				Employee randomEmployee = getRandomEmployee(controller);
+				if (randomEmployee != null) {
+					for (int j = 1; j <= actionsPerUser; j++) {
+						try {
 
 							int result = controller.sendRecordTest(randomEmployee,
 									LocalDateTime.now().plusMinutes(addMin));
@@ -73,15 +97,15 @@ public class LoadTestTimeRecord {
 								badResult++;
 							}
 
+						} catch (Exception e) {
+							// e.printStackTrace();
+							badResult++;
+
 						}
-					} catch (Exception e) {
-						// e.printStackTrace();
-
+						addMin += 16;
+//					sleepRandomMilliseconds(100, 500);
 					}
-					addMin += 16;
-					sleepRandomMilliseconds(100, 500);
 				}
-
 				// Ajouter les résultats du thread aux totaux
 				totalGoodResult.addAndGet(goodResult);
 				totalBadResult.addAndGet(badResult);
@@ -90,6 +114,48 @@ public class LoadTestTimeRecord {
 				latch.countDown();
 			}).start();
 		}
+	}
+
+	private static void simulateOneUserActions(TimeRecordControler controller, int actionsPerUser) {
+		int totalGoodResult = 0;
+		int totalBadResult = 0;
+
+		int addMin = 0;
+		int goodResult = 0;
+		int badResult = 0;
+
+		Employee randomEmployee = company.getListEmp().get(0);
+		if (randomEmployee != null) {
+
+			for (int j = 1; j <= actionsPerUser; j++) {
+				try {
+
+					int result = controller.sendRecordTest(randomEmployee, LocalDateTime.now().plusMinutes(addMin));
+
+					
+					System.out.println(
+							"User " + Thread.currentThread().getId() + " - Action " + j + ": Result " + result);
+
+					if (result == 1) {
+						goodResult++;
+					} else {
+						badResult++;
+					}
+
+				} catch (Exception e) {
+					// e.printStackTrace();
+					badResult++;
+				}
+				addMin += 16;
+//				sleepRandomMilliseconds(100, 500);
+			}
+		}
+		// Ajouter les résultats du thread aux totaux
+		totalGoodResult += goodResult;
+		totalBadResult += badResult;
+
+		System.out.println("Nombre total d'envoie réussi: " + totalGoodResult);
+		System.out.println("Nombre total d'envoie échoué " + totalBadResult);
 	}
 
 	private static void simulateUserActions(TimeRecordControler controller, int numberOfUsers, int actionsPerUser) {

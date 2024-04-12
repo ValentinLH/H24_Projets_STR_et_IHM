@@ -254,6 +254,7 @@ public class TimeRecordControler implements NetworkObserver {
 	public int sendRecordTest(Employee employee, LocalDateTime date) {
 
 		Record newRecord = recordsBuffer.getObject();
+		newRecord.setId();
 		newRecord.setEmployee(employee);
 		newRecord.setRecord(date);
 
@@ -266,7 +267,10 @@ public class TimeRecordControler implements NetworkObserver {
 		return recordsBuffer.isEmpty() ? 1 : 0;
 
 	}
+	
+	
 
+	
 	/**
 	 * getFile
 	 * 
