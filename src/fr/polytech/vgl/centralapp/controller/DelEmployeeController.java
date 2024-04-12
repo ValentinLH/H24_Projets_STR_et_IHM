@@ -12,6 +12,7 @@ import fr.polytech.vgl.centralapp.view.GiveCompanyView;
 import fr.polytech.vgl.centralapp.view.ModelOfEmployeeTable;
 import fr.polytech.vgl.dao.DAO;
 import fr.polytech.vgl.dao.service.CompanyService;
+import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Employee;
 
 public class DelEmployeeController implements ActionListener {
@@ -50,11 +51,18 @@ public class DelEmployeeController implements ActionListener {
 				new Thread(new Runnable() {
 					public void run() {
 						int selected = table.getSelectedRow();
-
-						((ModelOfEmployeeTable) table.getModel()).removeRow(selected);
 						
 						CompanyService cs = DAO.getCompanyService();
+						ObjectId id = (ObjectId) table.getValueAt(selected, 2);
+
+						Employee emp = CompanyListController.getById(id);
+						
+						((ModelOfEmployeeTable) table.getModel()).removeRow(selected);
+						
 						cs.saveCompany(GiveCompanyView.company);
+						
+						emp.setCompany(null);
+						cs.saveEmployee(emp);
 					}
 				}).start();
 			}
