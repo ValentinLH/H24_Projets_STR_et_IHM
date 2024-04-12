@@ -46,9 +46,7 @@ public class ValidationAddEmployeeController implements ActionListener{
 		//En attendant d'avoir bien r�gl� le probl�me des entreprises
 		Company c1 = GiveCompanyView.company;
 		
-		Employee e1 = new Employee(nameEmp, surnameEmp,c1, departmentEmp);
-		
-		((ModelOfEmployeeTable)table.getModel()).addRow(e1);
+		((ModelOfEmployeeTable)table.getModel()).addRow(new Employee(nameEmp, surnameEmp,c1, departmentEmp));
 		
 		cs.saveCompany(c1);
 	}
