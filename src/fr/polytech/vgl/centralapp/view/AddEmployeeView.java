@@ -17,7 +17,7 @@ public class AddEmployeeView extends JFrame {
 	private JTable table;
 
 	/*
-	 * Création des différents textes et labels
+	 * Crï¿½ation des diffï¿½rents textes et labels
 	 */
 	private JLabel nameLabel = new JLabel("Name : ");
 	private JTextField name = new JTextField();
@@ -25,7 +25,7 @@ public class AddEmployeeView extends JFrame {
 	private JTextField surname = new JTextField();
 
 	/*
-	 * Création du menu déroulant des départements
+	 * Crï¿½ation du menu dï¿½roulant des dï¿½partements
 	 */
 	private JLabel departmentLabel = new JLabel("Department : ");
 	private JComboBox<Department> department;
@@ -37,9 +37,9 @@ public class AddEmployeeView extends JFrame {
 	private JButton ValidationAddEmployee = new JButton("OK");
 
 	/**
-	 * Constructeur de la classe. Permet de créer une fenêtre qui comporte les
-	 * différents élements On peut renseigner le Nom le prénom et le département de
-	 * ce nouvel employé Il y a également un bouton permettant de valider toutes les
+	 * Constructeur de la classe. Permet de crï¿½er une fenï¿½tre qui comporte les
+	 * diffï¿½rents ï¿½lements On peut renseigner le Nom le prï¿½nom et le dï¿½partement de
+	 * ce nouvel employï¿½ Il y a ï¿½galement un bouton permettant de valider toutes les
 	 * informations et d'envoyer ensuite au bon controler
 	 * 
 	 * @param table
@@ -84,52 +84,52 @@ public class AddEmployeeView extends JFrame {
 	}
 
 	/**
-	 * Permet d'avoir le nom de l'employé
+	 * Permet d'avoir le nom de l'employï¿½
 	 * 
-	 * @return le nom de l'employé
+	 * @return le nom de l'employï¿½
 	 */
 	public JTextField getNameEmployee() {
 		return name;
 	}
 
 	/**
-	 * Permet d'avoir le prénom de l'employé
+	 * Permet d'avoir le prï¿½nom de l'employï¿½
 	 * 
-	 * @return le prénom de l'employé
+	 * @return le prï¿½nom de l'employï¿½
 	 */
 	public JTextField getSurname() {
 		return surname;
 	}
 
 	/**
-	 * Permet d'avoir le département selectionné
+	 * Permet d'avoir le dï¿½partement selectionnï¿½
 	 * 
-	 * @return le le département selectionné
+	 * @return le le dï¿½partement selectionnï¿½
 	 */
 	public Department getDepartment() {
 		return (Department) department.getSelectedItem();
 	}
 
 	/**
-	 * Permet d'avoir le talbeau comportant tous les employés
+	 * Permet d'avoir le talbeau comportant tous les employï¿½s
 	 * 
-	 * @return le talbeau comportant tous les employés
+	 * @return le talbeau comportant tous les employï¿½s
 	 */
 	public JTable getEmployeeTable() {
 		return table;
 	}
 
 	/**
-	 * Permet d'avoir les départements du menu déroulant
+	 * Permet d'avoir les dï¿½partements du menu dï¿½roulant
 	 * 
-	 * @return le département
+	 * @return le dï¿½partement
 	 */
 	public JComboBox<Department> getComboBox() {
 		return department;
 	}
 
 	/**
-	 * Permet d'ajouter un départment
+	 * Permet d'ajouter un dï¿½partment
 	 * 
 	 * @param Un departement
 	 */

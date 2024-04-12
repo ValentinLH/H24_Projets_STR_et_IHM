@@ -225,7 +225,7 @@ public class TestSpring /*implements CommandLineRunner*/ {
 	
 	void readCompany() {
 		
-		Company company = cc.findByCompanyName("TestComp4");
+		Company company = cc.findFirstByCompanyName("TestComp4");
 		
 		System.out.println( " company = " + company.toString());
 		

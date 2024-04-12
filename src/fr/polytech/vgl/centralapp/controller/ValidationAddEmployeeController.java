@@ -10,6 +10,8 @@ import javax.swing.JTable;
 import fr.polytech.vgl.centralapp.view.AddEmployeeView;
 import fr.polytech.vgl.centralapp.view.GiveCompanyView;
 import fr.polytech.vgl.centralapp.view.ModelOfEmployeeTable;
+import fr.polytech.vgl.dao.DAO;
+import fr.polytech.vgl.dao.service.CompanyService;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Department;
 import fr.polytech.vgl.model.Employee;
@@ -28,19 +30,6 @@ public class ValidationAddEmployeeController implements ActionListener{
 	{
 		this.addEmployeeFrame = frame;
 		this.table = ((AddEmployeeView)addEmployeeFrame).getEmployeeTable();
-		
-		//Pour serialisation
-		try {
-			@SuppressWarnings("unchecked")
-			List<Employee> deSerialize = (List<Employee>) Serialisation.deserialize("timerecord.sav");
-			// listCompany = deSerialize;
-
-			for (Employee newemp : deSerialize) {
-				GiveCompanyView.company.addEmployee(newemp);
-			}
-		} catch (Exception e) {
-			System.out.println("Heys");
-		}
 	}
 	
 	/**
@@ -48,6 +37,8 @@ public class ValidationAddEmployeeController implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent event)
 	{
+		CompanyService cs = DAO.getCompanyService();
+
 		String nameEmp = ((AddEmployeeView)addEmployeeFrame).getNameEmployee().getText();
 		String surnameEmp = ((AddEmployeeView)addEmployeeFrame).getSurname().getText();
 		Department departmentEmp = ((AddEmployeeView)addEmployeeFrame).getDepartment();
@@ -56,6 +47,8 @@ public class ValidationAddEmployeeController implements ActionListener{
 		Company c1 = GiveCompanyView.company;
 		
 		((ModelOfEmployeeTable)table.getModel()).addRow(new Employee(nameEmp, surnameEmp,c1, departmentEmp));
+		
+		cs.saveCompany(c1);
 	}
 	
 	/*public void closeWindow()

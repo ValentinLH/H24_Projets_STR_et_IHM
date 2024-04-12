@@ -3,9 +3,14 @@ package fr.polytech.vgl.centralapp.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 import fr.polytech.vgl.centralapp.view.CentralApplicationView;
 import fr.polytech.vgl.centralapp.view.GiveCompanyView;
+import fr.polytech.vgl.dao.DAO;
+import fr.polytech.vgl.dao.service.CompanyService;
 import fr.polytech.vgl.model.Company;
+import fr.polytech.vgl.model.Employee;
 
 public class CompanyListController {
 
@@ -70,5 +75,26 @@ public class CompanyListController {
 	public void selected(Company company) {
 		// TODO Auto-generated method stub
 		CentralAppController centralController = new CentralAppController(company);
+	}
+	
+	public synchronized void closeWindow() {
+
+		CompanyService cs = DAO.getCompanyService();
+	
+		if (listCompany.isEmpty() == false) {
+			for (Company Comp : listCompany) {
+				cs.saveCompany(Comp);
+			}
+		}
+	}
+	
+	public static Employee getById(ObjectId idEmployee) {
+		for (Employee E : GiveCompanyView.company.getListEmp()) {
+			if (E.getId() == idEmployee) {
+				return E;
+			}
+		}
+		System.out.println("There is a problem. There is no employee with the id " + idEmployee + "\n");
+		return null;
 	}
 }

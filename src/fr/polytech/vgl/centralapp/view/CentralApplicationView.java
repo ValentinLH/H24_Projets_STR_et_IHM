@@ -148,10 +148,7 @@ public class CentralApplicationView extends JFrame implements ModelListener {
 
 		// contenu premier onglet
 		JPanel dcp = DaysCheckPanel();
-		onglets.addTab("Day's Check", null, dcp, null);
-
-		
-		
+		onglets.addTab("Day's Check", null, dcp, null);	
 	}
 
 	/**
