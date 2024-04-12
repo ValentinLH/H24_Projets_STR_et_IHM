@@ -30,8 +30,7 @@ import fr.polytech.vgl.centralapp.view.GiveCompanyView;
 public class Employee implements java.io.Serializable {
 
 	@Id
-	private ObjectId id_bson ; // Utilisation de ObjectId comme type pour l'identifiant
-
+	private ObjectId id_bson; // Utilisation de ObjectId comme type pour l'identifiant
 
 	private static final long serialVersionUID = 1L;
 	private static int id_auto = 0;
@@ -102,15 +101,13 @@ public class Employee implements java.io.Serializable {
 		this.surname = surname;
 	}
 
-
 	/**
 	 * @return the id_bson
 	 */
 	public ObjectId getId() {
 		return id_bson;
 	}
-	
-	
+
 	public int getIdEmp() {
 		return id;
 	}
@@ -133,25 +130,34 @@ public class Employee implements java.io.Serializable {
 //	}
 
 	public void setCompany(Company company) {
-	    if (this.company != null && this.company != company) {
-	        this.company.delEmployee(this);
-	    }
-	    
-	    this.company = company;
-	    
-	    if (company != null && !company.getListEmp().contains(this)) {
-	        company.addEmployee(this);
-	    }
+
+		if (this.company != null && this.company != company) {
+			this.company.delEmployee(this);
+		}
+
+		this.company = company;
+
+		if (company != null && !company.getListEmp().contains(this)) {
+			company.addEmployee(this);
+		}
 	}
-		
+
 	public Department getDepartement() {
 		return departement;
 	}
 
 	public void setDepartement(Department departement) {
+		if (this.departement != null && this.departement != departement) {
+			this.departement.delEmployee(this);
+		}
+
 		this.departement = departement;
-		departement.addEmployee(this);
-		company.addDepartment(departement);
+
+		if (company != null && !company.getListEmp().contains(this)) {
+			departement.addEmployee(this);
+			company.addDepartment(departement);
+		}
+
 	}
 
 	// Add synchronization for thread safety
@@ -172,21 +178,21 @@ public class Employee implements java.io.Serializable {
 	}
 
 	public synchronized void addRecord(Record record) {
-		  if (record == null) {
-		        return;
-		    }
+		if (record == null) {
+			return;
+		}
 
-		    Employee employee = record.getEmployee();
-		    if (employee != null && !employee.equals(employee)) {
-		        employee.delRecord(record);
-		        record.setEmployee(this);
-		    }
+		Employee employee = record.getEmployee();
+		if (employee != null && !employee.equals(employee)) {
+			employee.delRecord(record);
+			record.setEmployee(this);
+		}
 
-		    if (!records.contains(record)) {
-		        records.add(record);
-		    }
-		
-		//		if (record.getEmployee() != null) {
+		if (!records.contains(record)) {
+			records.add(record);
+		}
+
+		// if (record.getEmployee() != null) {
 //			record.getEmployee().delRecord(record);
 //			record.setEmployee(this);
 //		}
@@ -198,7 +204,11 @@ public class Employee implements java.io.Serializable {
 	}
 
 	public void delRecord(Record record) {
-		records.remove(record);
+		if (records.contains(record)) {
+			records.remove(record);
+			record.setEmployee(null);
+		}
+		
 	}
 
 	public void delRecord(int index) {
@@ -288,17 +298,16 @@ public class Employee implements java.io.Serializable {
 		Employee other = (Employee) obj;
 		if (this.id_bson == other.getId())
 			return true;
-		return Objects.equals(company.getCompanyName(), other.company.getCompanyName())
-				&& Objects.equals(departement, other.departement) && id == other.id && Objects.equals(name, other.name)
-				&& Objects.equals(surname, other.surname);
+		return Objects.equals(company, other.company) && Objects.equals(departement, other.departement)
+				&& id == other.id && Objects.equals(name, other.name) && Objects.equals(surname, other.surname);
 	}
 
 	public void setId() {
 		this.id_bson = new ObjectId();
-		for(Record rec : records)
+		for (Record rec : records)
 			rec.setId();
 		schedule.setId();
-		
+
 	}
 
 }

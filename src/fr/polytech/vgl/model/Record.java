@@ -73,9 +73,18 @@ public class Record implements Comparable<Record>, java.io.Serializable {
 	}
 
 	public void setEmployee(Employee employee) {
-		this.employee = employee;
+	    if (this.employee != null && this.employee != employee) { 
+	        this.employee.delRecord(this); 
+	    }
+	    
+	    this.employee = employee;
+	    
+	    if (employee != null && !employee.getRecords().contains(this)) { 
+	        employee.addRecord(this); 
+	    }
 	}
-
+	
+	
 	@Override
 	public String toString() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");

@@ -34,17 +34,17 @@ public class Company implements java.io.Serializable {
 	@Field("companyName")
 	private String companyName;
 
-    @Field("listEmp")
-    @DBRef
+	@Field("listEmp")
+	@DBRef
 	private List<Employee> listEmp;
 
-    @Field("listDpt")
-    @DBRef
+	@Field("listDpt")
+	@DBRef
 	private List<Department> listDpt;
 
 	@Transient
 	private transient List<ModelListener> modelObservers;
-	
+
 	/**
 	 * Default Constructor
 	 */
@@ -141,7 +141,7 @@ public class Company implements java.io.Serializable {
 		System.out.println("Il n'est plus possible d'ajouter une liste brute de record a company");
 		// this.listRec = listRec;
 	}
-	
+
 	/**
 	 * addEmployee
 	 * 
@@ -164,8 +164,11 @@ public class Company implements java.io.Serializable {
 	 */
 	public void delEmployee(Employee emp) {
 		try {
-			listEmp.remove(emp);
-			notifyObserverModel(this);
+			if (listEmp.contains(emp)) {
+				listEmp.remove(emp);
+				emp.setCompany(null);
+				notifyObserverModel(this);
+			}
 		} catch (Exception exc) {
 			// nothing here to del
 
@@ -287,6 +290,9 @@ public class Company implements java.io.Serializable {
 	}
 
 	@Override
+	/**
+	 * Ne touche pas a ce equals il a une sémantique forte
+	 */
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

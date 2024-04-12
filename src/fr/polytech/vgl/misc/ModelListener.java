@@ -4,12 +4,11 @@ import fr.polytech.vgl.model.Company;
 
 import javax.realtime.*;
 
-
 public interface ModelListener {
 	void update(Company receivedCompany);
-			
-	default void asyncNotify(Company receivedCompany) {		
-		
+
+	default void asyncNotify(Company receivedCompany) {
+
 		try {
 			RealtimeThread rt2 = new RealtimeThread() {
 				@Override
@@ -18,8 +17,10 @@ public interface ModelListener {
 				}
 			};
 			rt2.run();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e);
-		};
+		}
+		;
 	};
+
 }

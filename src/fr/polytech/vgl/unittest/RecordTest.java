@@ -18,7 +18,7 @@ public class RecordTest {
 
     @Test
     public void testRecordCreationWithEmployee() {
-        LocalDateTime dateTime = LocalDateTime.now();
+        LocalDateTime dateTime = roundToNearestQuarterHour(LocalDateTime.now());
         Employee employee = new Employee("John", "Doe", null, null);
 
         Record record = new Record(dateTime, employee);
@@ -30,7 +30,7 @@ public class RecordTest {
 
     @Test
     public void testRecordCreationWithoutEmployee() {
-        LocalDateTime dateTime = LocalDateTime.now();
+        LocalDateTime dateTime = roundToNearestQuarterHour(LocalDateTime.now());
 
         Record record = new Record(dateTime);
 
@@ -40,8 +40,8 @@ public class RecordTest {
 
     @Test
     public void testSetRecord() {
-        LocalDateTime dateTime1 = LocalDateTime.now();
-        LocalDateTime dateTime2 = LocalDateTime.now().plusHours(1).plusMinutes(30);
+        LocalDateTime dateTime1 = roundToNearestQuarterHour(LocalDateTime.now());
+        LocalDateTime dateTime2 = roundToNearestQuarterHour(roundToNearestQuarterHour(LocalDateTime.now()).plusHours(1).plusMinutes(30));
         Record record = new Record(dateTime1);
 
         record.setRecord(dateTime2);
@@ -58,7 +58,7 @@ public class RecordTest {
 
         record.setEmployee(employee2);
 
-        assertNull(employee1.getRecords().contains(record));
+        assertFalse(employee1.getRecords().contains(record));
         assertTrue(employee2.getRecords().contains(record));
         assertEquals(employee2, record.getEmployee());
     }
@@ -93,4 +93,12 @@ public class RecordTest {
     public void testGetRounded() {
         assertEquals(15, Record.getRounded());
     }
+    
+    private  LocalDateTime roundToNearestQuarterHour(LocalDateTime dateTime) {
+        int minutes = dateTime.getMinute();
+        int roundedMinutes = ((minutes + 7) / 15) * 15; // Arrondir à la tranche de 15 minutes la plus proche
+        return dateTime.withMinute(roundedMinutes).withSecond(0).withNano(0);
+    }
+    
+    
 }
