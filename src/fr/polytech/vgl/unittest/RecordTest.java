@@ -96,7 +96,7 @@ public class RecordTest {
     
     private  LocalDateTime roundToNearestQuarterHour(LocalDateTime dateTime) {
         int minutes = dateTime.getMinute();
-        int roundedMinutes = ((minutes + 7) / 15) * 15; // Arrondir à la tranche de 15 minutes la plus proche
+        int roundedMinutes = (((minutes + 7) / 15) * 15)%60; // Arrondir à la tranche de 15 minutes la plus proche
         return dateTime.withMinute(roundedMinutes).withSecond(0).withNano(0);
     }
     
