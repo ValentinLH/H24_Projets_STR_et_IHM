@@ -11,9 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import fr.polytech.vgl.centralapp.controller.CentralAppController;
 import fr.polytech.vgl.dao.DAO;
 import fr.polytech.vgl.dao.service.CompanyService;
-import fr.polytech.vgl.model.Company;
-import fr.polytech.vgl.model.Department;
-import fr.polytech.vgl.model.Employee;
+import fr.polytech.vgl.model.*;
+import fr.polytech.vgl.model.Record;
 import fr.polytech.vgl.timerecord.controller.TimeRecordControler;
 
 public class LoadTestTimeRecord {
@@ -52,9 +51,11 @@ public class LoadTestTimeRecord {
 //					controller.addCompany(company);
 
 					// Simuler des actions simultanées de plusieurs utilisateurs
-//					simulateUserActions(controller, 5, 20); // 10 utilisateurs effectuent 20 actions chacun
-					simulateOneUserActions(controller, 20);
+//					simulateUserActions(controller, 1, 20); // 10 utilisateurs effectuent 20 actions chacun
+					simulateOneUserActions(controller, 100);
 
+//					Thread.sleep(2500);
+					
 					System.out.println("Nombre total de pointage reçu par l'application central : "
 							+ app.getCompany().getListRec().size());
 
@@ -85,6 +86,7 @@ public class LoadTestTimeRecord {
 					for (int j = 1; j <= actionsPerUser; j++) {
 						try {
 
+							
 							int result = controller.sendRecordTest(randomEmployee,
 									LocalDateTime.now().plusMinutes(addMin));
 
@@ -124,13 +126,17 @@ public class LoadTestTimeRecord {
 		int goodResult = 0;
 		int badResult = 0;
 
+		Record rec;
 		Employee randomEmployee = company.getListEmp().get(0);
 		if (randomEmployee != null) {
 
 			for (int j = 1; j <= actionsPerUser; j++) {
 				try {
 
-					int result = controller.sendRecordTest(randomEmployee, LocalDateTime.now().plusMinutes(addMin));
+					
+					rec = new Record(LocalDateTime.now().plusMinutes(addMin),randomEmployee);
+					int result = controller.networkManager.sendObject(rec) ? 1 : 0;
+//					int result = controller.sendRecordTest(randomEmployee, LocalDateTime.now().plusMinutes(addMin));
 
 					
 					System.out.println(

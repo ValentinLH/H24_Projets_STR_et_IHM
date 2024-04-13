@@ -129,9 +129,8 @@ public class Record implements Comparable<Record>, java.io.Serializable {
 		}
 	}
 
-	public void setId() {
+	public void resetObjectId() {
 		id = new ObjectId();
-
 	}
 
 	public static int computeMinutes(int i) {

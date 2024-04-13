@@ -140,23 +140,26 @@ public class CentralAppController implements NetworkObserver {
 
 //		List<Employee> listEmp = cs.getAllEmployee();
 		Employee emp;
+		List<Employee> employees = new ArrayList<>();
 		for (Record rec : records) {
 			emp = rec.getEmployee();
 			
-			System.out.println(rec.getEmployee());
-			
-			
+//			System.out.println(rec.getEmployee());
 			if( emp.getCompany().equals(company))
 			{
 				company.addRecord(rec);
-				companyService.saveCompany(company);
+//				companyService.saveCompany(company);
 			}
 			else
 			{
 				emp.addRecord(rec);
-				companyService.saveEmployee(emp);
+				
 			}
+			employees.add(emp);
+			
 		}
+		
+		companyService.saveListEmployee(employees);
 		
 		System.out.println("Client Central app> Records added");
 	}

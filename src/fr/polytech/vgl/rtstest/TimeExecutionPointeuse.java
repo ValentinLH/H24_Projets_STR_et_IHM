@@ -33,8 +33,7 @@ public class TimeExecutionPointeuse {
 				endTime = System.nanoTime();
 				executionTime = endTime - startTime;
 
-				System.out.println("Temps de traitement de la pointeuse pour  une liste 100 company : " + executionTime
-						+ " nanoseconds");
+				
 
 				for (int i = 0; i < 100; ++i) {
 					startTime = System.nanoTime();
@@ -50,6 +49,8 @@ public class TimeExecutionPointeuse {
 				}
 				long endTime2 = System.nanoTime();
 				long executionTime2 = endTime2 - startTime2;
+				System.out.println("Temps de traitement de la pointeuse pour  une liste 100 company : " + executionTime
+						+ " nanoseconds");
 
 				System.out.println(
 						"Temps de traitement de la pointeuse pour 100 company : " + executionTime2 + " nanoseconds");
