@@ -1,5 +1,6 @@
 package fr.polytech.vgl.rtstest;
 
+import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,48 +11,53 @@ public class TimeExecutionPointeuse {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				TimeRecordControler controller = new TimeRecordControler();
+				List<Company> listcompany = new ArrayList<Company>();
 
-		TimeRecordControler controller = new TimeRecordControler();
-		List<Company> listcompany = new ArrayList<Company>();
+				long startTime = System.nanoTime();
+				long moyenne = 0;
+				long endTime = 0;
+				long executionTime = 0;
 
-		long startTime = System.nanoTime();
-		long moyenne = 0;
-		long endTime = 0;
-		long executionTime = 0;
+				for (int i = 0; i < 100; ++i) {
+					Company company = new Company("TestCompany");
+					listcompany.add(company);
+				}
 
-		for (int i = 0; i < 100; ++i) {
-			Company company = new Company("TestCompany");
-			listcompany.add(company);
-		}
+				startTime = System.nanoTime();
 
-		startTime = System.nanoTime();
+				controller.onObjectReceived(listcompany);
 
-		controller.onObjectReceived(listcompany);
+				endTime = System.nanoTime();
+				executionTime = endTime - startTime;
 
-		endTime = System.nanoTime();
-		executionTime = endTime - startTime;
+				System.out.println("Temps de traitement de la pointeuse pour  une liste 100 company : " + executionTime
+						+ " nanoseconds");
 
-		System.out.println(
-				"Temps de traitement de la pointeuse pour  une liste 100 company : " + executionTime + " nanoseconds");
+				for (int i = 0; i < 100; ++i) {
+					startTime = System.nanoTime();
+					controller.onObjectReceived(listcompany.get(i));
+					endTime = System.nanoTime();
+					executionTime = endTime - startTime;
+					moyenne += executionTime;
+				}
 
-		for (int i = 0; i < 100; ++i) {
-			startTime = System.nanoTime();
-			controller.onObjectReceived(listcompany.get(i));
-			endTime = System.nanoTime();
-			executionTime = endTime - startTime;
-			moyenne += executionTime;
-		}
+				long startTime2 = System.nanoTime();
+				for (int i = 0; i < 100; ++i) {
+					controller.onObjectReceived(listcompany.get(i));
+				}
+				long endTime2 = System.nanoTime();
+				long executionTime2 = endTime2 - startTime2;
 
-		long startTime2 = System.nanoTime();
-		for (int i = 0; i < 100; ++i) {
-			controller.onObjectReceived(listcompany.get(i));
-		}
-		long endTime2 = System.nanoTime();
-		long executionTime2 = endTime2 - startTime2;
+				System.out.println(
+						"Temps de traitement de la pointeuse pour 100 company : " + executionTime2 + " nanoseconds");
+				System.out.println("Le temps moyen de traitement de la pointeuse pour 1 company est de : "
+						+ moyenne / 100 + " nanoseconds");
 
-		System.out.println("Temps de traitement de la pointeuse pour 100 company : " + executionTime2 + " nanoseconds");
-		System.out.println("Le temps moyen de traitement de la pointeuse pour 1 company est de : " + moyenne / 100
-				+ " nanoseconds");
+			}
+		});
 
 	}
 
