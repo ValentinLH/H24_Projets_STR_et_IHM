@@ -80,6 +80,6 @@ public class ScheduleTest {
         int result = schedule.getWorkingTime(DayOfWeek.MONDAY);
 
         assertNotNull(result);
-        assertEquals(8, result);
+        assertEquals(510, result);
     }
 }

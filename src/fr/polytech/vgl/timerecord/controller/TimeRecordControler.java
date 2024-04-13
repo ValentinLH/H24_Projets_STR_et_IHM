@@ -10,6 +10,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import fr.polytech.vgl.dao.DAO;
+import fr.polytech.vgl.dao.service.CompanyService;
+import fr.polytech.vgl.misc.ModelListener;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Department;
 import fr.polytech.vgl.model.Employee;
@@ -22,7 +25,6 @@ import fr.polytech.vgl.realtime.BufferedMemory;
 import fr.polytech.vgl.network.TCPInfo;
 import fr.polytech.vgl.serialisation.Serialisation;
 import fr.polytech.vgl.timerecord.view.TimeRecordMainFrame;
-import fr.polytech.vgl.timerecord.controller.ObserverModel;
 
 /**
  * Main Controller Class of the TimeRecorder
@@ -56,19 +58,26 @@ public class TimeRecordControler implements NetworkObserver {
 	public TimeRecordControler() {
 		networkManager = new NetworkManager(this);
 
+		DAO.start();
 		listCompany = new ArrayList<>();
 		view = new TimeRecordMainFrame(this);
 		file = null;
 		antiSpam = new HashMap<>();
 
 		try {
-			List<Company> deSerialize = Serialisation.deserialize(save);
+			CompanyService cs = DAO.getCompanyService();
+//			List<Company> deSerialize = Serialisation.deserialize("company.sav");
+			// listCompany = deSerialize;
+			
+			List<Company> deSerialize = cs.getAllCompanies();
+//			List<Company> deSerialize = Serialisation.deserialize(save);
 			// listCompany = deSerialize;
 
 			for (Company newcomp : deSerialize) {
 				addCompany(newcomp);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			listCompany = new ArrayList<>();
 		}
 
@@ -174,6 +183,7 @@ public class TimeRecordControler implements NetworkObserver {
 		}
 
 		Record newRecord = recordsBuffer.getObject();
+		newRecord.setId();
 		newRecord.setEmployee(employee);
 		newRecord.setRecord(LocalDateTime.now());
 
@@ -244,6 +254,7 @@ public class TimeRecordControler implements NetworkObserver {
 	public int sendRecordTest(Employee employee, LocalDateTime date) {
 
 		Record newRecord = recordsBuffer.getObject();
+		newRecord.setId();
 		newRecord.setEmployee(employee);
 		newRecord.setRecord(date);
 
@@ -256,7 +267,10 @@ public class TimeRecordControler implements NetworkObserver {
 		return recordsBuffer.isEmpty() ? 1 : 0;
 
 	}
+	
+	
 
+	
 	/**
 	 * getFile
 	 * 

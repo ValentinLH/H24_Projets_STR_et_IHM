@@ -32,10 +32,10 @@ import fr.polytech.vgl.centralapp.controller.DelEmployeeController;
 import fr.polytech.vgl.centralapp.controller.FilterEmployeeController;
 import fr.polytech.vgl.centralapp.controller.OpenAddEmployeeController;
 import fr.polytech.vgl.centralapp.controller.SeeCheckEmployeeController;
+import fr.polytech.vgl.misc.ModelListener;
 import fr.polytech.vgl.model.Company;
-import fr.polytech.vgl.timerecord.controller.ObserverModel;
 
-public class CentralApplicationView extends JFrame implements ObserverModel {
+public class CentralApplicationView extends JFrame implements ModelListener {
 
 	final static Color[] colors = { Color.decode("#C8DDF2"), Color.decode("#9CB5E1"), Color.decode("#DFF5E9"),
 			Color.decode("#F0D0D0") };
@@ -111,6 +111,8 @@ public class CentralApplicationView extends JFrame implements ObserverModel {
 		frame3 = new ModelOfDayCheckPanel(controler.getCompany());
 		tableau3 = new JTable(frame3);		
 		
+		
+		
 		// de retour sur la création de la fenetre
 		
 		jFrame.setMinimumSize(new Dimension(500, 500));
@@ -124,6 +126,7 @@ public class CentralApplicationView extends JFrame implements ObserverModel {
 			}
 		});
 
+	
 		// D�finir la position de conteneur d'onglets
 		onglets.setBounds(10, 10, 960, 640);
 
@@ -145,8 +148,7 @@ public class CentralApplicationView extends JFrame implements ObserverModel {
 
 		// contenu premier onglet
 		JPanel dcp = DaysCheckPanel();
-		onglets.addTab("Day's Check", null, dcp, null);
-
+		onglets.addTab("Day's Check", null, dcp, null);	
 	}
 
 	/**
@@ -543,9 +545,12 @@ public class CentralApplicationView extends JFrame implements ObserverModel {
 	}
 
 	@Override
-	public void Update(Company receivedCompany) {
-		// TODO Auto-generated method stub
-		System.out.println("APP CENTRAL NOTIFY");
+	public void update(Company receivedCompany) {
+		
+		frame.fireTableDataChanged();
+		frame2.fireTableDataChanged();
+		frame3.fireTableDataChanged();
+		//System.out.println("APP CENTRAL NOTIFY");
 	}
 
 }
