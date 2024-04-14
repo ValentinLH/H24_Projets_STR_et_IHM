@@ -135,7 +135,7 @@ public class LoadTestTimeRecord {
 
 					
 					rec = new Record(LocalDateTime.now().plusMinutes(addMin),randomEmployee);
-					int result = controller.networkManager.sendObject(rec) ? 1 : 0;
+					int result = controller.getNetworkManager().sendObject(rec) ? 1 : 0;
 //					int result = controller.sendRecordTest(randomEmployee, LocalDateTime.now().plusMinutes(addMin));
 
 					

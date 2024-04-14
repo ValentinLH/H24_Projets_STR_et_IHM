@@ -44,7 +44,8 @@ public class TimeRecordControler implements NetworkObserver {
 	//16/03 ajout de la classe BufferedMemory pour ne plus faire de new durant l'exectution
 	private BufferedMemory<Record> recordsBuffer;
 
-	public NetworkManager networkManager;
+	private NetworkManager networkManager;
+	
 	private File file;
 
 	private Map<Employee, LocalDateTime> antiSpam;
@@ -398,4 +399,19 @@ public class TimeRecordControler implements NetworkObserver {
 
 	}
 
+	/**
+	 * @return the networkManager
+	 */
+	public NetworkManager getNetworkManager() {
+		return networkManager;
+	}
+
+	/**
+	 * @param networkManager the networkManager to set
+	 */
+	public void setNetworkManager(NetworkManager networkManager) {
+		this.networkManager = networkManager;
+	}
+
+	
 }
