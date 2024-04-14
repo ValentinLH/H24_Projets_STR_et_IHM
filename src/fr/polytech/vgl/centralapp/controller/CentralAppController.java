@@ -32,7 +32,8 @@ public class CentralAppController implements NetworkObserver {
 	private Company company;
 	private CentralApplicationView view;
 	private NetworkManager networkManager;
-
+	private CompanyService companyService = DAO.getCompanyService();
+	
 	public CentralAppController(Company company) {
 		// Création d'un gestionnaire de réseau avec les ports et l'observateur
 		// spécifiés
@@ -112,12 +113,6 @@ public class CentralAppController implements NetworkObserver {
 
 		if (receivedObject == null)
 			return;
-
-		
-		
-		CompanyService cs = DAO.getCompanyService();
-		
-
 	
 		ArrayList<Record> records = new ArrayList<>();
 
@@ -145,27 +140,27 @@ public class CentralAppController implements NetworkObserver {
 
 //		List<Employee> listEmp = cs.getAllEmployee();
 		Employee emp;
+		List<Employee> employees = new ArrayList<>();
 		for (Record rec : records) {
 			emp = rec.getEmployee();
 			
-			System.out.println(rec.getEmployee());
-			
-			
+//			System.out.println(rec.getEmployee());
 			if( emp.getCompany().equals(company))
 			{
 				company.addRecord(rec);
-				cs.saveCompany(company);
+//				companyService.saveCompany(company);
 			}
 			else
 			{
 				emp.addRecord(rec);
-				cs.saveEmployee(emp);
+				
 			}
+			employees.add(emp);
+			
 		}
 		
-
+		companyService.saveListEmployee(employees);
 		
-		company.notifyObserverModel(company);
 		System.out.println("Client Central app> Records added");
 	}
 

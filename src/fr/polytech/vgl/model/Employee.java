@@ -305,7 +305,7 @@ public class Employee implements java.io.Serializable {
 	public void setId() {
 		this.id_bson = new ObjectId();
 		for (Record rec : records)
-			rec.setId();
+			rec.resetObjectId();
 		schedule.setId();
 
 	}

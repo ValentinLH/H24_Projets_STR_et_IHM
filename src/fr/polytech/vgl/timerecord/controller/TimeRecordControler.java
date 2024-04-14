@@ -44,7 +44,7 @@ public class TimeRecordControler implements NetworkObserver {
 	//16/03 ajout de la classe BufferedMemory pour ne plus faire de new durant l'exectution
 	private BufferedMemory<Record> recordsBuffer;
 
-	private NetworkManager networkManager;
+	public NetworkManager networkManager;
 	private File file;
 
 	private Map<Employee, LocalDateTime> antiSpam;
@@ -183,7 +183,7 @@ public class TimeRecordControler implements NetworkObserver {
 		}
 
 		Record newRecord = recordsBuffer.getObject();
-		newRecord.setId();
+		newRecord.resetObjectId();
 		newRecord.setEmployee(employee);
 		newRecord.setRecord(LocalDateTime.now());
 
@@ -254,7 +254,7 @@ public class TimeRecordControler implements NetworkObserver {
 	public int sendRecordTest(Employee employee, LocalDateTime date) {
 
 		Record newRecord = recordsBuffer.getObject();
-		newRecord.setId();
+		newRecord.resetObjectId();
 		newRecord.setEmployee(employee);
 		newRecord.setRecord(date);
 
