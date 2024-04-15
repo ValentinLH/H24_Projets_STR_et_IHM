@@ -3,8 +3,11 @@ package fr.polytech.vgl.main;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
+import fr.polytech.vgl.dao.DAO;
+import fr.polytech.vgl.dao.service.CompanyService;
 import fr.polytech.vgl.model.Company;
 import fr.polytech.vgl.model.Department;
 import fr.polytech.vgl.model.Employee;
@@ -20,9 +23,7 @@ public class StubMain {
 
 	public static void main(String[] args) {
 
-		//System.out.println("Hey");
 		
-		// Company c1 = new Company("Juanito Futuristique");
 		Department d1 = new Department("Administration");
 
 		
@@ -58,14 +59,14 @@ public class StubMain {
 
 		Company sec = miniStubCompany();
 
-		System.out.println("Employ� du mois :");
+		System.out.println("Employé du mois :");
 		// System.out.println("Le portefeuile de "+ sec.getListEmp().get(0) + " est de "
 		// + sec.getListEmp().get(0).getOvertimePortfolio() + " Minutes");
 		System.out.println("Les records ");
 		for (Record rec : sec.getListRec()) {
 
 			System.out.println(rec);
-			Serialisation.serialize(rec, "company.sav");
+//			Serialisation.serialize(rec, "company.sav");
 			
 		}
 		sec.getListEmp().get(0).addRecord(LocalDateTime.now().plusDays(1));
@@ -73,10 +74,8 @@ public class StubMain {
 		
 		System.out.println("Le portefeuile  est de " + sec.getListEmp().get(0).getOvertimePortfolio() + " Minutes");
 		System.out.println("Serialisation :");
-		Record rec =  Serialisation.deserialize("company.sav");
-		System.out.println(rec);
-		System.out.println(rec.getEmployee());
-		
+//		Record rec =  Serialisation.deserialize("company.sav");
+	
 		List<Company> listComp = new ArrayList<>();
 		listComp.add(rep);
 		
@@ -89,7 +88,7 @@ public class StubMain {
 		listComp.add(comp2);
 		listComp.add(gigaStubCompany());
 		
-		Serialisation.serialize(listComp, "timerecord.sav");
+//		Serialisation.serialize(listComp, "timerecord.sav");
 		
 		List<Record> listRec = new ArrayList<>();
 		System.out.println(comp2.getListEmp().get(0).getRecords().get(0));
@@ -98,24 +97,26 @@ public class StubMain {
 		listRec.add(comp2.getListEmp().get(1).getRecords().get(2));
 		listRec.add(comp2.getListEmp().get(2).getRecords().get(0));
 		
-		Serialisation.serialize(listRec,"records.sav");
+//		Serialisation.serialize(listRec,"records.sav");
 		
-		Serialisation.serialize(rep,"company.sav");
-		
-		
-		Company c = Serialisation.deserialize("company.sav");
-		
-		System.out.println(c);
+//		Serialisation.serialize(rep,"company.sav");
 		
 		
+//		Company c = Serialisation.deserialize("company.sav");
 		
+//		System.out.println(c);
 		
-
+		CompanyService cs = DAO.getCompanyService()	;
+		cs.saveCompany(stubCompany());
+		cs.saveCompany(stubCompany2());
+		cs.saveCompany(gigaStubCompany());
+		cs.saveCompany(miniStubCompany());
+		cs.saveCompany(getTestCompany());
 		
 	}
 
 	public static Company stubCompany() {
-		Company c = new Company("Juanito Futuristics");
+		Company c = new Company("La 7e Compagnie");
 
 		List<LocalDateTime> listDate = new ArrayList<>();
 		listDate.add(LocalDateTime.now());
@@ -165,11 +166,71 @@ public class StubMain {
 			}
 		}
 
+		for(Department d :listD)
+			c.addDepartment(d);
+
+		return c;
+	}
+	
+	public static Company stubCompany2() {
+		Company c = new Company("La Bonne Compagnie");
+
+		List<LocalDateTime> listDate = new ArrayList<>();
+		listDate.add(LocalDateTime.now());
+		listDate.add(LocalDateTime.of(2022, 4, 4, 8, 20));
+		listDate.add(LocalDateTime.of(2022, 3, 14, 7, 58));
+		LocalDateTime date1 = LocalDateTime.now();
+		date1 = date1.withHour(8);
+		date1 = date1.withMinute(38);
+		listDate.add(date1);
+		List<Department> listD = new ArrayList<>();
+		Department d1 = new Department("Administration");
+		Department d2 = new Department("Research and Developement");
+		Department d3 = new Department("Production");
+		
+		listD.add(d1);
+		listD.add(d2);
+		listD.add(d3);
+
+		List<Employee> listE = new ArrayList<>();
+
+		Collections.shuffle(listD);
+		listE.add(new Employee("Judas", "Bricot", c, listD.get(0)));
+		Collections.shuffle(listD);
+		listE.add(new Employee("Lara", "Pierre", c, listD.get(0)));
+		Collections.shuffle(listD);
+		listE.add(new Employee("Sylvain", "Heboff", c, listD.get(0)));
+		Collections.shuffle(listD);
+		listE.add(new Employee("Eve", "Itemant", c, listD.get(0)));
+		Collections.shuffle(listD);
+		listE.add(new Employee("Aubin", "Tiendon", c, listD.get(0)));
+
+		Collections.shuffle(listE);
+		List<Integer> listI = new ArrayList<>();
+		listI.add(7);
+		listI.add(8);
+		listI.add(9);
+		listI.add(10);
+
+		for (Employee emp : listE) {
+			Collections.shuffle(listDate);
+			LocalDateTime temp = listDate.get(0);
+			for (int i = 0; i < 5; i++) {
+				emp.addRecord(temp);
+				Collections.shuffle(listI);
+				emp.addRecord(temp.plusHours(listI.get(0)));
+				temp = temp.plusDays(1);
+			}
+		}
+
+		for(Department d :listD)
+			c.addDepartment(d);
+
 		return c;
 	}
 
 	public static Company miniStubCompany() {
-		Company c = new Company("Aeroposta Argentina");
+		Company c = new Company("L'aéropostale");
 
 		List<LocalDateTime> listDate = new ArrayList<>();
 		listDate.add(LocalDateTime.of(2022, 5, 23, 8, 12));
@@ -201,6 +262,9 @@ public class StubMain {
 				temp = temp.plusDays(1);
 			}
 		}
+
+		for(Department d :listD)
+			c.addDepartment(d);
 
 		return c;
 	}
@@ -250,8 +314,33 @@ public class StubMain {
 			}
 		}
 
+
+
+		for(Department d :listD)
+			c.addDepartment(d);
 		return c;
 	}
+	
+	
+	
+	public static Company getTestCompany()
+	{
+		Company company = new Company("TestCompany");
+		
+		Department department = new Department("Admin");
+
+		// Simuler 100 employés
+		for (int i = 1; i <= 100; i++) {
+			Employee employee = new Employee("Employee", "n°" + i, company, department);
+			company.addEmployee(employee);
+		}
+		
+
+		company.addDepartment(department);
+		return company;
+	}
+	
+	
 }
 
 

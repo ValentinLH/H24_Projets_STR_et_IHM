@@ -20,17 +20,8 @@ public class LoadTestTimeRecord {
 	static Company company; // = new Company("TestCompany");
 
 	public static void main(String[] args) {
-		// Création d'un contrôleur
 
-		// Ajout d'une entreprise
 
-//		Department department = new Department("Admin");
-//
-//		// Simuler 100 employés
-//		for (int i = 1; i <= 100; i++) {
-//			Employee employee = new Employee("Employee", "n°" + i, company, department);
-//			company.addEmployee(employee);
-//		}
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

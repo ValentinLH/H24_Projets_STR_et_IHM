@@ -33,22 +33,6 @@ public class MainCentralApplication {
 				try {
 
 					DAO.start();
-//					springApplicationContext = SpringApplication.run(SpringApp.class, args);
-//
-////					CompanyService companyService = springApplicationContext.getBean(CompanyService.class);
-//
-//					CompanyRepository cc = springApplicationContext.getBean(CompanyRepository.class);
-
-					
-//					List<Company> l = companyService.getAllCompanies();
-//					l.forEach(item -> System.out.println(item.getCompanyName()));
-//					System.out.println(l.size());
-					
-					
-					
-//					List<Company> l = cc.findAll();
-//					l.forEach(item -> System.out.println(item.getCompanyName()));
-//					System.out.println(l.size());
 
 					// GiveCompanyView gv = new GiveCompanyView();
 					CompanyListController window = new CompanyListController();
