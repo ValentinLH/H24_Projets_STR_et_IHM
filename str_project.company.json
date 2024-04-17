@@ -1,0 +1,884 @@
+[{
+  "_id": {
+    "$oid": "661577710c9c5f08774c3e8e"
+  },
+  "companyName": "La 7eme Compagnie",
+  "listEmp": [
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3e8f"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3e9c"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3ea8"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3eb4"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3ec0"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6619992fefece030af17133a"
+      }
+    }
+  ],
+  "listDpt": [
+    {
+      "$ref": "department",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3ecc"
+      }
+    },
+    {
+      "$ref": "department",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3ecd"
+      }
+    }
+  ],
+  "_class": "fr.polytech.vgl.model.Company"
+},
+{
+  "_id": {
+    "$oid": "661577710c9c5f08774c3ece"
+  },
+  "companyName": "La Bonne Compagnie",
+  "listEmp": [
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3ecf"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3edb"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3ee7"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3ef3"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3eff"
+      }
+    }
+  ],
+  "listDpt": [
+    {
+      "$ref": "department",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f0b"
+      }
+    },
+    {
+      "$ref": "department",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f0c"
+      }
+    }
+  ],
+  "_class": "fr.polytech.vgl.model.Company"
+},
+{
+  "_id": {
+    "$oid": "661577710c9c5f08774c3f0d"
+  },
+  "companyName": "MiniTru",
+  "listEmp": [
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f0e"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f1a"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f26"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f32"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f3e"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f4a"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f56"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f62"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f6e"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f7a"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f86"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f92"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3f9e"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3faa"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3fb6"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3fc2"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3fce"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3fda"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3fe6"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3ff2"
+      }
+    }
+  ],
+  "listDpt": [
+    {
+      "$ref": "department",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3ffe"
+      }
+    },
+    {
+      "$ref": "department",
+      "$id": {
+        "$oid": "661577710c9c5f08774c3fff"
+      }
+    },
+    {
+      "$ref": "department",
+      "$id": {
+        "$oid": "661577710c9c5f08774c4000"
+      }
+    },
+    {
+      "$ref": "department",
+      "$id": {
+        "$oid": "661577710c9c5f08774c4001"
+      }
+    }
+  ],
+  "_class": "fr.polytech.vgl.model.Company"
+},
+{
+  "_id": {
+    "$oid": "6616d7f4d55b633c637f4312"
+  },
+  "companyName": "TestCompany",
+  "listEmp": [
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4314"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4315"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4316"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4317"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4318"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4319"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f431a"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f431b"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f431c"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f431d"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f431e"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f431f"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4320"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4321"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4322"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4323"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4324"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4325"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4326"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4327"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4328"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4329"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f432a"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f432b"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f432c"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f432d"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f432e"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f432f"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4330"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4331"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4332"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4333"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4334"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4335"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4336"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4337"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4338"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4339"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f433a"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f433b"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f433c"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f433d"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f433e"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f433f"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4340"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4341"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4342"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4343"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4344"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4345"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4346"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4347"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4348"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4349"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f434a"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f434b"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f434c"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f434d"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f434e"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f434f"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4350"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4351"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4352"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4353"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4354"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4355"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4356"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4357"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4358"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4359"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f435a"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f435b"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f435c"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f435d"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f435e"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f435f"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4360"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4361"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4362"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4363"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4364"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4365"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4366"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4367"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4368"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4369"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f436a"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f436b"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f436c"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f436d"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f436e"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f436f"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4370"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4371"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4372"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4373"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4374"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4375"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4376"
+      }
+    },
+    {
+      "$ref": "employee",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4377"
+      }
+    }
+  ],
+  "listDpt": [
+    {
+      "$ref": "department",
+      "$id": {
+        "$oid": "6616d7f4d55b633c637f4313"
+      }
+    }
+  ],
+  "_class": "fr.polytech.vgl.model.Company"
+}]
